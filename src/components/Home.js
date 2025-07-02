@@ -1,20 +1,18 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Button, TouchableOpacity, ImageBackground, Image } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+
+import styles from '../styles/styles';
 
 export default function Home() {
+	const navigation = useNavigation();
     return (
-		<View style={styles.container}>
-			<Text>teste</Text>
+		<ImageBackground source={ require("../../assets/img/Design sem nome (3).png") } style={styles.backgorund} >
+			<Text style={styles.text}>home</Text>
+			<TouchableOpacity onPress={() => navigation.navigate("WellCome")}>
+				<Text style={[styles.button, styles.text]}>well come</Text>
+			</TouchableOpacity>
 			<StatusBar style="auto" />
-		</View>
+		</ImageBackground>
     );
 }
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: '#fff',
-		alignItems: 'center',
-		justifyContent: 'center',
-	},
-});
