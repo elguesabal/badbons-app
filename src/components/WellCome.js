@@ -10,9 +10,9 @@ export default function WellCome() {
 			<Image source={require("../../assets/img/Design_sem_nome__1_-removebg-preview.png")} style={wellCome.img} />
 			<Text style={styles.tittle}>Olá</Text>
 			<Text style={styles.text}>Bem-Vindo ao Seu App de Treinamento</Text>
-			<View>
-				<TouchableOpacity onPress={() => alert("login")}>
-					<Text style={[styles.button, styles.text]}>login</Text>
+			<View style={styles.teste}> {/* EU TERIA Q CENTRALZIAR OS ELEMENTOS */}
+				<TouchableOpacity style={styles.button} onPress={() => alert("login")}>
+					<Text style={styles.text}>login</Text>
 				</TouchableOpacity>
 				<TouchableOpacity onPress={() => alert("cadastrar")}>
 					<Text style={[styles.button, styles.text]}>cadastrar</Text>

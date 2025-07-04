@@ -19,6 +19,12 @@ export default StyleSheet.create({
 		borderRadius: 20,
 		paddingHorizontal: 50,
 		paddingVertical: 10,
-		margin: 10
+		margin: 10,
+		alignItems: "center",
+		justifyContent: "center"
+	},
+	teste: {
+		// alignItems: "center",
+		// justifyContent: "center"
 	}
 });
