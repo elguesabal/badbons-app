@@ -4,7 +4,7 @@ export default StyleSheet.create({
 	backgorund: {
 		flex: 1,
 		alignItems: "center",
-		justifyContent: "center"
+		justifyContent: "center",
 	},
 	tittle: {
 		color: "white",
@@ -22,9 +22,5 @@ export default StyleSheet.create({
 		margin: 10,
 		alignItems: "center",
 		justifyContent: "center"
-	},
-	teste: {
-		// alignItems: "center",
-		// justifyContent: "center"
 	}
 });

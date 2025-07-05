@@ -10,15 +10,15 @@ export default function WellCome() {
 			<Image source={require("../../assets/img/Design_sem_nome__1_-removebg-preview.png")} style={wellCome.img} />
 			<Text style={styles.tittle}>Olá</Text>
 			<Text style={styles.text}>Bem-Vindo ao Seu App de Treinamento</Text>
-			<View style={styles.teste}> {/* EU TERIA Q CENTRALZIAR OS ELEMENTOS */}
+			<View>
 				<TouchableOpacity style={styles.button} onPress={() => alert("login")}>
 					<Text style={styles.text}>login</Text>
 				</TouchableOpacity>
-				<TouchableOpacity onPress={() => alert("cadastrar")}>
-					<Text style={[styles.button, styles.text]}>cadastrar</Text>
+				<TouchableOpacity style={styles.button} onPress={() => alert("cadastrar")}>
+					<Text style={styles.text}>cadastrar</Text>
 				</TouchableOpacity>
-				<TouchableOpacity onPress={() => navigation.navigate("Home")}>
-					<Text style={[styles.button, styles.text]}>home</Text>
+				<TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Home")}>
+					<Text style={styles.text}>home</Text>
 				</TouchableOpacity>
 			</View>
 		</ImageBackground>
@@ -28,6 +28,6 @@ export default function WellCome() {
 const wellCome = StyleSheet.create({
 	img: {
 		width: 200,
-		height: 200
-	},
+		height: 200,
+	}
 });
