@@ -1,27 +1,33 @@
-import { StyleSheet, Text, View, Image, Button, ImageBackground, TouchableOpacity, TextInput } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { StyleSheet, Text, View, Image, ImageBackground, TouchableOpacity, TextInput } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import styles from '../styles/styles';
+import WithBackground from "../components/BackgroundWrapper.js";
+import Button from "../components/Button.js";
+import Input from "../components/Input.js";
+import styles from "../styles/styles.js";
 
 const Stack = createNativeStackNavigator();
 
+/**
+ * @author VAMPETA
+ * @brief FUNCAO RESPONSAVEL POR GERENCIAR ABAS EM CASCATA DA SECAO LOGIN/CADASTRO
+*/
 export default function LoginRegister() {
 	return (
-		// <ImageBackground source={require("../../assets/img/Design sem nome (3).png")} style={styles.backgorund} >
 		<Stack.Navigator screenOptions={{ headerShown: true }}>
 			<Stack.Screen
 				name="main"
-				component={Main}
+				component={WithBackground(Main)}
 				options={{ headerShown: false }}
 			/>
 			<Stack.Screen
 				name="login"
-				component={Login}
+				component={WithBackground(Login)}
 			/>
 			<Stack.Screen
 				name="cadastrar"
-				component={Cadastrar}
+				component={WithBackground(Cadastrar)}
 			/>
 			<Stack.Screen
 				name="Teste"
@@ -29,19 +35,23 @@ export default function LoginRegister() {
 				options={{ title: "teste", headerShown: true, headerStyle: { backgroundColor: "red" } }}
 			/>
 		</Stack.Navigator>
-		// </ImageBackground>
 	);
 }
 
+/**
+ * @author VAMPETA
+ * @brief TELA PRINCIPAL COM AS OPCOES DE LOGIN E CADASTRO
+ * @param navigation OBJETO DE NAVEGACAO DE TELA DO COMPONENTE Stack
+*/
 function Main({ navigation }) {
 	const navigationTab = useNavigation();
 	return (
-		<ImageBackground source={require("../../assets/img/Design sem nome (3).png")} style={styles.backgorund} >
+		<View style={styles.container} >
 			<Image source={require("../../assets/img/Design_sem_nome__1_-removebg-preview.png")} style={wellCome.img} />
 			<Text style={styles.tittle}>Olá</Text>
 			<Text style={styles.text}>Bem-Vindo ao Seu App de Treinamento</Text>
 			<View>
-				<TouchableOpacity style={styles.button} onPress={() => navigation.navigate("login")}>
+				{/* <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("login")}>
 					<Text style={styles.text}>login</Text>
 				</TouchableOpacity>
 				<TouchableOpacity style={styles.button} onPress={() => navigation.navigate("cadastrar")}>
@@ -52,30 +62,40 @@ function Main({ navigation }) {
 				</TouchableOpacity>
 				<TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Teste")}>
 					<Text style={styles.text}>Teste</Text>
-				</TouchableOpacity>
+				</TouchableOpacity> */}
+
+				<Button text="login" onPress={() => navigation.navigate("login")} />
+				<Button text="cadastrar" onPress={() => navigation.navigate("cadastrar")} />
+				<Button text="home" onPress={() => navigationTab.navigate("Home")} />
+				<Button text="teste" onPress={() => navigation.navigate("Teste")} />
 			</View>
-		</ImageBackground>
+		</View>
 	);
 }
 
+/**
+ * @author VAMPETA
+ * @brief TELA DE LOGIN
+*/
 function Login() {
 	return (
-		<View style={{ flex: 1, alignItems: "center", justifyContent: "center", }}>
+		<View style={styles.container} >
 			<Text>login</Text>
 		</View>
 	);
 }
 
+/**
+ * @author VAMPETA
+ * @brief TELA DE CADASTRO
+*/
 function Cadastrar() {
 	return (
-		<View style={{ flex: 1, alignItems: "center", justifyContent: "center"}}>
+		<View style={styles.container} >
 			<Image source={require("../../assets/img/Design_sem_nome__1_-removebg-preview.png")} style={wellCome.img} />
-			<Text>CPF</Text>
-			<TextInput style={wellCome.input} />
-			<Text>Data de nascimento</Text>
-			<TextInput style={wellCome.input} />
-			<Text>Celular</Text>
-			<TextInput style={wellCome.input} />
+			<Input placeholder="CPF" />
+			<Input placeholder="Data de nascimento" />
+			<Input placeholder="Celular" />
 			<TouchableOpacity style={styles.button} onPress={() => alert("Registrado")}>
 				<Text style={styles.text}>Registrar</Text>
 			</TouchableOpacity>
@@ -83,10 +103,14 @@ function Cadastrar() {
 	);
 }
 
+/**
+ * @author VAMPETA
+ * @brief APENAS TESTES
+*/
 function Teste({ navigation }) {
 	return (
 		<ImageBackground source={require("../../assets/img/Design sem nome (3).png")} style={styles.backgorund} >
-		<View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+		<View style={styles.container} >
 			<Text>aaaaa</Text>
 			<TouchableOpacity style={styles.button} onPress={() => navigation.navigate("main")}>
 				<Text style={styles.text}>HomeScreen</Text>
@@ -99,15 +123,6 @@ function Teste({ navigation }) {
 const wellCome = StyleSheet.create({
 	img: {
 		width: 200,
-		height: 200,
-	},
-	input: {
-		height: 30,
-		width: "80%",
-		borderColor: 'gray',
-		borderWidth: 1,
-		paddingHorizontal: 10,
-		borderRadius: 8,
-		backgroundColor: 'white'
+		height: 200
 	}
 });

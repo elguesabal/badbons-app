@@ -4,8 +4,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import LoginRegister from "./src/components/WellCome.js";
-import Home from "./src/components/Home.js";
+import LoginRegister from "./src/screens/WellCome.js";
+import Home from "./src/screens/Home.js";
 
 import styles from "./src/styles/styles.js";
 // import header from "./src/styles/header.js"; // DESATIVADO NO MOMENTO
@@ -13,6 +13,10 @@ import styles from "./src/styles/styles.js";
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
+/**
+ * @author VAMPETA
+ * @brief FUNCAO PRINCIPAL Q GERENCIA AS 
+*/
 export default function App() {
 	return (
 		// <ImageBackground style={{ flex: 1 }} source={require("./assets/img/Design sem nome (3).png")} >
@@ -34,6 +38,10 @@ export default function App() {
 	);
 }
 
+/**
+ * @author VAMPETA
+ * @brief APENAS TESTES
+*/
 function Teste1() {
 	return (
 		// <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
@@ -55,6 +63,10 @@ function Teste1() {
 	);
 }
 
+/**
+ * @author VAMPETA
+ * @brief APENAS TESTES
+*/
 function Teste2({ navigation }) {
 	return (
 		<View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
@@ -64,6 +76,10 @@ function Teste2({ navigation }) {
 	);
 }
 
+/**
+ * @author VAMPETA
+ * @brief APENAS TESTES
+*/
 function Teste3({ navigation }) {
 	return (
 		<View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
