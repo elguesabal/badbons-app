@@ -20,6 +20,7 @@ const Stack = createNativeStackNavigator();
 export default function App() {
 	return (
 		// <ImageBackground style={{ flex: 1 }} source={require("./assets/img/Design sem nome (3).png")} >
+		// <View style={{ backgroundColor: "red" }}>
 		 	<NavigationContainer>
 				<Tab.Navigator
 					screenOptions={{
@@ -30,10 +31,11 @@ export default function App() {
 					}}
 				>
 					<Tab.Screen name="WellCome" component={LoginRegister} options={{ headerShown: false, tabBarStyle: { display: "none" } }} />
-					<Tab.Screen name="Home" component={Home} options={{ headerShown: false, tabBarStyle: { display: "none" } }} />
+					<Tab.Screen name="Home" component={Home} options={{ headerShown: false, }} />
 					<Tab.Screen name="Teste" component={Teste1} options={{ headerShown: false }} />
 				</Tab.Navigator>
 			</NavigationContainer>
+		// </View>
 		// </ImageBackground>
 	);
 }

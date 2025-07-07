@@ -1,4 +1,4 @@
-import { StyleSheet, StatusBar, Platform } from 'react-native';
+import { StyleSheet, StatusBar, Platform } from "react-native";
 
 export default StyleSheet.create({
 	backgorund: {
