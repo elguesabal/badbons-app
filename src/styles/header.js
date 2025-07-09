@@ -1,3 +1,13 @@
+
+
+
+/**
+ * @deprecated ESTE ARQUIVO NAO ESTA MAIS EM USO
+ * @warning ELE SERA EXCLUIDO EM VERSOES FUTURAS
+*/
+
+
+
 // import { StyleSheet, Platform, StatusBar } from 'react-native';
 
 // const statusBarHeight = Platform.OS == "android" ? StatusBar.currentHeight : 0;
@@ -15,5 +25,3 @@
 // 		height: 100
 // 	}
 // });
-
-// DESATIVADO NO MOMENTO

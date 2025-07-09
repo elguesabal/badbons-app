@@ -1,3 +1,13 @@
+
+
+
+/**
+ * @deprecated ESTE ARQUIVO FOI REORGANIZADO NA PASTA wellCome
+ * @warning ELE SERA EXCLUIDO EM VERSOES FUTURAS
+*/
+
+
+
 import { StyleSheet, Text, View, Image, ImageBackground, TouchableOpacity, TextInput } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";

@@ -1,7 +1,5 @@
 import { StyleSheet, View, Text, TextInput } from "react-native";
 
-// import styles from "../styles/styles.js";
-
 /**
  * @author VAMPETA
  * @brief CRIA UM INPUT JA COM UM PLACEHOLDER E ESTILIZACAO PADRAO

@@ -1,3 +1,13 @@
+
+
+
+/**
+ * @deprecated ESTE ARQUIVO ERA USADO COMO TESTES E NAO ESTA MAIS SENDO USADO
+ * @warning ELE SERA EXCLUIDO EM VERSOES FUTURAS
+*/
+
+
+
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Button, TouchableOpacity, ImageBackground, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';

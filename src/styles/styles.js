@@ -1,4 +1,4 @@
-import { StyleSheet, StatusBar, Platform } from "react-native";
+import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
 	backgorund: {
@@ -9,7 +9,7 @@ export default StyleSheet.create({
 		alignItems: "center",
 		justifyContent: "center"
 	},
-	tittle: {
+	title: {
 		color: "white",
 		fontSize: 50
 	},
