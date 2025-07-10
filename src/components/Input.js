@@ -6,11 +6,11 @@ import { StyleSheet, View, Text, TextInput } from "react-native";
  * @param placeholder TEXTO DESCRITIVO DO INPUT
  * @return RETORNA UMA View COM INPUT E TEXTO DESCRITIVO
 */
-export default function Input({ placeholder }) {
+export default function Input({ placeholder, value, onChangeText }) {
 	return (
 		<View style={input.container} >
 			<Text style={input.text} >{placeholder}</Text>
-			<TextInput style={input.input} />
+			<TextInput style={input.input} value={value} onChangeText={onChangeText} />
 		</View>
 	);
 }

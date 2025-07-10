@@ -1,9 +1,6 @@
-import React, { useRef, useEffect } from 'react';
 import { StyleSheet, Animated, Easing, View, Image } from "react-native";
+import { useRef, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
-import axios from "axios";
-
-import API_URL from "../../Api.js";
 
 import styles from "../../styles/styles.js";
 
@@ -11,7 +8,10 @@ import styles from "../../styles/styles.js";
  * @author VAMPETA
  * @brief TELA DE LOAD
 */
-export default function Load() {
+export default function Load({ serverRequest }) {
+// export default function Load({ serverRequest, inputs }) {
+// export default function Load({ route }) {
+// 	const { serverRequest, inputs } = route.params || {};
 	const rotateValue = useRef(new Animated.Value(0)).current;
 	useEffect(() => {
 		const animation = Animated.loop(
@@ -30,18 +30,14 @@ export default function Load() {
 		outputRange: ["0deg", "360deg"]
 	});
 
-
 	const navigation = useNavigation();
 	useEffect(() => {
-		let isMounted = true
-		axios.get(`${API_URL}/ping`)
-			.then((response) => {
-				if (isMounted) {
-					(response.status === 200) ? navigation.navigate("WellCome") : navigation.navigate("Error") ;
-				}
-			})
-			.catch(() => navigation.navigate("Error"));
-		return (() => isMounted = false);
+		// if (inputs) {
+		// 	console.log("ta cheio")
+		// } else {
+		// 	console.log("ta vazio")
+		// }
+		serverRequest(navigation);
 	}, []);
 
 	return (

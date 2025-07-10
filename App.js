@@ -4,8 +4,10 @@ import { NavigationContainer } from "@react-navigation/native";
 import Load from "./src/screens/load/Load.js";
 import Error from "./src/screens/error/Error.js";
 import WellCome from "./src/screens/wellCome/WellCome.js";
+import Home from "./src/screens/home/Home.js";
 
 import WithBackground from "./src/components/BackgroundWrapper.js";
+import ping from "./src/services/ping.js";
 
 const Tab = createBottomTabNavigator();
 
@@ -17,9 +19,15 @@ export default function App() {
 	return (
 		<NavigationContainer>
 			<Tab.Navigator screenOptions={{ headerShown: false, tabBarStyle: { display: "none" } }} >
-				<Tab.Screen name="Load" component={WithBackground(Load)} />
+				<Tab.Screen name="Load">
+					{(props) => {
+						const LoadWithBackground = WithBackground(Load);
+						return <LoadWithBackground {...props} serverRequest={ping} />;
+					}}
+				</Tab.Screen>
 				<Tab.Screen name="Error" component={WithBackground(Error)} />
 				<Tab.Screen name="WellCome" component={WellCome} />
+				<Tab.Screen name="Home" component={Home} />
 			</Tab.Navigator>
 		</NavigationContainer>
 	);
