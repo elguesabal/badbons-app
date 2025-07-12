@@ -1,6 +1,7 @@
 import { StyleSheet, View, Image } from "react-native";
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
+import { Alert } from "react-native";
 import axios from "axios";
 
 import API_URL from "../../Api.js";
@@ -23,9 +24,13 @@ export default function Login() {
 	const [inputLogin, setInputLogin] = useState("");
 	const [inputPassword, setInputPassword] = useState("");
 
+	/**
+	 * @author VAMPETA
+	 * @brief FUNCAO Q VALIDA OS CAMPOS, CONTROLA O O HEADER, TELA DE LOAD E ERRO FAZENDO REQUISICAO NA API
+	*/
 	async function hundleLogin() {
 		if (!inputLogin || !inputPassword) {
-			alert("Preencha todos os campos!");
+			Alert.alert("Atenção", "Preencha todos os campos!");
 			return ;
 		}
 
@@ -38,7 +43,7 @@ export default function Login() {
 			if (res.status === 200) navigation.navigate("Home");
 		} catch (error) {
 			if (error.response && error.response.status === 401) {
-				setError("Login ou senha errada!");
+				Alert.alert("Login", "Login ou senha errada!");
 			} else {
 				setError(error.message);
 			}
