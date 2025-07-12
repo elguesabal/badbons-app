@@ -9,6 +9,9 @@ import styles from "../../styles/styles.js";
  * @brief TELA DE CADASTRO
 */
 export default function Register1({ navigation }) {
+
+    // CONTINUAR DAKI CAPTURANDO OS INPUTS E ENVIANDO PARA A PROXIMA TELA
+
     return (
         <View style={styles.container} >
             <Image style={register1.img} source={require("../../../assets/img/4-removebg-preview.png")} />

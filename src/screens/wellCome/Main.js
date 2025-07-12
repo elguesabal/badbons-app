@@ -1,5 +1,11 @@
 import { StyleSheet, View, Image, Text } from "react-native";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
+import API_URL from "../../Api.js";
+
+import Load from "../load/Load.js";
+import Error from "../error/Error.js";
 import HeaderLogo from "../../components/HeaderLogo.js";
 import Button from "../../components/Button.js";
 
@@ -11,6 +17,26 @@ import styles from "../../styles/styles.js";
  * @param navigation OBJETO DE NAVEGACAO DE TELA DO COMPONENTE Stack
 */
 export default function Main({ navigation }) {
+	const [load, setLoad] = useState(true);
+	const [error, setError] = useState(false);
+
+	useEffect(() => {
+		async function ping() {
+			try {
+				const res = await axios.get(`${API_URL}/ping`);
+				(res.status == 200) ? setLoad(false) : setError("error")
+			} catch (error) {
+				setError(error.message)
+			} finally {
+				setLoad(false);
+			}
+		}
+		ping();
+	}, []);
+
+	if (error) return (<Error error={error} />);
+	if (load) return (<Load />);
+
 	return (
 		<View style={styles.container} >
 			<HeaderLogo />

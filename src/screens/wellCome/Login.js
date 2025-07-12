@@ -1,11 +1,14 @@
 import { StyleSheet, View, Image } from "react-native";
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
+import axios from "axios";
 
+import API_URL from "../../Api.js";
+
+import Load from "../load/Load.js";
+import Error from "../error/Error.js";
 import Input from "../../components/Input.js";
 import Button from "../../components/Button.js";
-
-import loginRequest from "../../services/login.js";
 
 import styles from "../../styles/styles.js";
 
@@ -15,20 +18,38 @@ import styles from "../../styles/styles.js";
 */
 export default function Login() {
 	const navigation = useNavigation();
+	const [load, setLoad] = useState(false);
+	const [error, setError] = useState("");
 	const [inputLogin, setInputLogin] = useState("");
 	const [inputPassword, setInputPassword] = useState("");
 
-	function hundleLogin() {
+	async function hundleLogin() {
 		if (!inputLogin || !inputPassword) {
 			alert("Preencha todos os campos!");
 			return ;
 		}
-		loginRequest(navigation, { login: inputLogin, password: inputPassword }); 				// PAREI AKI
-		// navigation.navigate("Load", { serverRequest: loginRequest, inputs: { login: inputLogin, password: inputPassword } });
-		// ATE CONSIGO SAIR DA PAGINA DE LOGIN E IR PRA HOME POREM NAO PASSA PELA TELA DE LOAD (OQ POSSIBILITA O USUARIO FAZER VARIAS REQUISICOES)
-		// A PAGINA DE LOAD ESTA FUNCIONANDO COM O PING INICIAL POREM HA ALGUNS COMENTARIOS UTILS NO ARQUIVO
+
+		navigation.setOptions({ headerShown: false });
+		setLoad(true);
+		setError("");
+
+		try {
+			const res = await axios.post(`${API_URL}/login`, { login: inputLogin, password: inputPassword });
+			if (res.status === 200) navigation.navigate("Home");
+		} catch (error) {
+			if (error.response && error.response.status === 401) {
+				setError("Login ou senha errada!");
+			} else {
+				setError(error.message);
+			}
+		} finally {
+			setLoad(false);
+			navigation.setOptions({ headerShown: true });
+		}
 	}
 
+	if (error) return (<Error error={error} />);
+	if (load) return (<Load />);
 	return (
 		<View style={styles.container} >
 			<Image source={require("../../../assets/img/4-removebg-preview.png")} style={login.img} />
