@@ -24,9 +24,9 @@ export default function Main({ navigation }) {
 		async function ping() {
 			try {
 				const res = await axios.get(`${API_URL}/ping`);
-				(res.status == 200) ? setLoad(false) : setError("error")
+				if (res.status !== 200) setError("error");
 			} catch (error) {
-				setError(error.message)
+				setError(error.message);
 			} finally {
 				setLoad(false);
 			}

@@ -4,8 +4,8 @@ import Main from "./Main.js";
 import Login from "./Login.js";
 import Register1 from "./Register1.js";
 import Register2 from "./Register2.js";
+import Register3 from "./Register3.js";
 
-import WithBackground from "../../components/BackgroundWrapper.js";
 import HeaderStack from "../../components/HeaderStack.js";
 
 const Stack = createNativeStackNavigator();
@@ -16,11 +16,12 @@ const Stack = createNativeStackNavigator();
 */
 export default function WellCome() {
 	return (
-		<Stack.Navigator screenOptions={{ header: (props) => <HeaderStack text="login" {...props} /> }}>
-			<Stack.Screen name="main" component={WithBackground(Main)} options={{ headerShown: false }} />
-			<Stack.Screen name="login" component={WithBackground(Login)} options={{ title: "Login" }} />
-			<Stack.Screen name="cadastrar1" component={WithBackground(Register1)} options={{ title: "Cadastrar" }} />
-			<Stack.Screen name="cadastrar2" component={WithBackground(Register2)} options={{ title: "Cadastrar" }} />
+		<Stack.Navigator screenOptions={{ contentStyle: { backgroundColor: "transparent" }, animation: "slide_from_right", header: (props) => <HeaderStack text="login" {...props} /> }}>
+			<Stack.Screen name="main" component={Main} options={{ headerShown: false }} />
+			<Stack.Screen name="login" component={Login} options={{ title: "Login" }} />
+			<Stack.Screen name="cadastrar1" component={Register1} options={{ title: "Cadastrar" }} />
+			<Stack.Screen name="cadastrar2" component={Register2} options={{ title: "Cadastrar" }} />
+			<Stack.Screen name="cadastrar3" component={Register3} options={{ title: "Cadastrar" }} />
 		</Stack.Navigator>
 	);
 }

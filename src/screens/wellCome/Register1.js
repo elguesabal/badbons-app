@@ -18,18 +18,23 @@ export default function Register1({ navigation }) {
 
 	/**
 	 * @author VAMPETA
-	 * @brief FUNCAO RESPONSAVEL POR VALIDAR INFORMACOES E PASSAR ELAS PARA A PROXIMA SCREEN
+	 * @brief FUNCAO RESPONSAVEL POR VALIDAR INFORMACOES E PASSAR ELAS PARA A Register2
 	*/
 	function validation() {
-		if (!inputNome || !inputEmail || !inputPassword) {
-			Alert.alert("Atenção", "Preencha todos os campos!");
-			return ;
-		}
-		if (!/\S+@\S+\.\S+/.test(inputEmail)) {
-			Alert.alert("Atenção", "Email inválido!");
-			return ;
-		}
-		navigation.navigate("cadastrar2", { inputNome: inputNome, inputEmail: inputEmail, inputPassword: inputPassword });
+		// if (!inputNome || !inputEmail || !inputPassword) { // ATIVADO POR ENQUANTO PQ E MUITO CHATO TESTA COM ISSO ATIVO
+		// 	Alert.alert("Atenção", "Preencha todos os campos!");
+		// 	return ;
+		// }
+		// if (!/\S+@\S+\.\S+/.test(inputEmail)) { // ATIVADO POR ENQUANTO PQ E MUITO CHATO TESTA COM ISSO ATIVO
+		// 	Alert.alert("Atenção", "Email inválido!");
+		// 	return ;
+		// }
+
+		navigation.navigate("cadastrar2", {
+			inputNome: inputNome,
+			inputEmail: inputEmail,
+			inputPassword: inputPassword
+		});
 	}
 
 	return (

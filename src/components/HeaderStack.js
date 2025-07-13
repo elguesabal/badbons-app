@@ -26,7 +26,7 @@ export default function HeaderStack({ navigation, options }) {
 
 const headerStack = StyleSheet.create({
 	conteiner: {
-		backgroundColor: "#191b1f",
+		backgroundColor: "transparent",
 		alignSelf: "stretch",
 		paddingTop: statusBarHeight,
 		width: "100%",
