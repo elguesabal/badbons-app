@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, TextInput } from "react-native";
+import { StyleSheet, KeyboardAvoidingView, Platform, View, Text, TextInput } from "react-native";
 
 /**
  * @author VAMPETA
@@ -8,10 +8,12 @@ import { StyleSheet, View, Text, TextInput } from "react-native";
 */
 export default function Input({ placeholder, value, onChangeText, secureTextEntry = false }) {
 	return (
+		// <KeyboardAvoidingView style={input.container} behavior={(Platform.OS === "ios") ? "padding" : "height"} >
 		<View style={input.container} >
 			<Text style={input.text} >{placeholder}</Text>
 			<TextInput style={input.input} value={value} onChangeText={onChangeText} secureTextEntry={secureTextEntry} />
 		</View>
+		// </KeyboardAvoidingView>
 	);
 }
 
@@ -26,6 +28,7 @@ const input = StyleSheet.create({
 		marginBottom: 5
 	},
 	input: {
+		color: "white",
 		height: 30,
 		width: "80%",
 		marginLeft: "10%",
@@ -33,6 +36,7 @@ const input = StyleSheet.create({
 		borderWidth: 0.1,
 		paddingHorizontal: 10,
 		borderRadius: 8,
-		backgroundColor: "transparent"
+		backgroundColor: "transparent",
+		padding: 0
 	}
 });

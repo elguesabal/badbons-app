@@ -1,4 +1,4 @@
-import { StyleSheet, View, Image, Text } from "react-native";
+import { StyleSheet, Alert, View, Image, Text } from "react-native";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
@@ -15,12 +15,17 @@ import styles from "../../styles/styles.js";
  * @author VAMPETA
  * @brief TELA DE CADASTRO
 */
-export default function Register3() {
-	const [load, setLoad] = useState(false);
+export default function Register3({ navigation, route }) {
+	const { inputNome, inputEmail, inputPassword, inputCpf, inputDate, inputPhone } = route.params;
+	const [load, setLoad] = useState(true);
 	const [error, setError] = useState("");
-	const [locations, setLocations] = useState([]);
 	const [selected, setSelected] = useState({});
+	const [locations, setLocations] = useState([]);
 
+	/**
+	 * @author VAMPETA
+	 * @brief FAZ UMA CONSULTA A API E RECEBE TODAS AS UNIDADES DISPONIVEIS PARA TREINO E ARMAZENA EM ARRAYS DE DUPLAS
+	*/
 	useEffect(() => {
 		async function trainingLocations() {
 			try {
@@ -29,10 +34,14 @@ export default function Register3() {
 					setError("error");
 					return ;
 				}
-				setLocations(res.data);
 				const initialSelected = {};
 				res.data.forEach((unit) => initialSelected[unit] = false);
 				setSelected(initialSelected);
+				const result = [];
+				for (let i = 0; i < res.data.length; i += 2) {
+					result.push(res.data.slice(i, i + 2));
+				}
+				setLocations(result);
 			} catch (error) {
 				setError(error.message);
 			} finally {
@@ -44,21 +53,25 @@ export default function Register3() {
 
 	/**
 	 * @author VAMPETA
-	 * @brief 
-	*/
-	function toggleSelection(element) {
-		setSelected((prev) => ({
-			...prev,
-			[element]: !prev[element],
-		}));
-	}
-
-	/**
-	 * @author VAMPETA
 	 * @brief FUNCAO RESPONSAVEL POR VALIDAR INFORMACOES E PASSAR ELAS PARA A PROXIMA SCREEN
 	*/
 	function validation() {
+		const units = Object.keys(selected).filter((key) => selected[key]);
 
+		if (units.length === 0) {
+			Alert.alert("Atenção", "Escolha ao mínimo uma unidade!");
+			return ;
+		}
+
+		navigation.navigate("register4", {
+			inputNome: inputNome,
+			inputEmail: inputEmail,
+			inputPassword: inputPassword,
+			inputCpf: inputCpf,
+			inputDate: inputDate,
+			inputPhone: inputPhone,
+			units: units
+		});
 	}
 
 	if (error) return (<Error error={error} />);
@@ -67,14 +80,16 @@ export default function Register3() {
 	return (
 		<View style={styles.container} >
 			<Image style={register3.img} source={require("../../../assets/img/4-removebg-preview.png")} />
-			<Text style={styles.title}>Qual Unidade de Preferencia?</Text>
-
-
-			{locations.map((element) => (
-				<Checkbox key={element} text={element} setCheckbox={() => toggleSelection(element)} inputCheckbox={selected[element]} />
-			))}
-
-
+			<Text style={styles.title} >Qual Unidade de Preferencia?</Text>
+			<View style={register3.containerGroups} >
+				{locations.map((group, i) => (
+					<View key={i} style={register3.groupTrainingLocations} >
+						{group.map((element, j) => (
+							<Checkbox key={j} text={element} setCheckbox={(value) => setSelected((prev) => ({ ...prev, [element]: value }))} inputCheckbox={selected[element]} />
+						))}
+					</View>
+				))}
+			</View>
 			<View style={register3.containerButton} >
 				<Button text="registrar" onPress={validation} />
 			</View>
@@ -91,5 +106,13 @@ const register3 = StyleSheet.create({
 		alignSelf: "stretch",
 		alignItems: "flex-end",
 		marginRight: "10%"
+	},
+	containerGroups: {
+		marginVertical: 20
+	},
+	groupTrainingLocations: {
+		flexDirection: "row",
+		// justifyContent: "space-around",
+		marginVertical: 10
 	}
 });

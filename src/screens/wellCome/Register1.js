@@ -1,6 +1,5 @@
-import { StyleSheet, View, Image } from "react-native";
+import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Alert, View, Image } from "react-native";
 import { useState } from "react";
-import { Alert } from "react-native";
 
 import Input from "../../components/Input.js";
 import Button from "../../components/Button.js";
@@ -30,7 +29,7 @@ export default function Register1({ navigation }) {
 		// 	return ;
 		// }
 
-		navigation.navigate("cadastrar2", {
+		navigation.navigate("register2", {
 			inputNome: inputNome,
 			inputEmail: inputEmail,
 			inputPassword: inputPassword
@@ -38,15 +37,19 @@ export default function Register1({ navigation }) {
 	}
 
 	return (
-		<View style={styles.container} >
-			<Image style={register1.img} source={require("../../../assets/img/4-removebg-preview.png")} />
-			<Input placeholder="Nome" value={inputNome} onChangeText={setInputNome} />
-			<Input placeholder="Email" value={inputEmail} onChangeText={setInputEmail} />
-			<Input placeholder="Senha" value={inputPassword} onChangeText={setInputPassword} secureTextEntry />
-			<View style={register1.containerButton} >
-				<Button text="proximo" onPress={validation} />
+		<KeyboardAvoidingView style={styles.backgorund} behavior={Platform.OS === "ios" ? "padding" : "height"} keyboardVerticalOffset={Platform.OS === "ios" ? 60 : 0} >
+<ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: "center", padding: 20 }} keyboardShouldPersistTaps="handled">
+			<View style={styles.container} >
+				<Image style={register1.img} source={require("../../../assets/img/4-removebg-preview.png")} />
+				<Input placeholder="Nome" value={inputNome} onChangeText={setInputNome} />
+				<Input placeholder="Email" value={inputEmail} onChangeText={setInputEmail} />
+				<Input placeholder="Senha" value={inputPassword} onChangeText={setInputPassword} secureTextEntry />
+				<View style={register1.containerButton} >
+					<Button text="proximo" onPress={validation} />
+				</View>
 			</View>
-		</View>
+</ScrollView>
+		</KeyboardAvoidingView>
 	);
 }
 

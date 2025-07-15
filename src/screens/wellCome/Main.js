@@ -45,8 +45,8 @@ export default function Main({ navigation }) {
 				<Text style={styles.title}>Olá</Text>
 				<Text style={styles.text}>Bem-Vindo ao Seu App de Treinamento</Text>
 				<View>
-					<Button text="login" style={main.button} onPress={() => navigation.navigate("login")} />
-					<Button text="cadastrar" style={main.button} onPress={() => navigation.navigate("cadastrar1")} />
+					<Button text="Login" style={main.button} onPress={() => navigation.navigate("login")} />
+					<Button text="Cadastrar" style={main.button} onPress={() => navigation.navigate("register1")} />
 				</View>
 			</View>
 		</View>

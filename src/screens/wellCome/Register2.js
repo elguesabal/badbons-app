@@ -1,4 +1,4 @@
-import { StyleSheet, View, Image } from "react-native";
+import { StyleSheet, Alert, View, Image } from "react-native";
 import { useState } from "react";
 
 import Input from "../../components/Input.js";
@@ -30,7 +30,7 @@ export default function Cadastrar2({ navigation, route }) {
 		// 	return ;
 		// }
 
-		navigation.navigate("cadastrar3", {
+		navigation.navigate("register3", {
 			inputNome: inputNome,
 			inputEmail: inputEmail,
 			inputPassword: inputPassword,

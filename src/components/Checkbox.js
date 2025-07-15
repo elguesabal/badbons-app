@@ -5,13 +5,13 @@ import { StyleSheet, TouchableOpacity, Text } from "react-native";
  * @brief CRIA UM CHECKBOX JA COM UMA ESTILIZACAO PADRAO
  * @param text TEXTO Q APARECERA DENTRO DO BOTAO
  * @param style ESTILIZACAO EXTRA Q PODE SER APLICADA A Checkbox
- * @param setCheckbox 
- * @param inputCheckbox 
+ * @param setCheckbox FUNCAO Q MUDA O VALOR DE inputCheckbox 
+ * @param inputCheckbox VARIAVEL Q DIZ SE O Checkbox ESTA SELECIONADO
 */
 export default function Checkbox({ text, style, setCheckbox, inputCheckbox }) {
 	return (
-		<TouchableOpacity style={[ checkbox.button, style, { backgroundColor: (inputCheckbox) ? "transparent" : "blue", borderWidth: 0.3, borderColor: "blue" } ]} onPress={() => setCheckbox(!inputCheckbox)}>
-			<Text style={checkbox.text}>{text}</Text>
+		<TouchableOpacity style={[ checkbox.button, style, { backgroundColor: (inputCheckbox) ? "blue" : "transparent", borderWidth: 0.3, borderColor: "blue" } ]} onPress={() => setCheckbox(!inputCheckbox)} >
+			<Text style={checkbox.text} >{text}</Text>
 		</TouchableOpacity>
 	);
 }
