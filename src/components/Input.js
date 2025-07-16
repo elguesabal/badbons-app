@@ -1,4 +1,4 @@
-import { StyleSheet, KeyboardAvoidingView, Platform, View, Text, TextInput } from "react-native";
+import { StyleSheet, View, Text, TextInput } from "react-native";
 
 /**
  * @author VAMPETA
@@ -8,12 +8,10 @@ import { StyleSheet, KeyboardAvoidingView, Platform, View, Text, TextInput } fro
 */
 export default function Input({ placeholder, value, onChangeText, secureTextEntry = false }) {
 	return (
-		// <KeyboardAvoidingView style={input.container} behavior={(Platform.OS === "ios") ? "padding" : "height"} >
 		<View style={input.container} >
 			<Text style={input.text} >{placeholder}</Text>
 			<TextInput style={input.input} value={value} onChangeText={onChangeText} secureTextEntry={secureTextEntry} />
 		</View>
-		// </KeyboardAvoidingView>
 	);
 }
 

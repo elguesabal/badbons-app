@@ -1,4 +1,4 @@
-import { StyleSheet, Alert, View, Image } from "react-native";
+import { KeyboardAvoidingView, ScrollView, Platform, StyleSheet, Alert, View, Image } from "react-native";
 import { useState } from "react";
 
 import Input from "../../components/Input.js";
@@ -41,15 +41,19 @@ export default function Cadastrar2({ navigation, route }) {
 	}
 
 	return (
-		<View style={styles.container} >
-			<Image style={register2.img} source={require("../../../assets/img/Design_sem_nome__1_-removebg-preview.png")} />
-			<Input placeholder="CPF" value={inputCpf} onChangeText={setInputCpf} />
-			<Input placeholder="Data de nascimento" value={inputDate} onChangeText={setInputDate} />
-			<Input placeholder="Celular" value={inputPhone} onChangeText={setInputPhone} />
-			<View style={register2.containerButton} >
-				<Button text="registrar" onPress={hundleRegister} />
-			</View>
-		</View>
+		<KeyboardAvoidingView style={styles.backgorund} behavior={Platform.OS === "ios" ? "padding" : "height"} keyboardVerticalOffset={Platform.OS === "ios" ? 60 : 0} >
+			<ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: "center", padding: 20 }} keyboardShouldPersistTaps="handled">
+				<View style={styles.container} >
+					<Image style={register2.img} source={require("../../../assets/img/Design_sem_nome__1_-removebg-preview.png")} />
+					<Input placeholder="CPF" value={inputCpf} onChangeText={setInputCpf} />
+					<Input placeholder="Data de nascimento" value={inputDate} onChangeText={setInputDate} />
+					<Input placeholder="Celular" value={inputPhone} onChangeText={setInputPhone} />
+					<View style={register2.containerButton} >
+						<Button text="registrar" onPress={hundleRegister} />
+					</View>
+				</View>
+			</ScrollView>
+		</KeyboardAvoidingView>
 	);
 }
 

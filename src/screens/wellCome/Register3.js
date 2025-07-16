@@ -108,11 +108,14 @@ const register3 = StyleSheet.create({
 		marginRight: "10%"
 	},
 	containerGroups: {
+		alignSelf: "stretch",
+		justifyContent: "center",
 		marginVertical: 20
 	},
 	groupTrainingLocations: {
 		flexDirection: "row",
-		// justifyContent: "space-around",
+		alignSelf: "stretch",
+		justifyContent: "space-evenly",
 		marginVertical: 10
 	}
 });

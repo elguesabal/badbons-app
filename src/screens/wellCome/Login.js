@@ -1,4 +1,4 @@
-import { StyleSheet, View, Image } from "react-native";
+import { KeyboardAvoidingView, ScrollView, Platform, StyleSheet, View, Image } from "react-native";
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { Alert } from "react-native";
@@ -55,15 +55,20 @@ export default function Login() {
 
 	if (error) return (<Error error={error} />);
 	if (load) return (<Load />);
+
 	return (
-		<View style={styles.container} >
-			<Image source={require("../../../assets/img/4-removebg-preview.png")} style={login.img} />
-			<Input placeholder="Login" value={inputLogin} onChangeText={setInputLogin} />
-			<Input placeholder="Senha" value={inputPassword} onChangeText={setInputPassword} />
-			<View style={login.containerButton} >
-				<Button text="proximo" onPress={hundleLogin} />
-			</View>
-		</View>
+		<KeyboardAvoidingView style={styles.backgorund} behavior={Platform.OS === "ios" ? "padding" : "height"} keyboardVerticalOffset={Platform.OS === "ios" ? 60 : 0} >
+			<ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: "center", padding: 20 }} keyboardShouldPersistTaps="handled">
+				<View style={styles.container} >
+					<Image source={require("../../../assets/img/4-removebg-preview.png")} style={login.img} />
+					<Input placeholder="Login" value={inputLogin} onChangeText={setInputLogin} />
+					<Input placeholder="Senha" value={inputPassword} onChangeText={setInputPassword} />
+					<View style={login.containerButton} >
+						<Button text="proximo" onPress={hundleLogin} />
+					</View>
+				</View>
+			</ScrollView>
+		</KeyboardAvoidingView>
 	);
 }
 
