@@ -4,14 +4,43 @@ export default StyleSheet.create({
 	backgorund: {
 		flex: 1
 	},
+	center: {
+		alignItems: "center",
+		justifyContent: "center"
+	},
 	container: {
 		flex: 1,
 		alignItems: "center",
 		justifyContent: "center"
 	},
+	containerCenter: {
+		flex: 1,
+		alignItems: "center",
+		justifyContent: "center"
+	},
+	containerStart: {
+		flex: 1,
+		alignItems: "center",
+		justifyContent: "flex-start"
+	},
+	containerBetween: {
+		// backgroundColor: "red",
+		flex: 1,
+		alignItems: "center",
+		justifyContent: "space-between",
+		// paddingTop: "10%",
+		paddingBottom: "20%"
+	},
+	containerAround: {
+		backgroundColor: "red",
+		flex: 1,
+		alignItems: "center",
+		justifyContent: "space-around"
+	},
 	title: {
 		color: "white",
-		fontSize: 50
+		fontSize: 25,
+		marginHorizontal: "10%"
 	},
 	text: {
 		color: "white",

@@ -91,7 +91,7 @@ export default function Register3({ navigation, route }) {
 				))}
 			</View>
 			<View style={register3.containerButton} >
-				<Button text="registrar" onPress={validation} />
+				<Button text="Próximo" onPress={validation} />
 			</View>
 		</View>
 	);

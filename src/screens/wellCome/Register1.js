@@ -45,7 +45,7 @@ export default function Register1({ navigation }) {
 					<Input placeholder="Email" value={inputEmail} onChangeText={setInputEmail} />
 					<Input placeholder="Senha" value={inputPassword} onChangeText={setInputPassword} secureTextEntry />
 					<View style={register1.containerButton} >
-						<Button text="proximo" onPress={validation} />
+						<Button text="Próximo" onPress={validation} />
 					</View>
 				</View>
 			</ScrollView>
