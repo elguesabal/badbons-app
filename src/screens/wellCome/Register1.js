@@ -38,12 +38,16 @@ export default function Register1({ navigation }) {
 
 	return (
 		<KeyboardAvoidingView style={styles.backgorund} behavior={Platform.OS === "ios" ? "padding" : "height"} keyboardVerticalOffset={Platform.OS === "ios" ? 60 : 0} >
-			<ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: "center", padding: 20 }} keyboardShouldPersistTaps="handled">
-				<View style={styles.container} >
-					<Image style={register1.img} source={require("../../../assets/img/4-removebg-preview.png")} />
-					<Input placeholder="Nome" value={inputNome} onChangeText={setInputNome} />
-					<Input placeholder="Email" value={inputEmail} onChangeText={setInputEmail} />
-					<Input placeholder="Senha" value={inputPassword} onChangeText={setInputPassword} secureTextEntry />
+			<ScrollView contentContainerStyle={{ flexGrow: 1}} keyboardShouldPersistTaps="handled">
+				<View style={styles.containerBetween} >
+					<View style={styles.center} >
+						<Image style={register1.img} source={require("../../../assets/img/4-removebg-preview.png")} />
+					</View>
+					<View style={register1.containerInputs} >
+						<Input placeholder="Nome" value={inputNome} onChangeText={setInputNome} />
+						<Input placeholder="Email" value={inputEmail} onChangeText={setInputEmail} />
+						<Input placeholder="Senha" value={inputPassword} onChangeText={setInputPassword} secureTextEntry />
+					</View>
 					<View style={register1.containerButton} >
 						<Button text="Próximo" onPress={validation} />
 					</View>
@@ -56,7 +60,14 @@ export default function Register1({ navigation }) {
 const register1 = StyleSheet.create({
 	img: {
 		width: 200,
-		height: 200
+		height: 200,
+		marginTop: 100,
+		marginBottom: -50
+	},
+	containerInputs: {
+		alignSelf: "stretch",
+		alignItems: "center",
+		justifyContent: "center"
 	},
 	containerButton: {
 		alignSelf: "stretch",

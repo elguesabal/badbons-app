@@ -42,12 +42,16 @@ export default function Cadastrar2({ navigation, route }) {
 
 	return (
 		<KeyboardAvoidingView style={styles.backgorund} behavior={Platform.OS === "ios" ? "padding" : "height"} keyboardVerticalOffset={Platform.OS === "ios" ? 60 : 0} >
-			<ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: "center", padding: 20 }} keyboardShouldPersistTaps="handled">
-				<View style={styles.container} >
-					<Image style={register2.img} source={require("../../../assets/img/Design_sem_nome__1_-removebg-preview.png")} />
-					<Input placeholder="CPF" value={inputCpf} onChangeText={setInputCpf} />
-					<Input placeholder="Data de nascimento" value={inputDate} onChangeText={setInputDate} />
-					<Input placeholder="Celular" value={inputPhone} onChangeText={setInputPhone} />
+			<ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps="handled">
+				<View style={styles.containerBetween} >
+					<View style={styles.center} >
+						<Image style={register2.img} source={require("../../../assets/img/Design_sem_nome__1_-removebg-preview.png")} />
+					</View>
+					<View style={register2.containerInputs} >
+						<Input placeholder="CPF" value={inputCpf} onChangeText={setInputCpf} />
+						<Input placeholder="Data de nascimento" value={inputDate} onChangeText={setInputDate} />
+						<Input placeholder="Celular" value={inputPhone} onChangeText={setInputPhone} />
+					</View>
 					<View style={register2.containerButton} >
 						<Button text="Próximo" onPress={hundleRegister} />
 					</View>
@@ -60,7 +64,14 @@ export default function Cadastrar2({ navigation, route }) {
 const register2 = StyleSheet.create({
 	img: {
 		width: 200,
-		height: 200
+		height: 200,
+		marginTop: 100,
+		marginBottom: -50
+	},
+	containerInputs: {
+		alignSelf: "stretch",
+		alignItems: "center",
+		justifyContent: "center"
 	},
 	containerButton: {
 		alignSelf: "stretch",

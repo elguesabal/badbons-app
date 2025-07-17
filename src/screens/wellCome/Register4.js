@@ -1,5 +1,11 @@
-import { StyleSheet, View, Image, Text, FlatList } from "react-native";
+import { StyleSheet, View, Image, Text, FlatList, TouchableOpacity } from "react-native";
+import { useState, useRef, useEffect } from "react";
+import axios from "axios";
 
+import API_URL from "../../Api.js";
+
+import Load from "../load/Load.js";
+import Error from "../error/Error.js";
 import Button from "../../components/Button.js";
 
 import styles from "../../styles/styles.js";
@@ -10,83 +16,89 @@ import styles from "../../styles/styles.js";
 */
 export default function Register4({ route }) {
 	const { inputNome, inputEmail, inputPassword, inputCpf, inputDate, inputPhone, units } = route.params;
+	const [load, setLoad] = useState(true);
+	const [error, setError] = useState("");
+	const [data, setData] = useState([]);
+	const flatListRef = useRef(null);
 
-	// const data = [
-	// 	{ id: 1, unit: "Taquara", address: "Rua Opnião Liberal, 315", classes: [["Segunda", "8:00", "9:30"], ["Terça", "9:30", "11:00"], ["Sabado", "11:00", "13:30"]] },
-	// 	{ id: 2, unit: "Madureira", address: "Rua Opnião Liberal, 315", classes: [["Sabado", "8:00", "9:30"], ["Quinta", "9:30", "11:00"], ["Quinta", "11:00", "13:30"]] },
-	// 	{ id: 3, unit: "Bonsucesso", address: "Rua Opnião Liberal, 315", classes: [["Quart", "8:00", "9:30"], ["Quarta", "9:30", "11:00"], ["Quarta", "11:00", "13:30"]] },
-	// 	{ id: 4, unit: "Laboa", address: "Rua Opnião Liberal, 315", classes: [["Sabado", "8:00", "9:30"], ["Sabado", "9:30", "11:00"], ["Sabado", "11:00", "13:30"]] }
-	// ];
+	/**
+	 * @author VAMPETA
+	 * @brief CRIA IDS DENTRO DE CADA ARRAY PARA FUNCIONAR CORRETAMENTE NO FlatList
+	 * @param data DADOS Q VAO GANHAR IDS
+	 * @return RETORNA OS DADOS COM OS IDS
+	*/
+	function includeId(data) {
+		for (let i = 0; i < data.length; i++) {
+			data[i].id = i + 1;
+			for (let j = 0; j < data[i].classes.length; j++) {
+				data[i].classes[j].id = j + 1;
+			}
+		}
+		return (data);
+	}
 
-	const data = [
-		{ id: 1, unit: "Taquara", address: "Rua Opnião Liberal, 315", classes: [{ day: "Segunda", start: "8:00", end: "9:30"}, { day: "Terça", start: "9:30", end: "11:00" }, { day: "Sabado", start: "11:00", end: "13:30"}] },
-		{ id: 2, unit: "Madureira", address: "Rua Opnião Liberal, 315", classes: [{ day: "Sabado", start: "8:00", end: "9:30"}, { day: "Quinta", start: "9:30", end: "11:00"}, { day: "Quinta", start: "11:00", end: "13:30"}] },
-		{ id: 3, unit: "Bonsucesso", address: "Rua Opnião Liberal, 315", classes: [{ day: "Quarta", start: "8:00", end: "9:30"}, { day: "Quarta", start: "9:30", end: "11:00"}, { day: "Quarta", start: "11:00", end: "13:30"}] },
-		{ id: 4, unit: "Laboa", address: "Rua Opnião Liberal, 315", classes: [{ day: "Sabado", start: "8:00", end: "9:30"}, { day: "Sabado", start: "9:30", end: "11:00"}, { day: "Sabado", start: "11:00", end: "13:30"}] }
-	];
+	/**
+	 * @author VAMPETA
+	 * @brief FAZ UMA CONSULTA BUSCANDO OS HORARIOS DAS UNIDADES ENVIADAS NO ARRAY units
+	*/
+	async function getTimetable() {
+		try {
+			const res = await axios.get(`${API_URL}/timetable-units`, { params: { units: units } });
+			if (res.status !== 200) {
+				setError("error");
+				return ;
+			}
+			setData(includeId(res.data));
+		} catch (error) {
+			setError(error.message);
+		} finally {
+			setLoad(false);
+		}
+	}
+
+	useEffect(() => {
+		getTimetable();
+	}, []);
+
+	/**
+	 * @author VAMPETA
+	 * @brief FUNCAO CRIADA PARA ROLAR ATE O ELEMENTO CORRETO DO FlatList
+	 * @param index INDEX DO ELEMENTO
+	*/
+	function scrollToIndex(index) {
+		flatListRef.current?.scrollToIndex({ index, animated: true });
+	}
+
+	if (error) return (<Error error={error} />);
+	if (load) return (<Load />);
 
 	return (
-		// <View style={styles.container} >
-		// 	<Image style={register4.img} source={require("../../../assets/img/Design_sem_nome__1_-removebg-preview.png")} />
-
-		// 	<Text style={styles.text} >Nome: "{inputNome}"</Text>
-		// 	<Text style={styles.text} >Email: "{inputEmail}"</Text>
-		// 	<Text style={styles.text} >Senha: "{inputPassword}"</Text>
-		// 	<Text style={styles.text} >CPF: "{inputCpf}"</Text>
-		// 	<Text style={styles.text} >Data de nascimento: "{inputDate}"</Text>
-		// 	<Text style={styles.text} >Celular: "{inputPhone}"</Text>
-		// 	<Text style={styles.text} >Unidades: "{units.map((unit, i) => (<Text key={i} > {unit} </Text>))}"</Text>
-		// </View>
-
-
-
 		<View style={styles.containerBetween} >
 			<View style={styles.center} >
 				<Image style={register4.img} source={require("../../../assets/img/Design_sem_nome__1_-removebg-preview.png")} />
 				<Text style={styles.title} >Escolha Sua Frequencia de Treinamento por Semana</Text>
 			</View>
+			<View style={register4.containerFlatListBotton} >
+				<FlatList data={data} horizontal={true} keyExtractor={(item) => item.id} contentContainerStyle={[ { flexGrow: 1 }, styles.center]} showsHorizontalScrollIndicator={false} ref={flatListRef}
+					renderItem={({ item }) => (
+						<Button key={item.id} text={item.unit} style={{ width: 100, marginHorizontal: 5 }} onPress={() => scrollToIndex(item.id - 1)} />
+					)}
+				/>
+			</View>
 			<View style={register4.containerFlatListUnit} >
-				<FlatList data={data} horizontal={true} keyExtractor={(item) => item.id} contentContainerStyle={styles.center} showsHorizontalScrollIndicator={false}
+				<FlatList data={data} horizontal={true} keyExtractor={(item) => item.id} contentContainerStyle={styles.center} showsHorizontalScrollIndicator={false} ref={flatListRef}
 					renderItem={({ item }) => (
 						<View style={register4.elementFlatListUnit}>
 							<View>
-								<Button text={item.unit} />
+								<Text style={styles.title} >{item.unit}</Text>
 								<Text style={[styles.text, register4.textAddress]} >{item.address}</Text>
 							</View>
 							<View style={register4.containerFlatListClass} >
-								{/* <View style={register4.elementFlatListclass} >
-									<Text style={styles.text} >{item.classes[0][0]}</Text>
-									<View style={styles.center} >
-										<Text style={styles.text} >{item.classes[0][1]}</Text>
-										<Text style={styles.text} >As</Text>
-										<Text style={styles.text} >{item.classes[0][2]}</Text>
-									</View>
-								</View>
-								<View style={register4.elementFlatListclass} >
-									<Text style={styles.text} >{item.classes[1][0]}</Text>
-									<View style={styles.center} >
-										<Text style={styles.text} >{item.classes[1][1]}</Text>
-										<Text style={styles.text} >As</Text>
-										<Text style={styles.text} >{item.classes[1][2]}</Text>
-									</View>
-								</View>
-								<View style={register4.elementFlatListclass} >
-									<Text style={styles.text} >{item.classes[2][0]}</Text>
-									<View style={styles.center} >
-										<Text style={styles.text} >{item.classes[2][1]}</Text>
-										<Text style={styles.text} >As</Text>
-										<Text style={styles.text} >{item.classes[2][2]}</Text>
-									</View>
-								</View> */}
-
-								<FlatList data={item.classes} keyExtractor={(item) => item.id} contentContainerStyle={styles.center}
+								<FlatList data={item.classes} keyExtractor={(item) => item.id} contentContainerStyle={{ flexGrow: 1 }} showsVerticalScrollIndicator={false}
 									renderItem={({ item }) => (
-										<View key={item.id} >
-											<Text>{item.day}</Text>
-											<Text>{item.start}</Text>
-											<Text>As</Text>
-											<Text>{item.end}</Text>
-										</View>
+										<TouchableOpacity key={item.id} style={register4.elementFlatListclass} onPress={null}>
+											<Text style={styles.text} >{item.day} {item.start} As {item.end}</Text>
+										</TouchableOpacity>
 									)}
 								/>
 							</View>
@@ -95,7 +107,7 @@ export default function Register4({ route }) {
 				/>
 			</View>
 			<View style={register4.containerButton} >
-				<Button text="Próximo" onPress={null} />
+				<Button text="Próximo" onPress={() => console.log(data)} />
 			</View>
 		</View>
 	);
@@ -105,6 +117,11 @@ const register4 = StyleSheet.create({
 	img: {
 		width: 200,
 		height: 200
+	},
+	containerFlatListBotton: {
+		flexDirection: "row",
+		alignItems: "center",
+		justifyContent: "center"
 	},
 	containerFlatListUnit: {
 		height: 300
@@ -120,38 +137,23 @@ const register4 = StyleSheet.create({
 		marginTop: 10
 	},
 	containerFlatListClass: {
-		// backgroundColor: "#193f66",
-		// flexDirection: "row",
-		// alignSelf: "stretch",
-		// justifyContent: "space-around",
-		// height: 200,
-		// marginHorizontal: 10,
-		// borderRadius: 15,
-		// paddingVertical: 10
-
-
-
 		backgroundColor: "#193f66",
-		flexDirection: "row",
 		alignSelf: "stretch",
-		justifyContent: "space-around",
+		justifyContent: "flex-start",
 		height: 200,
 		marginHorizontal: 10,
 		borderRadius: 15,
-		paddingVertical: 10
+		padding: 15
 	},
 	elementFlatListclass: {
-		// backgroundColor: "#2c6bae",
-		// justifyContent: "space-evenly",
-		// alignItems: "center",
-		// borderRadius: 20,
-		// height: 150,
-		// width: 90,
-		// borderWidth: 0.2,
-		// borderColor: "white"
-
-
-		
+		flexDirection: "row",
+		alignItems: "center",
+		justifyContent: "center",
+		borderColor: "white",
+		borderWidth: 0.2,
+		marginVertical: 5,
+		borderRadius: 15,
+		padding: 20
 	},
 	containerButton: {
 		alignSelf: "stretch",

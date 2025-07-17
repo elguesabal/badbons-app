@@ -24,30 +24,39 @@ export default function Register3({ navigation, route }) {
 
 	/**
 	 * @author VAMPETA
-	 * @brief FAZ UMA CONSULTA A API E RECEBE TODAS AS UNIDADES DISPONIVEIS PARA TREINO E ARMAZENA EM ARRAYS DE DUPLAS
+	 * @brief SEPARA OS ELEMENTOS DO ARRAY EM DUPLAS
+	 * @param array ARRAY Q SERA DIVIDIDO EM DUPLAS
+	 * @return RETORNA O NOVO ARRAY EM DUPLAS
 	*/
-	useEffect(() => {
-		async function trainingLocations() {
-			try {
-				const res = await axios.get(`${API_URL}/training-locations`);
-				if (res.status !== 200) {
-					setError("error");
-					return ;
-				}
-				const initialSelected = {};
-				res.data.forEach((unit) => initialSelected[unit] = false);
-				setSelected(initialSelected);
-				const result = [];
-				for (let i = 0; i < res.data.length; i += 2) {
-					result.push(res.data.slice(i, i + 2));
-				}
-				setLocations(result);
-			} catch (error) {
-				setError(error.message);
-			} finally {
-				setLoad(false);
+	function doubleUnits(array) {
+		const result = [];
+		for (let i = 0; i < array.length; i += 2) result.push(array.slice(i, i + 2));
+		return (result);
+	}
+
+	/**
+	 * @author VAMPETA
+	 * @brief FAZ UMA CONSULTA A API E RECEBE TODAS AS UNIDADES DISPONIVEIS PARA TREINO
+	*/
+	async function trainingLocations() {
+		try {
+			const res = await axios.get(`${API_URL}/training-locations`);
+			if (res.status !== 200) {
+				setError("error");
+				return ;
 			}
+			const initialSelected = {};
+			res.data.forEach((unit) => initialSelected[unit] = false);
+			setSelected(initialSelected);
+			setLocations(doubleUnits(res.data));
+		} catch (error) {
+			setError(error.message);
+		} finally {
+			setLoad(false);
 		}
+	}
+
+	useEffect(() => {
 		trainingLocations();
 	}, []);
 
@@ -78,9 +87,11 @@ export default function Register3({ navigation, route }) {
 	if (load) return (<Load />);
 
 	return (
-		<View style={styles.container} >
-			<Image style={register3.img} source={require("../../../assets/img/4-removebg-preview.png")} />
-			<Text style={styles.title} >Qual Unidade de Preferencia?</Text>
+		<View style={styles.containerBetween} >
+			<View style={styles.center} >
+				<Image style={register3.img} source={require("../../../assets/img/4-removebg-preview.png")} />
+				<Text style={styles.title} >Qual Unidade de Preferencia?</Text>
+			</View>
 			<View style={register3.containerGroups} >
 				{locations.map((group, i) => (
 					<View key={i} style={register3.groupTrainingLocations} >

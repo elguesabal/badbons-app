@@ -58,11 +58,15 @@ export default function Login() {
 
 	return (
 		<KeyboardAvoidingView style={styles.backgorund} behavior={Platform.OS === "ios" ? "padding" : "height"} keyboardVerticalOffset={Platform.OS === "ios" ? 60 : 0} >
-			<ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: "center", padding: 20 }} keyboardShouldPersistTaps="handled">
-				<View style={styles.container} >
-					<Image source={require("../../../assets/img/4-removebg-preview.png")} style={login.img} />
-					<Input placeholder="Login" value={inputLogin} onChangeText={setInputLogin} />
-					<Input placeholder="Senha" value={inputPassword} onChangeText={setInputPassword} />
+			<ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps="handled">
+				<View style={styles.containerBetween} >
+					<View style={styles.center} >
+						<Image source={require("../../../assets/img/4-removebg-preview.png")} style={login.img} />
+					</View>
+					<View style={login.containerInputs} >
+						<Input placeholder="Login" value={inputLogin} onChangeText={setInputLogin} />
+						<Input placeholder="Senha" value={inputPassword} onChangeText={setInputPassword} secureTextEntry />
+					</View>
 					<View style={login.containerButton} >
 						<Button text="proximo" onPress={hundleLogin} />
 					</View>
@@ -75,33 +79,18 @@ export default function Login() {
 const login = StyleSheet.create({
 	img: {
 		width: 200,
-		height: 200
+		height: 200,
+		marginTop: 150,
+		marginBottom: -50
+	},
+	containerInputs: {
+		alignSelf: "stretch",
+		alignItems: "center",
+		justifyContent: "center"
 	},
 	containerButton: {
 		alignSelf: "stretch",
 		alignItems: "flex-end",
 		marginRight: "10%"
-	}
-});
-
-const input = StyleSheet.create({
-	container: {
-		alignSelf: "stretch",
-		marginVertical: 10
-	},
-	text: {
-		color: "white",
-		marginLeft: "15%",
-		marginBottom: 5
-	},
-	input: {
-		height: 30,
-		width: "80%",
-		marginLeft: "10%",
-		borderColor: "white",
-		borderWidth: 0.1,
-		paddingHorizontal: 10,
-		borderRadius: 8,
-		backgroundColor: "transparent"
 	}
 });
