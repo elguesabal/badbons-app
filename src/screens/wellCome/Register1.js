@@ -1,8 +1,10 @@
-import { KeyboardAvoidingView, ScrollView, Platform, StyleSheet, Alert, View, Image } from "react-native";
+import { KeyboardAvoidingView, ScrollView, Platform, StyleSheet, View, Image } from "react-native";
 import { useState } from "react";
 
 import Input from "../../components/Input.js";
 import Button from "../../components/Button.js";
+
+import validation from "../../functions/wellcome/register1.js";
 
 import styles from "../../styles/styles.js";
 
@@ -14,27 +16,6 @@ export default function Register1({ navigation }) {
 	const [inputNome, setInputNome] = useState("");
 	const [inputEmail, setInputEmail] = useState("");
 	const [inputPassword, setInputPassword] = useState("");
-
-	/**
-	 * @author VAMPETA
-	 * @brief FUNCAO RESPONSAVEL POR VALIDAR INFORMACOES E PASSAR ELAS PARA A Register2
-	*/
-	function validation() {
-		// if (!inputNome || !inputEmail || !inputPassword) { // ATIVADO POR ENQUANTO PQ E MUITO CHATO TESTA COM ISSO ATIVO
-		// 	Alert.alert("Atenção", "Preencha todos os campos!");
-		// 	return ;
-		// }
-		// if (!/\S+@\S+\.\S+/.test(inputEmail)) { // ATIVADO POR ENQUANTO PQ E MUITO CHATO TESTA COM ISSO ATIVO
-		// 	Alert.alert("Atenção", "Email inválido!");
-		// 	return ;
-		// }
-
-		navigation.navigate("register2", {
-			inputNome: inputNome,
-			inputEmail: inputEmail,
-			inputPassword: inputPassword
-		});
-	}
 
 	return (
 		<KeyboardAvoidingView style={styles.backgorund} behavior={Platform.OS === "ios" ? "padding" : "height"} keyboardVerticalOffset={Platform.OS === "ios" ? 60 : 0} >
@@ -49,7 +30,7 @@ export default function Register1({ navigation }) {
 						<Input placeholder="Senha" value={inputPassword} onChangeText={setInputPassword} secureTextEntry />
 					</View>
 					<View style={register1.containerButton} >
-						<Button text="Próximo" onPress={validation} />
+						<Button text="Próximo" onPress={() => validation(navigation, inputNome, inputEmail, inputPassword)} />
 					</View>
 				</View>
 			</ScrollView>

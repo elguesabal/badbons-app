@@ -4,6 +4,8 @@ import { useState } from "react";
 import Input from "../../components/Input.js";
 import Button from "../../components/Button.js";
 
+import validation from "../../functions/wellcome/register2.js";
+
 import styles from "../../styles/styles.js";
 
 /**
@@ -15,30 +17,6 @@ export default function Cadastrar2({ navigation, route }) {
 	const [inputCpf, setInputCpf] = useState("");
 	const [inputDate, setInputDate] = useState("");
 	const [inputPhone, setInputPhone] = useState("");
-
-	/**
-	 * @author VAMPETA
-	 * @brief FUNCAO RESPONSAVEL POR VALIDAR INFORMACOES E PASSAR ELAS PARA A Register3
-	*/
-	async function hundleRegister() {
-		// if (!inputCpf || !inputDate || !inputPhone) { // ATIVADO POR ENQUANTO PQ E MUITO CHATO TESTA COM ISSO ATIVO
-		// 	Alert.alert("Atenção", "Preencha todos os campos!");
-		// 	return ;
-		// }
-		// if (!/^\d{11}$/.test(inputCpf)) { // ATIVADO POR ENQUANTO PQ E MUITO CHATO TESTA COM ISSO ATIVO
-		// 	Alert.alert("Atenção", "CPF inválido");
-		// 	return ;
-		// }
-
-		navigation.navigate("register3", {
-			inputNome: inputNome,
-			inputEmail: inputEmail,
-			inputPassword: inputPassword,
-			inputCpf: inputCpf,
-			inputDate: inputDate,
-			inputPhone: inputPhone
-		});
-	}
 
 	return (
 		<KeyboardAvoidingView style={styles.backgorund} behavior={Platform.OS === "ios" ? "padding" : "height"} keyboardVerticalOffset={Platform.OS === "ios" ? 60 : 0} >
@@ -53,7 +31,7 @@ export default function Cadastrar2({ navigation, route }) {
 						<Input placeholder="Celular" value={inputPhone} onChangeText={setInputPhone} />
 					</View>
 					<View style={register2.containerButton} >
-						<Button text="Próximo" onPress={hundleRegister} />
+						<Button text="Próximo" onPress={() => validation(navigation, inputNome, inputEmail, inputPassword, inputCpf, inputDate, inputPhone)} />
 					</View>
 				</View>
 			</ScrollView>

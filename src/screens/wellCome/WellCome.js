@@ -15,7 +15,7 @@ const Stack = createNativeStackNavigator();
  * @author VAMPETA
  * @brief FUNCAO RESPONSAVEL POR GERENCIAR ABAS EM CASCATA DA SECAO LOGIN/CADASTRO
 */
-export default function WellCome() {
+export default function Wellcome() {
 	return (
 		<Stack.Navigator screenOptions={{ contentStyle: { backgroundColor: "transparent" }, animation: "slide_from_right", header: (props) => <HeaderStack text="login" {...props} /> }}>
 			<Stack.Screen name="main" component={Main} options={{ headerShown: false }} />

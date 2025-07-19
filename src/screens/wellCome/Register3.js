@@ -9,6 +9,8 @@ import Error from "../error/Error.js";
 import Checkbox from "../../components/Checkbox.js";
 import Button from "../../components/Button.js";
 
+import validation from "../../functions/wellcome/register3.js";
+
 import styles from "../../styles/styles.js";
 
 /**
@@ -60,29 +62,6 @@ export default function Register3({ navigation, route }) {
 		trainingLocations();
 	}, []);
 
-	/**
-	 * @author VAMPETA
-	 * @brief FUNCAO RESPONSAVEL POR VALIDAR INFORMACOES E PASSAR ELAS PARA A PROXIMA SCREEN
-	*/
-	function validation() {
-		const units = Object.keys(selected).filter((key) => selected[key]);
-
-		if (units.length === 0) {
-			Alert.alert("Atenção", "Escolha ao mínimo uma unidade!");
-			return ;
-		}
-
-		navigation.navigate("register4", {
-			inputNome: inputNome,
-			inputEmail: inputEmail,
-			inputPassword: inputPassword,
-			inputCpf: inputCpf,
-			inputDate: inputDate,
-			inputPhone: inputPhone,
-			units: units
-		});
-	}
-
 	if (error) return (<Error error={error} />);
 	if (load) return (<Load />);
 
@@ -102,7 +81,7 @@ export default function Register3({ navigation, route }) {
 				))}
 			</View>
 			<View style={register3.containerButton} >
-				<Button text="Próximo" onPress={validation} />
+				<Button text="Próximo" onPress={() => validation(navigation, inputNome, inputEmail, inputPassword, inputCpf, inputDate, inputPhone, selected)} />
 			</View>
 		</View>
 	);

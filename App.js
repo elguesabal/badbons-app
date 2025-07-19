@@ -1,7 +1,7 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 
-import WellCome from "./src/screens/wellCome/WellCome.js";
+import Wellcome from "./src/screens/wellcome/Wellcome.js";
 import Home from "./src/screens/home/Home.js";
 
 import { ImageBackground } from "react-native";
@@ -31,7 +31,7 @@ export default function App() {
 		<NavigationContainer theme={MyTheme}>
 			<ImageBackground source={require("./assets/img/Design sem nome (3).png")} style={styles.backgorund} >
 				<Tab.Navigator screenOptions={{ headerShown: false,  tabBarStyle: { backgroundColor: "transparent", elevation: 0 } }} >
-					<Tab.Screen name="WellCome" component={WellCome} options={{ tabBarStyle: { display: "none" }, tabBarButton: () => null }} />
+					<Tab.Screen name="WellCome" component={Wellcome} options={{ tabBarStyle: { display: "none" }, tabBarButton: () => null }} />
 					<Tab.Screen name="Home" component={Home} />
 				</Tab.Navigator>
 			</ImageBackground>
