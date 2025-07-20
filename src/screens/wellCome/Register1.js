@@ -4,7 +4,7 @@ import { useState } from "react";
 import Input from "../../components/Input.js";
 import Button from "../../components/Button.js";
 
-import validation from "../../functions/wellcome/register1.js";
+import { validation } from "../../functions/wellcome/register1.js";
 
 import styles from "../../styles/styles.js";
 
@@ -42,8 +42,6 @@ const register1 = StyleSheet.create({
 	img: {
 		width: 200,
 		height: 200,
-		marginTop: 100,
-		marginBottom: -50
 	},
 	containerInputs: {
 		alignSelf: "stretch",

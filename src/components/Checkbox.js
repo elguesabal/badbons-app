@@ -10,7 +10,7 @@ import { StyleSheet, TouchableOpacity, Text } from "react-native";
 */
 export default function Checkbox({ text, style, setCheckbox, inputCheckbox }) {
 	return (
-		<TouchableOpacity style={[ checkbox.button, style, { backgroundColor: (inputCheckbox) ? "blue" : "transparent", borderWidth: 0.3, borderColor: "blue" } ]} onPress={() => setCheckbox(!inputCheckbox)} >
+		<TouchableOpacity style={[checkbox.button, style, { backgroundColor: (inputCheckbox) ? "blue" : "transparent", borderWidth: 0.3, borderColor: "blue" }]} onPress={() => setCheckbox(!inputCheckbox)} >
 			<Text style={checkbox.text} >{text}</Text>
 		</TouchableOpacity>
 	);

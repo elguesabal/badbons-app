@@ -1,12 +1,12 @@
 import { StyleSheet, View, Image, Text, FlatList, TouchableOpacity } from "react-native";
 import { useState, useRef, useEffect } from "react";
-import axios from "axios";
-
-import API_URL from "../../Api.js";
+import { Ionicons } from '@expo/vector-icons';
 
 import Load from "../load/Load.js";
 import Error from "../error/Error.js";
 import Button from "../../components/Button.js";
+
+import { getTimetable, scrollToIndex } from "../../functions/wellcome/register4.js";
 
 import styles from "../../styles/styles.js";
 
@@ -20,54 +20,11 @@ export default function Register4({ route }) {
 	const [error, setError] = useState("");
 	const [data, setData] = useState([]);
 	const flatListRef = useRef(null);
-
-	/**
-	 * @author VAMPETA
-	 * @brief CRIA IDS DENTRO DE CADA ARRAY PARA FUNCIONAR CORRETAMENTE NO FlatList
-	 * @param data DADOS Q VAO GANHAR IDS
-	 * @return RETORNA OS DADOS COM OS IDS
-	*/
-	function includeId(data) {
-		for (let i = 0; i < data.length; i++) {
-			data[i].id = i + 1;
-			for (let j = 0; j < data[i].classes.length; j++) {
-				data[i].classes[j].id = j + 1;
-			}
-		}
-		return (data);
-	}
-
-	/**
-	 * @author VAMPETA
-	 * @brief FAZ UMA CONSULTA BUSCANDO OS HORARIOS DAS UNIDADES ENVIADAS NO ARRAY units
-	*/
-	async function getTimetable() {
-		try {
-			const res = await axios.get(`${API_URL}/timetable-units`, { params: { units: units } });
-			if (res.status !== 200) {
-				setError("error");
-				return ;
-			}
-			setData(includeId(res.data));
-		} catch (error) {
-			setError(error.message);
-		} finally {
-			setLoad(false);
-		}
-	}
+	const [selectedTimes, setSelectedTimes] = useState({});
 
 	useEffect(() => {
-		getTimetable();
+		getTimetable(units, setSelectedTimes, setData, setLoad, setError);
 	}, []);
-
-	/**
-	 * @author VAMPETA
-	 * @brief FUNCAO CRIADA PARA ROLAR ATE O ELEMENTO CORRETO DO FlatList
-	 * @param index INDEX DO ELEMENTO
-	*/
-	function scrollToIndex(index) {
-		flatListRef.current?.scrollToIndex({ index, animated: true });
-	}
 
 	if (error) return (<Error error={error} />);
 	if (load) return (<Load />);
@@ -78,25 +35,34 @@ export default function Register4({ route }) {
 				<Image style={register4.img} source={require("../../../assets/img/Design_sem_nome__1_-removebg-preview.png")} />
 				<Text style={styles.title} >Escolha Sua Frequencia de Treinamento por Semana</Text>
 			</View>
-			<View style={register4.containerFlatListBotton} >
-				<FlatList data={data} horizontal={true} keyExtractor={(item) => item.id} contentContainerStyle={[ { flexGrow: 1 }, styles.center]} showsHorizontalScrollIndicator={false} ref={flatListRef}
-					renderItem={({ item }) => (
-						<Button key={item.id} text={item.unit} style={{ width: 100, marginHorizontal: 5 }} onPress={() => scrollToIndex(item.id - 1)} />
-					)}
-				/>
-			</View>
 			<View style={register4.containerFlatListUnit} >
 				<FlatList data={data} horizontal={true} keyExtractor={(item) => item.id} contentContainerStyle={styles.center} showsHorizontalScrollIndicator={false} ref={flatListRef}
 					renderItem={({ item }) => (
 						<View style={register4.elementFlatListUnit}>
-							<View>
-								<Text style={styles.title} >{item.unit}</Text>
-								<Text style={[styles.text, register4.textAddress]} >{item.address}</Text>
+							<View style={register4.containerAddress} >
+								<View style={register4.containerIcon} >
+									{(item.id > 1) ? (
+										<TouchableOpacity style={register4.bottomIcon} onPress={() => scrollToIndex(flatListRef, item.id - 1)}>
+											<Ionicons name="arrow-back" size={30} color="white" />
+										</TouchableOpacity>
+									) : (null)}
+								</View>
+								<View style={styles.center} >
+									<Text style={styles.title} >{item.unit}</Text>
+									<Text style={[styles.text, register4.textAddress]} >{item.address}</Text>
+								</View>
+								<View style={register4.containerIcon} >
+									{(item.id < data.length) ? (
+										<TouchableOpacity style={register4.bottomIcon} onPress={() => scrollToIndex(flatListRef, item.id + 1)}>
+											<Ionicons name="arrow-forward" size={30} color="white" />
+										</TouchableOpacity>
+									) : (null)}
+								</View>
 							</View>
 							<View style={register4.containerFlatListClass} >
 								<FlatList data={item.classes} keyExtractor={(item) => item.id} contentContainerStyle={{ flexGrow: 1 }} showsVerticalScrollIndicator={false}
 									renderItem={({ item }) => (
-										<TouchableOpacity key={item.id} style={register4.elementFlatListclass} onPress={null}>
+										<TouchableOpacity key={item.id} style={[register4.elementFlatListclass, {  }]} onPress={null}>
 											<Text style={styles.text} >{item.day} {item.start} As {item.end}</Text>
 										</TouchableOpacity>
 									)}
@@ -118,11 +84,6 @@ const register4 = StyleSheet.create({
 		width: 200,
 		height: 200
 	},
-	containerFlatListBotton: {
-		flexDirection: "row",
-		alignItems: "center",
-		justifyContent: "center"
-	},
 	containerFlatListUnit: {
 		height: 300
 	},
@@ -132,6 +93,19 @@ const register4 = StyleSheet.create({
 		marginHorizontal: 10,
 		height: 300,
 		width: 340
+	},
+	containerAddress: {
+		alignSelf: "stretch",
+		justifyContent: "space-around",
+		flexDirection: "row"
+	},
+	containerIcon: {
+		width: 40
+	},
+	bottomIcon: {
+		flex: 1,
+		justifyContent: "center",
+		alignItems: "center"
 	},
 	textAddress: {
 		marginTop: 10

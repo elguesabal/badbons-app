@@ -1,13 +1,12 @@
 import { StyleSheet, View, Image, Text } from "react-native";
 import { useState, useEffect } from "react";
-import axios from "axios";
-
-import API_URL from "../../Api.js";
 
 import Load from "../load/Load.js";
 import Error from "../error/Error.js";
 import HeaderLogo from "../../components/HeaderLogo.js";
 import Button from "../../components/Button.js";
+
+import { ping } from "../../functions/wellcome/main.js";
 
 import styles from "../../styles/styles.js";
 
@@ -20,19 +19,7 @@ export default function Main({ navigation }) {
 	const [load, setLoad] = useState(true);
 	const [error, setError] = useState(false);
 
-	useEffect(() => {
-		async function ping() {
-			try {
-				const res = await axios.get(`${API_URL}/ping`);
-				if (res.status !== 200) setError("error");
-			} catch (error) {
-				setError(error.message);
-			} finally {
-				setLoad(false);
-			}
-		}
-		ping();
-	}, []);
+	useEffect(() => { ping(setLoad, setError) }, []);
 
 	if (error) return (<Error error={error} />);
 	if (load) return (<Load />);
