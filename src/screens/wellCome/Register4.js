@@ -6,7 +6,7 @@ import Load from "../load/Load.js";
 import Error from "../error/Error.js";
 import Button from "../../components/Button.js";
 
-import { getTimetable, scrollToIndex } from "../../functions/wellcome/register4.js";
+import { getTimetable, scrollToIndex, findSelected, buttonTime, validation } from "../../functions/wellcome/register4.js";
 
 import styles from "../../styles/styles.js";
 
@@ -37,33 +37,33 @@ export default function Register4({ route }) {
 			</View>
 			<View style={register4.containerFlatListUnit} >
 				<FlatList data={data} horizontal={true} keyExtractor={(item) => item.id} contentContainerStyle={styles.center} showsHorizontalScrollIndicator={false} ref={flatListRef}
-					renderItem={({ item }) => (
+					renderItem={({ item: classItem }) => (
 						<View style={register4.elementFlatListUnit}>
 							<View style={register4.containerAddress} >
 								<View style={register4.containerIcon} >
-									{(item.id > 1) ? (
-										<TouchableOpacity style={register4.bottomIcon} onPress={() => scrollToIndex(flatListRef, item.id - 1)}>
+									{(classItem.id > 1) ? (
+										<TouchableOpacity style={register4.bottomIcon} onPress={() => scrollToIndex(flatListRef, classItem.id - 1)}>
 											<Ionicons name="arrow-back" size={30} color="white" />
 										</TouchableOpacity>
 									) : (null)}
 								</View>
 								<View style={styles.center} >
-									<Text style={styles.title} >{item.unit}</Text>
-									<Text style={[styles.text, register4.textAddress]} >{item.address}</Text>
+									<Text style={styles.title} >{classItem.unit}</Text>
+									<Text style={[styles.text, register4.textAddress]} >{classItem.address}</Text>
 								</View>
 								<View style={register4.containerIcon} >
-									{(item.id < data.length) ? (
-										<TouchableOpacity style={register4.bottomIcon} onPress={() => scrollToIndex(flatListRef, item.id + 1)}>
+									{(classItem.id < data.length) ? (
+										<TouchableOpacity style={register4.bottomIcon} onPress={() => scrollToIndex(flatListRef, classItem.id + 1)}>
 											<Ionicons name="arrow-forward" size={30} color="white" />
 										</TouchableOpacity>
 									) : (null)}
 								</View>
 							</View>
 							<View style={register4.containerFlatListClass} >
-								<FlatList data={item.classes} keyExtractor={(item) => item.id} contentContainerStyle={{ flexGrow: 1 }} showsVerticalScrollIndicator={false}
-									renderItem={({ item }) => (
-										<TouchableOpacity key={item.id} style={[register4.elementFlatListclass, {  }]} onPress={null}>
-											<Text style={styles.text} >{item.day} {item.start} As {item.end}</Text>
+								<FlatList data={classItem.classes} keyExtractor={(item) => item.id} contentContainerStyle={{ flexGrow: 1 }} showsVerticalScrollIndicator={false}
+									renderItem={({ item: timeItem }) => (
+										<TouchableOpacity key={timeItem.id} style={[register4.elementFlatListclass, { backgroundColor: ((findSelected(selectedTimes[classItem.unit], timeItem)) ? "#2c6bae" : "transparent") }]} onPress={() => buttonTime(setSelectedTimes, classItem.unit, timeItem)}>
+											<Text style={styles.text} >{timeItem.day} {timeItem.start} As {timeItem.end}</Text>
 										</TouchableOpacity>
 									)}
 								/>
@@ -73,7 +73,7 @@ export default function Register4({ route }) {
 				/>
 			</View>
 			<View style={register4.containerButton} >
-				<Button text="Próximo" onPress={() => console.log(data)} />
+				<Button text="Próximo" onPress={() => validation(selectedTimes)} />
 			</View>
 		</View>
 	);

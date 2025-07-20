@@ -12,7 +12,6 @@ function startSelectedTimes(units, setSelectedTimes) {
 	const selectedTimes = {};
 	units.map((unit) => selectedTimes[unit] = []);
 	setSelectedTimes(selectedTimes);
-																console.log(selectedTimes);
 }
 
 /**
@@ -58,10 +57,52 @@ export async function getTimetable(units, setSelectedTimes, setData, setLoad, se
 /**
  * @author VAMPETA
  * @brief FUNCAO CRIADA PARA ROLAR ATE O ELEMENTO CORRETO DO FlatList
- * @param index INDEX DO ELEMENTO
  * @param flatListRef OBJETO QUE CONTROLA QUAL INDICE VAI ESTAR A ROLAGEM DO FlatLIst
+ * @param index INDEX DO ELEMENTO
 */
 export function scrollToIndex(flatListRef, index) {
 	--index;
 	flatListRef.current?.scrollToIndex({ index, animated: true });
+}
+
+/**
+ * @author VAMPETA
+ * @brief PROCURA UM OBJETO EM UM ARRAY DE OBJETOS
+ * @param selectedTimes ARRAY COM TODAS AS UNIDADES SELECIONADAS
+ * @param timeItem OBJETO A SER PROCURADO DENTRO DO ARRAY
+ * @return RETORNA TRUE CASO ENCONTRE O OBJETO E FALSO CASO NAO ENCONTRE
+*/
+export function findSelected(selectedTimes, timeItem) {
+	return (selectedTimes.some((time) => { return (time.day === timeItem.day && time.start === timeItem.start && time.end === timeItem.end) }));
+}
+
+/**
+ * @author VAMPETA
+ * @brief FUNCAO QUE MODIFICA selectedTimes ADICIONANDO OU REMOVENDO HORARIOS SELECIONADOS
+ * @param setSelectedTimes FUNCAO QUE MODIFICA selectedTimes
+ * @param unit STRING COM O NOME DA UNIDADE
+ * @param timeItem OBJETO COM INFORMACOES DE DIA E HORARIO DE TREINO
+*/
+export function buttonTime(setSelectedTimes, unit, timeItem) {
+	setSelectedTimes((prev) => {
+		const currentTime = prev[unit] || [];
+		const exists = currentTime.some((time) => { return (time.day === timeItem.day && time.start === timeItem.start && time.end === timeItem.end) });
+		const newTime = (exists) ? currentTime.filter((time) => { return (time.day !== timeItem.day || time.start !== timeItem.start || time.end !== timeItem.end) }) : [...currentTime, { day: timeItem.day, start: timeItem.start, end: timeItem.end }];
+
+		return { ...prev, [unit]: newTime };
+	});
+}
+
+/**
+ * @author VAMPETA
+ * @brief 
+ * @param 
+*/
+export function validation(selectedTimes) {
+	console.log(selectedTimes);
+	// PAREI AKI
+	// VERIFICAR SE O USUARIO SELECIONOU UMA UNIDADE
+	// REMOVER AS UNIDADES Q ELE NAO ESCOLHEU NENHUM HORARIO
+	// ENVIAR PARA A PROXIMA SCREEN APEMAS AS UNIDADES E HORARIOS SELECIONADOS
+	// CRIAR UM AVISO Q FOI SELECIONADO DIA E HORARIO IGUAL EM UNIDADES DIFERENTES? 
 }
