@@ -16,14 +16,14 @@ export default function HeaderLogo() {
 
 const headerLogo = StyleSheet.create({
     container: {
-		paddingTop: statusBarHeight,
-		width: "100%",
-		height: 90
+		marginTop: statusBarHeight,
+		alignSelf: "stretch",
+		height: 80
     },
     img: {
 		width: 80,
 		height: 80,
         marginLeft: 30,
-        marginTop: 20
+        marginTop: 10
     }
 });

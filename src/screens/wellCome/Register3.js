@@ -15,7 +15,7 @@ import styles from "../../styles/styles.js";
  * @brief TELA DE CADASTRO
 */
 export default function Register3({ navigation, route }) {
-	const { inputNome, inputEmail, inputPassword, inputCpf, inputDate, inputPhone } = route.params;
+	const { inputName, inputEmail, inputPassword, inputCpf, inputDate, inputPhone } = route.params;
 	const [load, setLoad] = useState(true);
 	const [error, setError] = useState("");
 	const [selected, setSelected] = useState({});
@@ -42,7 +42,7 @@ export default function Register3({ navigation, route }) {
 				))}
 			</View>
 			<View style={register3.containerButton} >
-				<Button text="Próximo" onPress={() => validation(navigation, inputNome, inputEmail, inputPassword, inputCpf, inputDate, inputPhone, selected)} />
+				<Button text="Próximo" onPress={() => validation(navigation, inputName, inputEmail, inputPassword, inputCpf, inputDate, inputPhone, selected)} />
 			</View>
 		</View>
 	);
@@ -52,11 +52,6 @@ const register3 = StyleSheet.create({
 	img: {
 		width: 200,
 		height: 200
-	},
-	containerButton: {
-		alignSelf: "stretch",
-		alignItems: "flex-end",
-		marginRight: "10%"
 	},
 	containerGroups: {
 		flex: 1,
@@ -68,5 +63,10 @@ const register3 = StyleSheet.create({
 		alignSelf: "stretch",
 		justifyContent: "space-evenly",
 		marginVertical: 10
+	},
+	containerButton: {
+		alignSelf: "stretch",
+		alignItems: "flex-end",
+		marginRight: "10%"
 	}
 });

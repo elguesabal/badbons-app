@@ -28,9 +28,8 @@ const headerStack = StyleSheet.create({
 	conteiner: {
 		backgroundColor: "transparent",
 		alignSelf: "stretch",
-		paddingTop: statusBarHeight,
-		width: "100%",
-		height: 90
+		marginTop: statusBarHeight,
+		height: 55
 	},
 	header: {
 		flex: 1,

@@ -8,7 +8,7 @@ import styles from "../../styles/styles";
 */
 export default function Home() {
 	return (
-		<View style={[styles.container, { backgroundColor: "transparent" }]}>
+		<View style={[styles.containerCenter, { backgroundColor: "transparent" }]}>
 			<Text>HOME</Text>
 		</View>
 	);

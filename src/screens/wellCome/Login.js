@@ -1,6 +1,5 @@
 import { KeyboardAvoidingView, ScrollView, Platform, StyleSheet, View, Image } from "react-native";
 import { useState } from "react";
-import { useNavigation } from "@react-navigation/native";
 
 import Load from "../load/Load.js";
 import Error from "../error/Error.js";
@@ -15,8 +14,7 @@ import styles from "../../styles/styles.js";
  * @author VAMPETA
  * @brief TELA DE LOGIN
 */
-export default function Login() {
-	const navigation = useNavigation();
+export default function Login({ navigation }) {
 	const [load, setLoad] = useState(false);
 	const [error, setError] = useState("");
 	const [inputLogin, setInputLogin] = useState("");
@@ -29,9 +27,7 @@ export default function Login() {
 		<KeyboardAvoidingView style={styles.backgorund} behavior={Platform.OS === "ios" ? "padding" : "height"} keyboardVerticalOffset={Platform.OS === "ios" ? 60 : 0} >
 			<ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps="handled">
 				<View style={styles.containerBetween} >
-					<View style={styles.center} >
-						<Image source={require("../../../assets/img/4-removebg-preview.png")} style={login.img} />
-					</View>
+					<Image source={require("../../../assets/img/4-removebg-preview.png")} style={login.img} />
 					<View style={login.containerInputs} >
 						<Input placeholder="Login" value={inputLogin} onChangeText={setInputLogin} />
 						<Input placeholder="Senha" value={inputPassword} onChangeText={setInputPassword} secureTextEntry />
@@ -48,9 +44,7 @@ export default function Login() {
 const login = StyleSheet.create({
 	img: {
 		width: 200,
-		height: 200,
-		marginTop: 150,
-		marginBottom: -50
+		height: 200
 	},
 	containerInputs: {
 		alignSelf: "stretch",

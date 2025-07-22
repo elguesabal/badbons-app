@@ -1,5 +1,6 @@
+import axios from "axios";
 
-
+import API_URL from "../../Api.js";
 
 /**
  * @author VAMPETA
@@ -9,4 +10,33 @@
 */
 export function createArray(timesUnits) {
 	return (Object.entries(timesUnits).map(([unit, times], index) => ({ id: index + 1, unit, times })));
+}
+
+/**
+ * @author VAMPETA
+ * @brief FAZ UMA UMA REQUISICAO A API ENVIANDO OS DADOS DE CADASTRO E DIRECIONA PARA A TELA DE CONFIRMACAO DE MATRICULA SE A API RESPONDER COM STATUS 200
+ * @param navigation OBJETO QUE COM METODO COM METODOS DE NAVEGACAO ENTRE SCREENS
+ * @param setLoad FUNCAO QUE MUDA O STATUS DE LOAD
+ * @param setError FUNCAO QUE MUDA O STATUS DE ERROR
+ * @param name NOME RECEBIDO NO INPUT
+ * @param email EMAIL RECEBIDO NO INPUT
+ * @param password SENHA RECEBIDO NO INPUT
+ * @param cpf CPF RECEBIDO NO INPUT
+ * @param date DATA DE NASCIMENTO RECEBIDO NO INPUT
+ * @param phone NUMERO DE TELEFONE RECEBIDO NO INPUT
+ * @param times OBJETO COM HORARIOS E UNIDADES SELECIONADAS PELO CLIENTE
+*/
+export async function register(navigation, setLoad, setError, name, email, password, cpf, date, phone, times) {
+	navigation.setOptions({ headerShown: false });
+	setLoad(true);
+	setError("");
+	try {
+		const res = await axios.post(`${API_URL}/register`, { name: name, email: email, password: password, cpf: cpf, date: date, phone: phone, times: times });
+		if (res.status === 200) navigation.navigate("register6");
+	} catch (error) {
+		setError(error.message);
+	} finally {
+		setLoad(false);
+		navigation.setOptions({ headerShown: true });
+	}
 }

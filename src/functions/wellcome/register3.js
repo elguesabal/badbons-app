@@ -55,7 +55,7 @@ export async function trainingLocations(setSelected, setLocations, setLoad, setE
  * @author VAMPETA
  * @brief FUNCAO RESPONSAVEL POR VALIDAR INFORMACOES E PASSAR ELAS PARA A PROXIMA SCREEN
  * @param navigation OBJETO QUE COM METODO COM METODOS DE NAVEGACAO ENTRE SCREENS
- * @param nome NOME RECEBIDO NO INPUT
+ * @param name NOME RECEBIDO NO INPUT
  * @param email EMAIL RECEBIDO NO INPUT
  * @param password SENHA RECEBIDO NO INPUT
  * @param cpf CPF RECEBIDO NO INPUT
@@ -63,7 +63,7 @@ export async function trainingLocations(setSelected, setLocations, setLoad, setE
  * @param phone NUMERO DE TELEFONE RECEBIDO NO INPUT
  * @param selected ARRAY DE CHAVES DE UNIDADES MARCADAS COM TRUE OU FALSE (TRUE A UNIDADE FOI SELECIONADA E FALSE NAO)
 */
-export function validation(navigation, nome, email, password, cpf, date, phone, selected) {
+export function validation(navigation, name, email, password, cpf, date, phone, selected) {
 	const units = Object.keys(selected).filter((key) => selected[key]);
 
 	if (units.length === 0) {
@@ -71,7 +71,7 @@ export function validation(navigation, nome, email, password, cpf, date, phone, 
 		return ;
 	}
 	navigation.navigate("register4", {
-		inputNome: nome,
+		inputNome: name,
 		inputEmail: email,
 		inputPassword: password,
 		inputCpf: cpf,

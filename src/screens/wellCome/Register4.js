@@ -15,7 +15,7 @@ import styles from "../../styles/styles.js";
  * @brief TELA DE CADASTRO
 */
 export default function Register4({ navigation, route }) {
-	const { inputNome, inputEmail, inputPassword, inputCpf, inputDate, inputPhone, units } = route.params;
+	const { inputName, inputEmail, inputPassword, inputCpf, inputDate, inputPhone, units } = route.params;
 	const [load, setLoad] = useState(true);
 	const [error, setError] = useState("");
 	const [data, setData] = useState([]);
@@ -73,7 +73,7 @@ export default function Register4({ navigation, route }) {
 				/>
 			</View>
 			<View style={register4.containerButton} >
-				<Button text="Próximo" onPress={() => validation(navigation, inputNome, inputEmail, inputPassword, inputCpf, inputDate, inputPhone, selectedTimes)} />
+				<Button text="Próximo" onPress={() => validation(navigation, inputName, inputEmail, inputPassword, inputCpf, inputDate, inputPhone, selectedTimes)} />
 			</View>
 		</View>
 	);

@@ -98,7 +98,7 @@ export function buttonTime(setSelectedTimes, unit, timeItem) {
  * @author VAMPETA
  * @brief FAZ UMA VALIDACAO SE O CLIENTE SELECIONOU UM HORARIO E SE ELE ESCOLHEU O MESMO HORARIO EM UNIDADES DIFERENTES E ENVIA AS INFORMACOES PARA A PROXIMA SCREEN
  * @param navigation OBJETO QUE COM METODO COM METODOS DE NAVEGACAO ENTRE SCREENS
- * @param nome NOME RECEBIDO NO INPUT
+ * @param name NOME RECEBIDO NO INPUT
  * @param email EMAIL RECEBIDO NO INPUT
  * @param password SENHA RECEBIDO NO INPUT
  * @param cpf CPF RECEBIDO NO INPUT
@@ -106,7 +106,7 @@ export function buttonTime(setSelectedTimes, unit, timeItem) {
  * @param phone NUMERO DE TELEFONE RECEBIDO NO INPUT
  * @param selectedTimes OBJETO COM HORARIOS E UNIDADES SELECIONADAS PELO CLIENTE
 */
-export function validation(navigation, nome, email, password, cpf, date, phone, selectedTimes) {
+export function validation(navigation, name, email, password, cpf, date, phone, selectedTimes) {
 	if (Object.values(selectedTimes).every((arr) => { return (arr.length === 0) })) {
 		Alert.alert("Atenção", "Escolha ao mínimo um horário de treino!");
 		return ;
@@ -123,7 +123,7 @@ export function validation(navigation, nome, email, password, cpf, date, phone, 
 		}
 	}
 	navigation.navigate("register5", {
-		inputNome: nome,
+		inputNome: name,
 		inputEmail: email,
 		inputPassword: password,
 		inputCpf: cpf,
