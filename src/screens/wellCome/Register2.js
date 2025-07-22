@@ -45,8 +45,8 @@ const register2 = StyleSheet.create({
 		height: 200,
 	},
 	containerInputs: {
+		flex: 1,
 		alignSelf: "stretch",
-		alignItems: "center",
 		justifyContent: "center"
 	},
 	containerButton: {

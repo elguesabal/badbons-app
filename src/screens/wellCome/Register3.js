@@ -59,9 +59,9 @@ const register3 = StyleSheet.create({
 		marginRight: "10%"
 	},
 	containerGroups: {
+		flex: 1,
 		alignSelf: "stretch",
 		justifyContent: "center",
-		marginVertical: 20
 	},
 	groupTrainingLocations: {
 		flexDirection: "row",

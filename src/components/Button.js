@@ -7,9 +7,9 @@ import { StyleSheet, TouchableOpacity, Text } from "react-native";
  * @param style ESTILIZACAO EXTRA Q PODE SER APLICADA A TouchableOpacity
  * @param onPress ESPERA UMA FUNCAO PARA SER REPASSADA PARA TouchableOpacity
 */
-export default function Button({ text, style, onPress }) {
+export default function Button({ text, style, onPress, activeOpacity = 0.7 }) {
 	return (
-		<TouchableOpacity style={[button.container, style]} onPress={onPress}>
+		<TouchableOpacity style={[button.container, style]} onPress={onPress} activeOpacity={activeOpacity}>
 			<Text style={button.text}>{text}</Text>
 		</TouchableOpacity>
 	);

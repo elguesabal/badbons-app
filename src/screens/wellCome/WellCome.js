@@ -6,6 +6,7 @@ import Register1 from "./Register1.js";
 import Register2 from "./Register2.js";
 import Register3 from "./Register3.js";
 import Register4 from "./Register4.js";
+import Register5 from "./Register5.js";
 
 import HeaderStack from "../../components/HeaderStack.js";
 
@@ -24,6 +25,7 @@ export default function Wellcome() {
 			<Stack.Screen name="register2" component={Register2} options={{ title: "Cadastrar" }} />
 			<Stack.Screen name="register3" component={Register3} options={{ title: "Cadastrar" }} />
 			<Stack.Screen name="register4" component={Register4} options={{ title: "Cadastrar" }} />
+			<Stack.Screen name="register5" component={Register5} options={{ title: "Cadastrar" }} />
 		</Stack.Navigator>
 	);
 }

@@ -14,7 +14,7 @@ import styles from "../../styles/styles.js";
  * @author VAMPETA
  * @brief TELA DE CADASTRO
 */
-export default function Register4({ route }) {
+export default function Register4({ navigation, route }) {
 	const { inputNome, inputEmail, inputPassword, inputCpf, inputDate, inputPhone, units } = route.params;
 	const [load, setLoad] = useState(true);
 	const [error, setError] = useState("");
@@ -73,7 +73,7 @@ export default function Register4({ route }) {
 				/>
 			</View>
 			<View style={register4.containerButton} >
-				<Button text="Próximo" onPress={() => validation(selectedTimes)} />
+				<Button text="Próximo" onPress={() => validation(navigation, inputNome, inputEmail, inputPassword, inputCpf, inputDate, inputPhone, selectedTimes)} />
 			</View>
 		</View>
 	);
@@ -85,7 +85,7 @@ const register4 = StyleSheet.create({
 		height: 200
 	},
 	containerFlatListUnit: {
-		height: 300
+		flex: 1
 	},
 	elementFlatListUnit: {
 		justifyContent: "space-around",
@@ -135,32 +135,3 @@ const register4 = StyleSheet.create({
 		marginRight: "10%"
 	},
 });
-
-
-
-		// EXEMPLO DE USO DE FlatList
-
-// import { View, Text, FlatList } from 'react-native';
-
-// export default function Register4() {
-// 	const dados = [];
-
-// 	for (let i = 0; i <= 20; i++) {
-// 		dados.push({ id: i, nome: `item ${i}` });
-// 	}
-
-// 	return (
-// 		<FlatList data={dados} horizontal={true} keyExtractor={(item) => item.id} contentContainerStyle={{ justifyContent: "center", alignItems: "center" }}
-// 			renderItem={({ item }) => (
-// 				<View style={{ backgroundColor: "red", justifyContent: "center", alignItems: "center", marginHorizontal: 10, width: 200, height: 200 }}>
-// 					<Text>{item.nome}</Text>
-// 				</View>
-// 			)}
-// 		/>
-// 	);
-// }
-
-
-
-
-// PENSEI EM CRIAR OS BOTOES DE DIAS DA SEMANA DISPONIVEIS E ELES SEREM CLICADOS E LEVAREM O CLIENTE ATE OS HORARIOS DAQUELE DIA

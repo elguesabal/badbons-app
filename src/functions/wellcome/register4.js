@@ -1,3 +1,4 @@
+import { Alert } from "react-native";
 import axios from "axios";
 
 import API_URL from "../../Api.js";
@@ -95,14 +96,39 @@ export function buttonTime(setSelectedTimes, unit, timeItem) {
 
 /**
  * @author VAMPETA
- * @brief 
- * @param 
+ * @brief FAZ UMA VALIDACAO SE O CLIENTE SELECIONOU UM HORARIO E SE ELE ESCOLHEU O MESMO HORARIO EM UNIDADES DIFERENTES E ENVIA AS INFORMACOES PARA A PROXIMA SCREEN
+ * @param navigation OBJETO QUE COM METODO COM METODOS DE NAVEGACAO ENTRE SCREENS
+ * @param nome NOME RECEBIDO NO INPUT
+ * @param email EMAIL RECEBIDO NO INPUT
+ * @param password SENHA RECEBIDO NO INPUT
+ * @param cpf CPF RECEBIDO NO INPUT
+ * @param date DATA DE NASCIMENTO RECEBIDO NO INPUT
+ * @param phone NUMERO DE TELEFONE RECEBIDO NO INPUT
+ * @param selectedTimes OBJETO COM HORARIOS E UNIDADES SELECIONADAS PELO CLIENTE
 */
-export function validation(selectedTimes) {
-	console.log(selectedTimes);
-	// PAREI AKI
-	// VERIFICAR SE O USUARIO SELECIONOU UMA UNIDADE
-	// REMOVER AS UNIDADES Q ELE NAO ESCOLHEU NENHUM HORARIO
-	// ENVIAR PARA A PROXIMA SCREEN APEMAS AS UNIDADES E HORARIOS SELECIONADOS
-	// CRIAR UM AVISO Q FOI SELECIONADO DIA E HORARIO IGUAL EM UNIDADES DIFERENTES? 
+export function validation(navigation, nome, email, password, cpf, date, phone, selectedTimes) {
+	if (Object.values(selectedTimes).every((arr) => { return (arr.length === 0) })) {
+		Alert.alert("Atenção", "Escolha ao mínimo um horário de treino!");
+		return ;
+	}
+	const auxObj = new Set();
+	for (const [unit, timeUnit] of Object.entries(selectedTimes)) {
+		for (const time of timeUnit) {
+			const auxStr = `${time.day}|${time.start}|${time.end}`;
+			if (auxObj.has(auxStr)) {
+				Alert.alert("Atenção", `Não é possível selecionar o mesmo dia e horário em múltiplas unidades!\n\n${time.day}, ${time.start} - ${time.end}`);
+				return ;
+			}
+			auxObj.add(auxStr);
+		}
+	}
+	navigation.navigate("register5", {
+		inputNome: nome,
+		inputEmail: email,
+		inputPassword: password,
+		inputCpf: cpf,
+		inputDate: date,
+		inputPhone: phone,
+		times: Object.fromEntries(Object.entries(selectedTimes).filter(([_, arr]) => { return (arr.length > 0) }))
+	});
 }
