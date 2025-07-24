@@ -28,9 +28,9 @@ export default function Load() {
 
 	return (
 		<View style={styles.containerCenter} >
-			<Image style={load.logo} source={require("../../../assets/img/logo badbons.png")} />
+			<Image style={load.logo} source={require("../../../assets/img/logo-badbons.png")} />
 			<Animated.View style={{ transform: [{ rotate }] }}>
-				<Image style={load.load} source={require("../../../assets/img/loading badbons.png")} />
+				<Image style={load.load} source={require("../../../assets/img/shuttlecock-load.png")} />
 			</Animated.View>
 		</View>
 	);

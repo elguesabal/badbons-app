@@ -1,5 +1,5 @@
 import { StyleSheet, Platform, StatusBar, View, TouchableOpacity, Text, Image } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
 
 const statusBarHeight = Platform.OS == "android" ? StatusBar.currentHeight : 0;
 
@@ -15,10 +15,10 @@ export default function HeaderStack({ navigation, options }) {
 		<View style={headerStack.conteiner}>
 			<View style={headerStack.header}>
 				<TouchableOpacity style={headerStack.button} onPress={() => navigation.goBack()}>
-					<Ionicons name="arrow-back" size={24} color="black" />
+					<MaterialIcons name="arrow-back" size={24} color="black" />
 				</TouchableOpacity>
 				<Text style={headerStack.titleHeader}>{options.title}</Text>
-				<Image source={require("../../assets/img/logo badbons.png")} style={headerStack.img} />
+				<Image source={require("../../assets/img/logo-badbons.png")} style={headerStack.img} />
 			</View>
 		</View>
 	);

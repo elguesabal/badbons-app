@@ -1,12 +1,11 @@
 {
   "expo": {
-    "name": "badbons-app",
-    "slug": "badbons-app",
+    "name": "Badbons",
+    "slug": "badbons",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "newArchEnabled": true,
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
@@ -16,6 +15,7 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "com.badbons.app",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
@@ -24,6 +24,11 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "888f18a2-95d8-443d-bf7d-11a5bb2bab2e"
+      }
     }
   }
 }

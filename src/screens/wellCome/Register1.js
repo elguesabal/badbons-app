@@ -21,7 +21,7 @@ export default function Register1({ navigation }) {
 		<KeyboardAvoidingView style={styles.backgorund} behavior={Platform.OS === "ios" ? "padding" : "height"} keyboardVerticalOffset={Platform.OS === "ios" ? 60 : 0} >
 			<ScrollView contentContainerStyle={{ flexGrow: 1}} keyboardShouldPersistTaps="handled">
 				<View style={styles.containerBetween} >
-					<Image style={register1.img} source={require("../../../assets/img/4-removebg-preview.png")} />
+					<Image style={register1.img} source={require("../../../assets/img/athlete2.png")} />
 					<View style={register1.containerInputs} >
 						<Input placeholder="Nome" value={inputName} onChangeText={setInputNome} />
 						<Input placeholder="Email" value={inputEmail} onChangeText={setInputEmail} />

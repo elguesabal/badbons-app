@@ -22,7 +22,7 @@ export default function Cadastrar2({ navigation, route }) {
 		<KeyboardAvoidingView style={styles.backgorund} behavior={Platform.OS === "ios" ? "padding" : "height"} keyboardVerticalOffset={Platform.OS === "ios" ? 60 : 0} >
 			<ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps="handled">
 				<View style={styles.containerBetween} >
-					<Image style={register2.img} source={require("../../../assets/img/Design_sem_nome__1_-removebg-preview.png")} />
+					<Image style={register2.img} source={require("../../../assets/img/athlete1.png")} />
 					<View style={register2.containerInputs} >
 						<Input placeholder="CPF" value={inputCpf} onChangeText={setInputCpf} />
 						<Input placeholder="Data de nascimento" value={inputDate} onChangeText={setInputDate} />

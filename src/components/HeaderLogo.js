@@ -9,7 +9,7 @@ const statusBarHeight = Platform.OS == "android" ? StatusBar.currentHeight : 0;
 export default function HeaderLogo() {
     return (
         <View style={headerLogo.container} >
-            <Image source={require("../../assets/img/logo badbons.png")} style={headerLogo.img} />
+            <Image source={require("../../assets/img/logo-badbons.png")} style={headerLogo.img} />
         </View>
     );
 }

@@ -25,7 +25,7 @@ export default function Register5({ navigation, route }) {
 	return (
 		<View style={styles.containerBetween} >
 			<View style={styles.center} >
-				<Image style={register5.img} source={require("../../../assets/img/4-removebg-preview.png")} />
+				<Image style={register5.img} source={require("../../../assets/img/athlete2.png")} />
 				<Text style={styles.title} >Confirme Seu Plano</Text>
 			</View>
 			<View style={register5.containerUnits} >

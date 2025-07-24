@@ -29,7 +29,7 @@ export default function Register3({ navigation, route }) {
 	return (
 		<View style={styles.containerBetween} >
 			<View style={styles.center} >
-				<Image style={register3.img} source={require("../../../assets/img/4-removebg-preview.png")} />
+				<Image style={register3.img} source={require("../../../assets/img/athlete2.png")} />
 				<Text style={styles.title} >Qual Unidade de Preferencia?</Text>
 			</View>
 			<View style={register3.containerGroups} >

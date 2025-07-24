@@ -27,7 +27,7 @@ export default function Login({ navigation }) {
 		<KeyboardAvoidingView style={styles.backgorund} behavior={Platform.OS === "ios" ? "padding" : "height"} keyboardVerticalOffset={Platform.OS === "ios" ? 60 : 0} >
 			<ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps="handled">
 				<View style={styles.containerBetween} >
-					<Image source={require("../../../assets/img/4-removebg-preview.png")} style={login.img} />
+					<Image source={require("../../../assets/img/athlete2.png")} style={login.img} />
 					<View style={login.containerInputs} >
 						<Input placeholder="Login" value={inputLogin} onChangeText={setInputLogin} />
 						<Input placeholder="Senha" value={inputPassword} onChangeText={setInputPassword} secureTextEntry />

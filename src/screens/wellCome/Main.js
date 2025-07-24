@@ -25,7 +25,7 @@ export default function Main({ navigation }) {
 
 	return (
 		<View style={styles.containerCenter} >
-			<Image source={require("../../../assets/img/Design_sem_nome__1_-removebg-preview.png")} style={main.img} />
+			<Image source={require("../../../assets/img/athlete1.png")} style={main.img} />
 			<Text style={styles.title}>Olá</Text>
 			<Text style={styles.text}>Bem-Vindo ao Seu App de Treinamento</Text>
 			<View>

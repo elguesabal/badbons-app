@@ -1,6 +1,6 @@
 import { StyleSheet, View, Image, Text, FlatList, TouchableOpacity } from "react-native";
 import { useState, useRef, useEffect } from "react";
-import { Ionicons } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 
 import Load from "../load/Load.js";
 import Error from "../error/Error.js";
@@ -32,7 +32,7 @@ export default function Register4({ navigation, route }) {
 	return (
 		<View style={styles.containerBetween} >
 			<View style={styles.center} >
-				<Image style={register4.img} source={require("../../../assets/img/Design_sem_nome__1_-removebg-preview.png")} />
+				<Image style={register4.img} source={require("../../../assets/img/athlete1.png")} />
 				<Text style={styles.title} >Escolha Sua Frequencia de Treinamento por Semana</Text>
 			</View>
 			<View style={register4.containerFlatListUnit} >
@@ -43,7 +43,7 @@ export default function Register4({ navigation, route }) {
 								<View style={register4.containerIcon} >
 									{(classItem.id > 1) ? (
 										<TouchableOpacity style={register4.bottomIcon} onPress={() => scrollToIndex(flatListRef, classItem.id - 1)}>
-											<Ionicons name="arrow-back" size={30} color="white" />
+											<MaterialIcons name="arrow-back" size={30} color="white" />
 										</TouchableOpacity>
 									) : (null)}
 								</View>
@@ -54,7 +54,7 @@ export default function Register4({ navigation, route }) {
 								<View style={register4.containerIcon} >
 									{(classItem.id < data.length) ? (
 										<TouchableOpacity style={register4.bottomIcon} onPress={() => scrollToIndex(flatListRef, classItem.id + 1)}>
-											<Ionicons name="arrow-forward" size={30} color="white" />
+											<MaterialIcons name="arrow-forward" size={30} color="white" />
 										</TouchableOpacity>
 									) : (null)}
 								</View>
