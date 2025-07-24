@@ -1,4 +1,5 @@
 import { View, Text } from "react-native";
+import { MaterialIcons } from "@expo/vector-icons";
 
 /**
  * @author VAMPETA
@@ -7,7 +8,8 @@ import { View, Text } from "react-native";
 export default function Home() {
 	return (
 		<View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-			<Text style={{ color: "black" }} >HOME</Text>
+			<MaterialIcons name="home" size={70} color="white" />
+			<Text style={{ color: "white" }} >HOME</Text>
 		</View>
 	);
 }
