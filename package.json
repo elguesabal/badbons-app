@@ -26,7 +26,10 @@
     "react-native-reanimated": "~3.17.4",
     "react-native-safe-area-context": "5.4.0",
     "react-native-web": "^0.20.0",
-    "@expo/config-plugins": "10.1.1"
+    "@expo/config-plugins": "10.1.1",
+    "react-native-screens": "~4.11.1",
+    "expo-navigation-bar": "~4.2.7",
+    "expo-secure-store": "~14.2.3"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

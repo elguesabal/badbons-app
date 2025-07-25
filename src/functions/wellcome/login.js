@@ -1,5 +1,6 @@
 import { Alert } from "react-native";
 import axios from "axios";
+import * as SecureStore from "expo-secure-store";
 
 import API_URL from "../../Api.js";
 
@@ -29,7 +30,11 @@ function validation(login, password) {
 async function requestLogin(login, password, navigation, setLoad, setError) {
 	try {
 		const res = await axios.post(`${API_URL}/login`, { login: login, password: password });
-		if (res.status === 200) navigation.navigate("Home");
+		if (res.status === 200) {
+			await SecureStore.setItemAsync("login", login);
+			await SecureStore.setItemAsync("password", password);
+			navigation.navigate("Home");
+		};
 	} catch (error) {
 		if (error.response && error.response.status === 401) {
 			Alert.alert("Login", "Login ou senha errada!");
