@@ -20,7 +20,7 @@ function validation(login, password) {
 
 /**
  * @author VAMPETA
- * @brief FUNCAO QUE CONTROLA O HEADER, TELA DE LOAD E ERRO FAZENDO REQUISICAO NA API
+ * @brief FUNCAO QUE CONTROLA O HEADER, TELA DE LOAD E ERRO FAZENDO REQUISICAO NA API, ALEM DE SALVAR OS DADOS CASO O USUARIO EXISTA
  * @param setLoad FUNCAO QUE MUDA O STATUS DE LOAD
  * @param setError FUNCAO QUE MUDA O STATUS DE ERROR
  * @param navigation OBJETO QUE COM METODO COM METODOS DE NAVEGACAO ENTRE SCREENS
@@ -33,8 +33,13 @@ async function requestLogin(login, password, navigation, setLoad, setError) {
 		if (res.status === 200) {
 			await SecureStore.setItemAsync("login", login);
 			await SecureStore.setItemAsync("password", password);
-			navigation.navigate("Home");
-		};
+			navigation.reset({
+				index: 0,
+				routes: [
+					{ name: "Home" }
+				]
+			});
+		}
 	} catch (error) {
 		if (error.response && error.response.status === 401) {
 			Alert.alert("Login", "Login ou senha errada!");

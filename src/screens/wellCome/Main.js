@@ -5,7 +5,7 @@ import Load from "../load/Load.js";
 import Error from "../error/Error.js";
 import Button from "../../components/Button.js";
 
-import { ping } from "../../functions/wellcome/main.js";
+import { apiConnection } from "../../functions/wellcome/main.js";
 
 import styles from "../../styles/styles.js";
 
@@ -18,7 +18,7 @@ export default function Main({ navigation }) {
 	const [load, setLoad] = useState(true);
 	const [error, setError] = useState(false);
 
-	useEffect(() => { ping(setLoad, setError) }, []);
+	useEffect(() => { apiConnection(navigation, setLoad, setError) }, []);
 
 	if (error) return (<Error error={error} />);
 	if (load) return (<Load />);

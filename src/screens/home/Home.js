@@ -14,9 +14,9 @@ export default function Home() {
 			const login = await SecureStore.getItemAsync("login");
 			const password = await SecureStore.getItemAsync("password");
 
-			console.log("teste:");
-			console.log(login);
-			console.log(password);
+			// console.log("teste:");
+			// console.log(login);
+			// console.log(password);
 		}
 		teste()
 	}, []);
