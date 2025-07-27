@@ -1,24 +1,20 @@
 import { View, Text } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useEffect } from "react";
-import * as SecureStore from "expo-secure-store";
+
+import { useCancelBackButton } from "../../functions/auxiliary-functions.js";
 
 /**
  * @author VAMPETA
  * @brief TELA HOME
 */
-export default function Home() {
+export default function Home({ navigation }) {
+
+	// useCancelBackButton(navigation);
 
 	useEffect(() => {
-		async function teste() {
-			const login = await SecureStore.getItemAsync("login");
-			const password = await SecureStore.getItemAsync("password");
-
-			// console.log("teste:");
-			// console.log(login);
-			// console.log(password);
-		}
-		teste()
+	// 	navigation.reset();
+		console.log(JSON.stringify(navigation.getState(), null, 2))
 	}, []);
 
 	return (

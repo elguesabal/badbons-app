@@ -9,23 +9,13 @@ import { MaterialIcons } from "@expo/vector-icons";
 import Wellcome from "./src/screens/wellcome/Wellcome.js";
 import Home from "./src/screens/home/Home.js";
 
+// import { navigationRef } from "./src/functions/navigation.js";
+
 import styles from "./src/styles/styles.js";
 
 enableScreens();
 const Tab = createBottomTabNavigator();
 
-const MyTheme = {
-	...DefaultTheme,
-	colors: {
-		...DefaultTheme.colors,
-		background: "transparent",
-		card: "transparent",
-		text: "white",
-		border: "transparent",
-		notification: "transparent",
-		primary: "white",
-	}
-};
 
 /**
  * @author VAMPETA
@@ -41,10 +31,11 @@ export default function App() {
 	return (
 		<>
 			<StatusBar barStyle="light-content" backgroundColor="transparent" translucent={true} />
-			<NavigationContainer theme={MyTheme}>
+			{/* <NavigationContainer theme={MyTheme} ref={navigationRef}> */}
+			<NavigationContainer theme={MyTheme} >
 				<ImageBackground source={require("./assets/img/background.png")} style={styles.backgorund} >
 					<Tab.Navigator screenOptions={{ headerShown: false,  tabBarStyle: { backgroundColor: "transparent", elevation: 0 } }} >
-						<Tab.Screen name="WellCome" component={Wellcome} options={{ tabBarStyle: { display: "none" }, tabBarButton: () => null }} />
+						<Tab.Screen name="Wellcome" component={Wellcome} options={{ tabBarStyle: { display: "none" }, tabBarButton: () => null }} />
 						<Tab.Screen name="Home" component={Home} options={{ tabBarIcon: ({ color, size }) => (<MaterialIcons name="home" color={color} size={size} />) }} />
 					</Tab.Navigator>
 				</ImageBackground>
@@ -52,3 +43,16 @@ export default function App() {
 		</>
 	);
 }
+
+const MyTheme = {
+	...DefaultTheme,
+	colors: {
+		...DefaultTheme.colors,
+		background: "transparent",
+		card: "transparent",
+		text: "white",
+		border: "transparent",
+		notification: "transparent",
+		primary: "white",
+	}
+};
