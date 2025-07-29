@@ -2,7 +2,7 @@ import { View, Text } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useEffect } from "react";
 
-import { useCancelBackButton } from "../../functions/auxiliary-functions.js";
+// import { useCancelBackButton } from "../../functions/auxiliary-functions.js";
 
 /**
  * @author VAMPETA
@@ -14,7 +14,7 @@ export default function Home({ navigation }) {
 
 	useEffect(() => {
 	// 	navigation.reset();
-		console.log(JSON.stringify(navigation.getState(), null, 2))
+		// console.log(JSON.stringify(navigation.getState(), null, 2))
 	}, []);
 
 	return (

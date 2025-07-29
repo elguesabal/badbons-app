@@ -62,24 +62,8 @@ async function login(navigation, setLoad) {
  * @param setError FUNCAO QUE MUDA O STATUS DE ERROR
 */
 export async function apiConnection(navigation, setLoad, setError) {
-SecureStore.deleteItemAsync("login");
-SecureStore.deleteItemAsync("password");
-
 	const isOnline = await ping(setError);
 
 	if (!isOnline) return ;
 	await login(navigation, setLoad);
 }
-
-
-
-								// PROXIMA COISA PRA FAZER
-
-// 			navigation.reset({
-// 				index: 0,
-// 				routes: [
-// 					{ name: "Home" }
-// 				]
-// 			});
-
-// nesse exemplo acima estou dentro de uma Stack.screen e quero fazer o reset indo para uma Tab.screen chamado "Home" porem ao usar o botao de voltar do android ele ainda mostra ter algum historico. eu estou fazendo algo de errado?

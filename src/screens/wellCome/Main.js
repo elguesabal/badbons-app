@@ -31,7 +31,7 @@ export default function Main({ navigation }) {
 			<View>
 				<Button text="Login" style={main.button} onPress={() => navigation.navigate("login")} />
 				<Button text="Cadastrar" style={main.button} onPress={() => navigation.navigate("register1")} />
-				<Button text="aaaaaaaaa" style={main.button} onPress={() => {navigation.navigate("Home")}} />
+				<Button text="Home" style={main.button} onPress={() => navigation.navigate("Home")} />
 			</View>
 		</View>
 	);
