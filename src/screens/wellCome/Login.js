@@ -6,6 +6,7 @@ import Error from "../error/Error.js";
 import Input from "../../components/Input.js";
 import Button from "../../components/Button.js";
 
+import { useLogin } from "../../app/isLogin.js";
 import { hundleLogin } from "../../functions/wellcome/login.js";
 
 import styles from "../../styles/styles.js";
@@ -19,6 +20,7 @@ export default function Login({ navigation }) {
 	const [error, setError] = useState("");
 	const [inputLogin, setInputLogin] = useState("");
 	const [inputPassword, setInputPassword] = useState("");
+	const { setIsLogin } = useLogin();
 
 	if (error) return (<Error error={error} />);
 	if (load) return (<Load />);
@@ -33,7 +35,7 @@ export default function Login({ navigation }) {
 						<Input placeholder="Senha" value={inputPassword} onChangeText={setInputPassword} secureTextEntry />
 					</View>
 					<View style={login.containerButton} >
-						<Button text="proximo" onPress={() => hundleLogin(inputLogin, inputPassword, navigation, setLoad, setError)} />
+						<Button text="proximo" onPress={() => hundleLogin(inputLogin, inputPassword, navigation, setLoad, setError, setIsLogin)} />
 					</View>
 				</View>
 			</ScrollView>

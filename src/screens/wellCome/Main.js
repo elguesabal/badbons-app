@@ -5,6 +5,7 @@ import Load from "../load/Load.js";
 import Error from "../error/Error.js";
 import Button from "../../components/Button.js";
 
+import { useLogin } from "../../app/isLogin.js";
 import { apiConnection } from "../../functions/wellcome/main.js";
 
 import styles from "../../styles/styles.js";
@@ -12,13 +13,13 @@ import styles from "../../styles/styles.js";
 /**
  * @author VAMPETA
  * @brief TELA PRINCIPAL COM AS OPCOES DE LOGIN E CADASTRO
- * @param navigation OBJETO DE NAVEGACAO DE TELA DO COMPONENTE Stack
 */
 export default function Main({ navigation }) {
 	const [load, setLoad] = useState(true);
 	const [error, setError] = useState(false);
+	const { setIsLogin } = useLogin();
 
-	useEffect(() => { apiConnection(navigation, setLoad, setError) }, []);
+	useEffect(() => { apiConnection(setIsLogin, setLoad, setError) }, []);
 
 	if (error) return (<Error error={error} />);
 	if (load) return (<Load />);
@@ -31,7 +32,6 @@ export default function Main({ navigation }) {
 			<View>
 				<Button text="Login" style={main.button} onPress={() => navigation.navigate("login")} />
 				<Button text="Cadastrar" style={main.button} onPress={() => navigation.navigate("register1")} />
-				<Button text="Home" style={main.button} onPress={() => navigation.navigate("Home")} />
 			</View>
 		</View>
 	);

@@ -1,29 +1,21 @@
 import { View, Text } from "react-native";
 
-import Button from "../../components/Button.js";
+import { useLogin } from "../../app/isLogin.js";
+import { logout } from "../../functions/profile/profile.js";
 
-async function logout(navigation) {
-	console.log("aaaa")
-	await SecureStore.deleteItemAsync("password");
-	await SecureStore.deleteItemAsync("login");
-	navigation.reset({
-		index: 0,
-		routes: [
-			{ name: "Wellcome" }
-		]
-	});
-}
+import Button from "../../components/Button.js";
 
 /**
  * @author VAMPETA
  * @brief TELA DE PERFIL
 */
-export default function Profile({ navigation }) {
+export default function Profile() {
+	const { setIsLogin } = useLogin();
 
 	return (
 		<View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
 			<Text style={{ color: "white" }} >Perfil</Text>
-			<Button text="Sair" onPress={() => logout(navigation)} />
+			<Button text="Sair" onPress={() => logout(setIsLogin)} />
 		</View>
 	);
 }

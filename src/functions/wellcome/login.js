@@ -26,19 +26,15 @@ function validation(login, password) {
  * @param navigation OBJETO QUE COM METODO COM METODOS DE NAVEGACAO ENTRE SCREENS
  * @param setLoad FUNCAO QUE MUDA O STATUS DE LOAD
  * @param setError FUNCAO QUE MUDA O STATUS DE ERROR
+ * @param setIsLogin FUNCAO Q CONTROLA SE O USUARIO ESTA LOGADO OU NAO
 */
-async function requestLogin(login, password, navigation, setLoad, setError) {
+async function requestLogin(login, password, navigation, setLoad, setError, setIsLogin) {
 	try {
 		const res = await axios.post(`${API_URL}/login`, { login: login, password: password });
 		if (res.status === 200) {
 			await SecureStore.setItemAsync("login", login);
 			await SecureStore.setItemAsync("password", password);
-			navigation.reset({
-				index: 0,
-				routes: [
-					{ name: "Home" }
-				]
-			});
+			setIsLogin(true);
 		}
 	} catch (error) {
 		if (error.response && error.response.status === 401) {
@@ -60,11 +56,12 @@ async function requestLogin(login, password, navigation, setLoad, setError) {
  * @param navigation OBJETO QUE COM METODO COM METODOS DE NAVEGACAO ENTRE SCREENS
  * @param setLoad FUNCAO QUE MUDA O STATUS DE LOAD
  * @param setError FUNCAO QUE MUDA O STATUS DE ERROR
+ * @param setIsLogin FUNCAO Q CONTROLA SE O USUARIO ESTA LOGADO OU NAO
 */
-export async function hundleLogin(login, password, navigation, setLoad, setError) {
+export async function hundleLogin(login, password, navigation, setLoad, setError, setIsLogin) {
 	if (validation(login, password)) return ;
 	navigation.setOptions({ headerShown: false });
 	setLoad(true);
 	setError("");
-	requestLogin(login, password, navigation, setLoad, setError);
+	requestLogin(login, password, navigation, setLoad, setError, setIsLogin);
 }

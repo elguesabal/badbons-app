@@ -26,10 +26,10 @@ export async function ping(setError) {
 /**
  * @author VAMPETA
  * @brief FUNCAO QUE VERIFICA SE EXISTE UM LOGIN E SENHA SALVO E LOGA AUTOMATICAMENTE
- * @param navigation OBJETO QUE COM METODO COM METODOS DE NAVEGACAO ENTRE SCREENS
+ * @param setIsLogin FUNCAO DE CONTROLE DE LOGIN
  * @param setLoad FUNCAO QUE MUDA O STATUS DE LOAD
 */
-async function login(navigation, setLoad) {
+async function login(setIsLogin, setLoad) {
 	const login = await SecureStore.getItemAsync("login");
 	const password = await SecureStore.getItemAsync("password");
 
@@ -39,14 +39,7 @@ async function login(navigation, setLoad) {
 	}
 	try {
 		const res = await axios.post(`${API_URL}/login`, { login: login, password: password });
-		if (res.status === 200) {
-			navigation.reset({
-				index: 0,
-				routes: [
-					{ name: "Home" }
-				]
-			});
-		}
+		if (res.status === 200) setIsLogin(true);
 	} catch (error) {
 
 	} finally {
@@ -57,13 +50,13 @@ async function login(navigation, setLoad) {
 /**
  * @author VAMPETA
  * @brief FUNCAO QUE GERENCIA ping E login
- * @param navigation OBJETO QUE COM METODO COM METODOS DE NAVEGACAO ENTRE SCREENS
+ * @param setIsLogin FUNCAO DE CONTROLE DE LOGIN
  * @param setLoad FUNCAO QUE MUDA O STATUS DE LOAD
  * @param setError FUNCAO QUE MUDA O STATUS DE ERROR
 */
-export async function apiConnection(navigation, setLoad, setError) {
+export async function apiConnection(setIsLogin, setLoad, setError) {
 	const isOnline = await ping(setError);
 
 	if (!isOnline) return ;
-	await login(navigation, setLoad);
+	await login(setIsLogin, setLoad);
 }
