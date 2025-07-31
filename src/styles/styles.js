@@ -1,4 +1,7 @@
 import { StyleSheet } from "react-native";
+import { StatusBar, Platform } from 'react-native';
+
+const statusBarHeight = Platform.OS === 'android' ? StatusBar.currentHeight : 20;
 
 export default StyleSheet.create({
 	backgorund: {
@@ -12,7 +15,8 @@ export default StyleSheet.create({
 	containerStart: {
 		flex: 1,
 		alignItems: "center",
-		justifyContent: "flex-start"
+		justifyContent: "flex-start",
+		marginTop: statusBarHeight
 	},
 	containerBetween: {
 		flex: 1,

@@ -1,26 +1,27 @@
-import { View, Text } from "react-native";
-import { MaterialIcons } from "@expo/vector-icons";
-import { useEffect } from "react";
+import { StyleSheet, View, Text } from "react-native";
 
-// import { useCancelBackButton } from "../../functions/auxiliary-functions.js";
+import Days from "../../components/home/Days.js";
+import Scoreboard from "../../components/home/Scoreboard.js";
+// EXERCICIOS???
+import Events from "../../components/home/Events.js";
+
+import styles from "../../styles/styles.js";
 
 /**
  * @author VAMPETA
  * @brief TELA HOME
 */
-export default function Home({ navigation }) {
-
-	// useCancelBackButton(navigation);
-
-	useEffect(() => {
-	// 	navigation.reset();
-		// console.log(JSON.stringify(navigation.getState(), null, 2))
-	}, []);
-
+export default function Home() {
 	return (
-		<View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-			<MaterialIcons name="home" size={70} color="white" />
-			<Text style={{ color: "white" }} >HOME</Text>
+		<View style={styles.containerStart}>
+			<Days />
+			<Scoreboard />
+			{/* EXERCICIOS??? */}
+			<Events />
 		</View>
 	);
 }
+
+const home = StyleSheet.create({
+
+});
