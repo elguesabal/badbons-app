@@ -4,6 +4,7 @@ import Days from "../../components/home/Days.js";
 import Scoreboard from "../../components/home/Scoreboard.js";
 // EXERCICIOS???
 import Events from "../../components/home/Events.js";
+import Activities from "../../components/home/Activities.js";
 
 import styles from "../../styles/styles.js";
 
@@ -18,6 +19,7 @@ export default function Home() {
 			<Scoreboard />
 			{/* EXERCICIOS??? */}
 			<Events />
+			<Activities />
 		</View>
 	);
 }

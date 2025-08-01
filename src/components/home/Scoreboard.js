@@ -42,12 +42,13 @@ const scoreboard = StyleSheet.create({
 		flexDirection: "row",
 		alignSelf: "stretch",
 		justifyContent: "space-between",
+		alignItems: "center",
 		paddingVertical: 5,
-		paddingHorizontal: 10
+		paddingHorizontal: 15
 	},
 	title: {
 		color: "white",
-		fontSize: 20,
+		fontSize: 15,
 	},
 	containerScore: {
 		flex: 1,
