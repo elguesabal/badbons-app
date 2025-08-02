@@ -1,13 +1,12 @@
 import { StyleSheet, View, Text } from "react-native";
 
-
+/**
+ * @author VAMPETA
+ * @brief COMPONENTE DE ATIVIDADES RECENTES
+*/
 export default function Activities() {
-	const recentActivities = [
-		"Treinamento",
-		"Torneio Amigavel",
-		"Badbons Open",
-		"NDB Games"
-	];
+	const recentActivities = ["Treinamento", "Torneio Amigavel", "Badbons Open", "NDB Games"];
+
 	return (
 		<View style={activities.container} >
 			<Text style={activities.title} >Atividades Recentes</Text>
@@ -25,7 +24,7 @@ const activities = StyleSheet.create({
 	container: {
 		alignSelf: "stretch",
 		marginHorizontal: "10%",
-		marginTop: "10%",
+		marginTop: 35,
 	},
 	title: {
 		color: "white",

@@ -1,5 +1,6 @@
 import axios from "axios";
 import * as SecureStore from "expo-secure-store";
+import Constants from "expo-constants";
 
 import API_URL from "../../Api.js";
 
@@ -7,20 +8,27 @@ import API_URL from "../../Api.js";
  * @author VAMPETA
  * @brief FAZ UMA CONSULTA DE PING PARA A API PARA VER SE O SERVIDOR ESTA ACESSIVEL
  * @param setError FUNCAO QUE MUDA O STATUS DE ERROR
+ * @param setUpdate FUNCAO QUE MUDA O STATUS DE UPDATE
  * @return RETORNA TRUE SE A API ESTIVER ACESSIVEL E FALSE CASO NAO
 */
-export async function ping(setError) {
-	let ret;
+export async function ping(setError, setUpdate) {
+	const version = Constants.expoConfig?.version ?? "";
 
 	try {
 		const res = await axios.get(`${API_URL}/ping`);
-		if (res.status !== 200) setError("error");
-		ret = true;
+		if (res.status !== 200) {
+			setError("error");
+			return (false);
+		}
+		if (!res.data.versions.includes(version)) {
+			setUpdate(true);
+			return (false);
+		}
+		return (true);
 	} catch (error) {
 		setError(error.message);
-		ret = false;
+		return (false);
 	}
-	return (ret);
 }
 
 /**
@@ -53,9 +61,10 @@ async function login(setIsLogin, setLoad) {
  * @param setIsLogin FUNCAO DE CONTROLE DE LOGIN
  * @param setLoad FUNCAO QUE MUDA O STATUS DE LOAD
  * @param setError FUNCAO QUE MUDA O STATUS DE ERROR
+ * @param setUpdate FUNCAO QUE MUDA O STATUS DE UPDATE
 */
-export async function apiConnection(setIsLogin, setLoad, setError) {
-	const isOnline = await ping(setError);
+export async function apiConnection(setIsLogin, setLoad, setError, setUpdate) {
+	const isOnline = await ping(setError, setUpdate);
 
 	if (!isOnline) return ;
 	await login(setIsLogin, setLoad);

@@ -29,7 +29,8 @@
     "@expo/config-plugins": "10.1.1",
     "react-native-screens": "~4.11.1",
     "expo-navigation-bar": "~4.2.7",
-    "expo-secure-store": "~14.2.3"
+    "expo-secure-store": "~14.2.3",
+    "expo-constants": "~17.1.7"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

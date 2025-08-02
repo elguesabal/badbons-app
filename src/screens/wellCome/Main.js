@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 
 import Load from "../load/Load.js";
 import Error from "../error/Error.js";
+import Update from "../update/Update.js";
 import Button from "../../components/Button.js";
 
 import { useLogin } from "../../app/isLogin.js";
@@ -17,10 +18,12 @@ import styles from "../../styles/styles.js";
 export default function Main({ navigation }) {
 	const [load, setLoad] = useState(true);
 	const [error, setError] = useState(false);
+	const [update, setUpdate] = useState(false);
 	const { setIsLogin } = useLogin();
 
-	useEffect(() => { apiConnection(setIsLogin, setLoad, setError) }, []);
+	useEffect(() => { apiConnection(setIsLogin, setLoad, setError, setUpdate) }, []);
 
+	if (update) return (<Update />);
 	if (error) return (<Error error={error} />);
 	if (load) return (<Load />);
 

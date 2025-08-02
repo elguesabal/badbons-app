@@ -1,5 +1,4 @@
-import { StyleSheet } from "react-native";
-import { StatusBar, Platform } from 'react-native';
+import { StyleSheet, StatusBar, Platform  } from "react-native";
 
 const statusBarHeight = Platform.OS === 'android' ? StatusBar.currentHeight : 20;
 

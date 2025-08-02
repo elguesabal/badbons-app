@@ -5,36 +5,16 @@ import { StyleSheet, View, Text } from "react-native";
  * @brief COMPONENTE COM DIAS DE TREINO
 */
 export default function Days() {
+	const arrayDays = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sab", "Dom"];
+
 	return (
 		<View style={days.container} >
-			<View style={days.day} >
-				<Text style={days.text} >Seg</Text>
-				<Text style={days.text} >1</Text>
-			</View>
-			<View style={[days.day, { backgroundColor: "blue" }]} >
-				<Text style={days.text} >Ter</Text>
-				<Text style={days.text} >2</Text>
-			</View>
-			<View style={days.day} >
-				<Text style={days.text} >Qua</Text>
-				<Text style={days.text} >3</Text>
-			</View>
-			<View style={days.day} >
-				<Text style={days.text} >Qui</Text>
-				<Text style={days.text} >4</Text>
-			</View>
-			<View style={[days.day, { backgroundColor: "blue" }]} >
-				<Text style={days.text} >Sex</Text>
-				<Text style={days.text} >5</Text>
-			</View>
-			<View style={days.day} >
-				<Text style={days.text} >Sab</Text>
-				<Text style={days.text} >6</Text>
-			</View>
-			<View style={days.day} >
-				<Text style={days.text} >Dom</Text>
-				<Text style={days.text} >7</Text>
-			</View>
+			{arrayDays.map((day, i) => (
+				<View key={i} style={[days.day, { backgroundColor: (i == 1 || i == 4) ? "blue" : "grey" }]} >
+					<Text style={days.text} >{day}</Text>
+					<Text style={days.text} >{i + 1}</Text>
+				</View>
+			))}
 		</View>
 	);
 }
@@ -43,8 +23,7 @@ const days = StyleSheet.create({
 	container: {
 		flexDirection: "row",
 		alignSelf: "stretch",
-		justifyContent: "space-evenly",
-		marginTop: "5%"
+		justifyContent: "space-evenly"
 	},
 	day: {
 		backgroundColor: "grey",

@@ -3,7 +3,7 @@ import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 import { useEffect } from "react";
 import * as NavigationBar from "expo-navigation-bar";
 import { enableScreens } from "react-native-screens";
-import { StatusBar, ImageBackground } from "react-native";
+import { StyleSheet, StatusBar, ImageBackground } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 
 import { useLogin } from "./isLogin.js";
@@ -25,7 +25,7 @@ const Tab = createBottomTabNavigator();
 */
 function Sections() {
 	return (
-		<Tab.Navigator initialRouteName="Home" screenOptions={{ headerShown: false,  tabBarStyle: { backgroundColor: "transparent", elevation: 0 } }} >
+		<Tab.Navigator initialRouteName="Home" screenOptions={{ headerShown: false,  tabBarStyle: sections.tabBar }} >
 			<Tab.Screen name="Perfil" component={Profile} options={{ tabBarIcon: ({ color, size }) => (<MaterialIcons name="person" color={color} size={size} />) }} />
 			<Tab.Screen name="Treino" component={Training} options={{ tabBarIcon: ({ color, size }) => (<MaterialIcons name="fitness-center" color={color} size={size} />) }} />
 			<Tab.Screen name="Home" component={Home} options={{ tabBarIcon: ({ color, size }) => (<MaterialIcons name="home" color={color} size={size} />) }} />
@@ -56,6 +56,14 @@ export function MainApp() {
 		</NavigationContainer>
 	);
 }
+
+const sections = StyleSheet.create({
+	tabBar: {
+		// backgroundColor: "#193f66ff", "#2c6bae"
+		backgroundColor: "rgba(0, 0, 0, 0)",
+		elevation: 0
+	}
+});
 
 const MyTheme = {
 	...DefaultTheme,

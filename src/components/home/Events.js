@@ -8,6 +8,7 @@ import { StyleSheet, View, Text } from "react-native";
 */
 export default function Events() {
 	const cards = [0, 1, 2];
+
 	return (
 		<View style={events.container} >
 			<View style={events.containerTitle}>
@@ -25,9 +26,9 @@ const events = StyleSheet.create({
 	container: {
 		backgroundColor: "blue",
 		alignSelf: "stretch",
-		height: "30%",
+		height: 200,
 		marginHorizontal: "5%",
-		marginTop: "10%",
+		marginTop: 35,
 		borderRadius: 20
 	},
 	containerTitle: {
@@ -52,7 +53,7 @@ const events = StyleSheet.create({
 	card: {
 		backgroundColor: "grey",
 		height: "90%",
-		width: "25%",
+		width: "28%",
 		borderRadius: 10
 	}
 });

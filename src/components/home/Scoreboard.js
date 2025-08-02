@@ -33,9 +33,9 @@ const scoreboard = StyleSheet.create({
 	container: {
 		backgroundColor: "blue",
 		alignSelf: "stretch",
-		height: "20%",
+		height: 130,
 		marginHorizontal: "15%",
-		marginTop: "10%",
+		marginTop: 35,
 		borderRadius: 10
 	},
 	containerTitle: {
