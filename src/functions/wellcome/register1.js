@@ -9,14 +9,14 @@ import { Alert } from "react-native";
  * @param password SENHA RECEBIDO NO INPUT
 */
 export function validation(navigation, name, email, password) {
-	// if (!name || !email || !password) { // ATIVADO POR ENQUANTO PQ E MUITO CHATO TESTA COM ISSO ATIVO
-	// 	Alert.alert("Atenção", "Preencha todos os campos!");
-	// 	return ;
-	// }
-	// if (!/\S+@\S+\.\S+/.test(email)) { // ATIVADO POR ENQUANTO PQ E MUITO CHATO TESTA COM ISSO ATIVO
-	// 	Alert.alert("Atenção", "Email inválido!");
-	// 	return ;
-	// }
+	if (!name || !email || !password) {
+		Alert.alert("Atenção", "Preencha todos os campos!");
+		return ;
+	}
+	if (!/\S+@\S+\.\S+/.test(email)) {
+		Alert.alert("Atenção", "Email inválido!");
+		return ;
+	}
 	navigation.navigate("register2", {
 		inputNome: name,
 		inputEmail: email,

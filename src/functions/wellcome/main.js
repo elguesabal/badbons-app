@@ -38,15 +38,14 @@ export async function ping(setError, setUpdate) {
  * @param setLoad FUNCAO QUE MUDA O STATUS DE LOAD
 */
 async function login(setIsLogin, setLoad) {
-	const login = await SecureStore.getItemAsync("login");
-	const password = await SecureStore.getItemAsync("password");
+	const token = await SecureStore.getItemAsync("token");
 
-	if (!login || !password) {
+	if (!token) {
 		setLoad(false);
 		return ;
 	}
 	try {
-		const res = await axios.post(`${API_URL}/login`, { login: login, password: password });
+		const res = await axios.post(`${API_URL}/login-token`, { token: token });
 		if (res.status === 200) setIsLogin(true);
 	} catch (error) {
 

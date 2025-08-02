@@ -12,14 +12,14 @@ import { Alert } from "react-native";
  * @param phone NUMERO DE TELEFONE RECEBIDO NO INPUT
 */
 export function validation(navigation, name, email, password, cpf, date, phone) {
-	// if (!cpf || !date || !phone) { // ATIVADO POR ENQUANTO PQ E MUITO CHATO TESTA COM ISSO ATIVO
-	// 	Alert.alert("Atenção", "Preencha todos os campos!");
-	// 	return ;
-	// }
-	// if (!/^\d{11}$/.test(cpf)) { // ATIVADO POR ENQUANTO PQ E MUITO CHATO TESTA COM ISSO ATIVO
-	// 	Alert.alert("Atenção", "CPF inválido");
-	// 	return ;
-	// }
+	if (!cpf || !date || !phone) {
+		Alert.alert("Atenção", "Preencha todos os campos!");
+		return ;
+	}
+	if (!/^\d{11}$/.test(cpf)) {
+		Alert.alert("Atenção", "CPF inválido");
+		return ;
+	}
 	navigation.navigate("register3", {
 		inputNome: name,
 		inputEmail: email,

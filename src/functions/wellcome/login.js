@@ -32,8 +32,7 @@ async function requestLogin(login, password, navigation, setLoad, setError, setI
 	try {
 		const res = await axios.post(`${API_URL}/login`, { login: login, password: password });
 		if (res.status === 200) {
-			await SecureStore.setItemAsync("login", login);
-			await SecureStore.setItemAsync("password", password);
+			await SecureStore.setItemAsync("token", res.data.token);
 			setIsLogin(true);
 		}
 	} catch (error) {

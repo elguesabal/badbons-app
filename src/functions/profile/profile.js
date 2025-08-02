@@ -6,7 +6,6 @@ import * as SecureStore from "expo-secure-store";
  * @param setIsLogin FUNCAO DE CONTROLE DE LOGIN
 */
 export async function logout(setIsLogin) {
-	await SecureStore.deleteItemAsync("login");
-	await SecureStore.deleteItemAsync("password");
+	await SecureStore.deleteItemAsync("token");
 	setIsLogin(false);
 }
