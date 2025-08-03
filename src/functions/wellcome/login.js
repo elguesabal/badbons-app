@@ -1,6 +1,7 @@
 import { Alert } from "react-native";
 import axios from "axios";
 import * as SecureStore from "expo-secure-store";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import API_URL from "../../Api.js";
 
@@ -33,6 +34,14 @@ async function requestLogin(login, password, navigation, setLoad, setError, setI
 		const res = await axios.post(`${API_URL}/login`, { login: login, password: password });
 		if (res.status === 200) {
 			await SecureStore.setItemAsync("token", res.data.token);
+			await AsyncStorage.setItem("photo", res.data.photo);
+			await AsyncStorage.setItem("name", res.data.name);
+			await AsyncStorage.setItem("email", res.data.email);
+			await SecureStore.setItemAsync("cpf", res.data.cpf);
+			await SecureStore.setItemAsync("date", res.data.date);
+			await SecureStore.setItemAsync("phone", res.data.phone);
+			// await SecureStore.setItemAsync("units", res.data.units);
+			// await SecureStore.setItemAsync("times", res.data.times);
 			setIsLogin(true);
 		}
 	} catch (error) {

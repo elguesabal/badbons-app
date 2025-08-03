@@ -30,6 +30,6 @@ const home = StyleSheet.create({
 	scroll: {
 		flex: 1,
 		marginTop: statusBarHeight,
-		paddingTop: 30,
+		paddingTop: 30
 	}
 });
