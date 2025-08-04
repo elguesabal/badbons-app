@@ -5,7 +5,7 @@ import { MaterialIcons } from "@expo/vector-icons";
  * @author VAMPETA
  * @brief COMPONENTE COM FOTO DE PERFIL DO USUARIO
 */
-export default function Photo({ urlPhoto, name }) {
+export default function Photo({ urlPhoto, name, units }) {
 	return (
 		<View style={photo.container} >
 			<View style={photo.background} ></View>
@@ -21,7 +21,7 @@ export default function Photo({ urlPhoto, name }) {
 				</TouchableOpacity>
 			</View>
 			<Text style={photo.student} >{name}</Text>
-			<Text style={photo.units} >Unidade</Text>
+			<Text style={photo.units} >{units?.join(", ")}</Text>
 		</View>
 	);
 }
@@ -77,7 +77,7 @@ const photo = StyleSheet.create({
 		textAlign: "center",
 		color: "white",
 		fontSize: 20,
-		marginTop: 20
+		marginTop: 15
 	},
 	units: {
 		textAlign: "center",

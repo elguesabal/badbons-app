@@ -7,20 +7,14 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
  * @param setCredentials DEFINE O VALOR DA VARIAVEL credentials
 */
 export async function getCredentials(setCredentials) {
-	const photo = await AsyncStorage.getItem("photo");
-	const name = await AsyncStorage.getItem("name");
-	const email = await AsyncStorage.getItem("email");
-	const cpf = await SecureStore.getItemAsync("cpf");
-	const date = await SecureStore.getItemAsync("date");
-	const phone = await SecureStore.getItemAsync("phone");
-
 	setCredentials({
-		photo: photo,
-		name: name,
-		email: email,
-		cpf: cpf,
-		date: date,
-		phone: phone
+		photo: await AsyncStorage.getItem("photo"),
+		name: await AsyncStorage.getItem("name"),
+		email: await AsyncStorage.getItem("email"),
+		cpf: await SecureStore.getItemAsync("cpf"),
+		date: await SecureStore.getItemAsync("date"),
+		phone: await SecureStore.getItemAsync("phone"),
+		units: JSON.parse(await AsyncStorage.getItem("units"))
 	});
 }
 
@@ -31,5 +25,14 @@ export async function getCredentials(setCredentials) {
 */
 export async function logout(setIsLogin) {
 	await SecureStore.deleteItemAsync("token");
+	await SecureStore.deleteItemAsync("token");
+	await AsyncStorage.removeItem("photo");
+	await AsyncStorage.removeItem("name");
+	await AsyncStorage.removeItem("email");
+	await SecureStore.deleteItemAsync("cpf");
+	await SecureStore.deleteItemAsync("date");
+	await SecureStore.deleteItemAsync("phone");
+	await AsyncStorage.removeItem("units");
+	// await AsyncStorage.removeItem("times");
 	setIsLogin(false);
 }
