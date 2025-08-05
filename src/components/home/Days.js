@@ -4,11 +4,11 @@ import { StyleSheet, View, Text } from "react-native";
  * @author VAMPETA
  * @brief COMPONENTE COM DIAS DE TREINO
 */
-export default function Days() {
+export default function Days({ style }) {
 	const arrayDays = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sab", "Dom"];
 
 	return (
-		<View style={days.container} >
+		<View style={[days.container, style]} >
 			{arrayDays.map((day, i) => (
 				<View key={i} style={[days.day, { backgroundColor: (i == 1 || i == 4) ? "blue" : "grey" }]} >
 					<Text style={days.text} >{day}</Text>
@@ -22,7 +22,6 @@ export default function Days() {
 const days = StyleSheet.create({
 	container: {
 		flexDirection: "row",
-		alignSelf: "stretch",
 		justifyContent: "space-evenly"
 	},
 	day: {

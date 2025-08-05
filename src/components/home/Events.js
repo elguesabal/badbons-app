@@ -6,11 +6,11 @@ import { StyleSheet, View, Text } from "react-native";
  * @author VAMPETA
  * @brief COMPONENTE DE EVENTOS
 */
-export default function Events() {
+export default function Events({ style }) {
 	const cards = [0, 1, 2];
 
 	return (
-		<View style={events.container} >
+		<View style={[events.container, style]} >
 			<View style={events.containerTitle}>
 				<Text style={events.title} >NDB Games</Text>
 				<Text style={{ color: "white" }} >Ver mais</Text>
@@ -25,10 +25,7 @@ export default function Events() {
 const events = StyleSheet.create({
 	container: {
 		backgroundColor: "blue",
-		alignSelf: "stretch",
 		height: 200,
-		marginHorizontal: "5%",
-		marginTop: 35,
 		borderRadius: 20
 	},
 	containerTitle: {

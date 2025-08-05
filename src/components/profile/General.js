@@ -55,7 +55,7 @@ export default function General({ date }) {
 					</View>
 						<MaterialIcons name="keyboard-arrow-right" size={24} color="white" />
 				</TouchableOpacity>
-				<Scoreboard />
+				<Scoreboard style={general.scoreboard} title="Final" />
 			</View>
 		</View>
 	);
@@ -112,7 +112,8 @@ const general = StyleSheet.create({
 	},
 	buttonHistory: {
 		flexDirection: "row",
-		justifyContent: "space-between"
+		justifyContent: "space-between",
+		paddingVertical: 10
 	},
 	containerTitleHistory: {
 		flexDirection: "row",
@@ -122,5 +123,8 @@ const general = StyleSheet.create({
 		color: "white",
 		fontSize: 15,
 		marginLeft: 3
+	},
+	scoreboard: {
+
 	}
 });

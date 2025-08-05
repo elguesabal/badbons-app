@@ -4,11 +4,11 @@ import { StyleSheet, View, Text } from "react-native";
  * @author VAMPETA
  * @brief COMPONENTE DE ATIVIDADES RECENTES
 */
-export default function Activities() {
+export default function Activities({ style }) {
 	const recentActivities = ["Treinamento", "Torneio Amigavel", "Badbons Open", "NDB Games"];
 
 	return (
-		<View style={activities.container} >
+		<View style={[activities.container, style]} >
 			<Text style={activities.title} >Atividades Recentes</Text>
 			{recentActivities.map((activitie, i) => (
 				<View key={i} style={activities.containerActivitie} >
@@ -22,9 +22,7 @@ export default function Activities() {
 
 const activities = StyleSheet.create({
 	container: {
-		alignSelf: "stretch",
-		marginHorizontal: "10%",
-		marginTop: 35,
+
 	},
 	title: {
 		color: "white",
