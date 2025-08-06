@@ -41,7 +41,7 @@ async function requestLogin(login, password, navigation, setLoad, setError, setI
 			await SecureStore.setItemAsync("date", res.data.date);
 			await SecureStore.setItemAsync("phone", res.data.phone);
 			await AsyncStorage.setItem("units", JSON.stringify(res.data.units));
-			// await AsyncStorage.setItem("times", res.data.times);
+			await AsyncStorage.setItem("times", JSON.stringify(res.data.times));
 			setIsLogin(true);
 		}
 	} catch (error) {

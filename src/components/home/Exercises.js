@@ -1,8 +1,14 @@
 import { StyleSheet, View, Text, Image } from "react-native";
 
+import { theme } from "../../styles/theme.js";
+
+/**
+ * @author VAMPETA
+ * @brief COMPONENTE DE EXERCICIOS COMPLETOS
+*/
 export default function Exercises({ style }) {
 	const nExercises = 10;
-	const completed = 0;
+	const completed = 3;
 
 	return (
 		<View style={[exercises.container, style]} >
@@ -12,12 +18,14 @@ export default function Exercises({ style }) {
 			</View>
 			<View style={exercises.containerProgress} >
 				<View style={exercises.containerLine} >
+					<View style={exercises.circleStart}></View>
 					<View style={[exercises.lineCompleted, { width: `${(completed / nExercises) * 100}%` }]} ></View>
 					<Image style={exercises.shuttlecock} source={require("../../../assets/img/shuttlecock.png")} />
 					<View style={exercises.lineIncomplete} ></View>
+					<View style={exercises.circleEnd}></View>
 				</View>
 				<View style={exercises.containerPopup} >
-					<Text style={[exercises.textPopup, { marginLeft: `${(completed / nExercises) * 100}%` }]} >{completed} Exercícios</Text>
+					<Text style={[exercises.textPopup, { marginLeft: `${(completed / nExercises) * 100 - 15}%` }]} >{completed} Exercícios</Text>
 				</View>
 			</View>
 		</View>
@@ -26,7 +34,7 @@ export default function Exercises({ style }) {
 
 const exercises = StyleSheet.create({
 	container: {
-		// backgroundColor: "green",
+
 	},
 	containerText: {
 		flexDirection: "row",
@@ -34,7 +42,7 @@ const exercises = StyleSheet.create({
 		justifyContent: "space-between"
 	},
 	text: {
-		color: "white",
+		color: theme.primaryTextColor,
 		fontSize: 15,
 		marginHorizontal: 10
 	},
@@ -43,39 +51,52 @@ const exercises = StyleSheet.create({
 		marginVertical: 5
 	},
 	containerLine: {
-		// backgroundColor: "red",
 		flexDirection: "row",
 		width: "85%",
 		height: 5,
 		marginTop: 20
 	},
+	circleStart: {
+		backgroundColor: theme.tertiaryBackgroundColor,
+		width: 10,
+		height: 10,
+		marginTop: -2.5,
+		marginLeft: -10,
+		borderRadius: "100%"
+	},
 	lineCompleted: {
-		backgroundColor: "blue",
-		// width: "50%",
+		backgroundColor: theme.primaryBackgroundColor,
 		height: "100%"
 	},
 	shuttlecock: {
 		width: 30,
 		height: 25,
 		marginLeft: -30,
-		marginTop: -20
+		marginTop: -19
 	},
 	lineIncomplete: {
-		backgroundColor: "white",
-		// height: 5,
-		// width: "100%"
+		backgroundColor: theme.tertiaryBackgroundColor,
 		flex: 1
 	},
+	circleEnd: {
+		backgroundColor: theme.tertiaryBackgroundColor,
+		width: 10,
+		height: 10,
+		marginTop: -2.5,
+		marginRight: -10,
+		borderRadius: "100%"
+	},
 	containerPopup: {
-		// backgroundColor: "red",
-		width: "80%"
+		width: "85%"
 	},
 	textPopup: {
-		color: "white",
-		fontSize: 15,
-		borderWidth: 3,
-		borderColor: "white",
-		padding: 5,
-		marginTop: 5
+		color: theme.primaryTextColor,
+		fontSize: 12,
+		borderWidth: 2,
+		borderColor: theme.tertiaryBackgroundColor,
+		width: "30%",
+		textAlign: "center",
+		paddingVertical: 5,
+		marginTop: 5,
 	}
 });

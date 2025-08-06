@@ -9,7 +9,7 @@ import Button from "../../components/Button.js";
 import { useLogin } from "../../app/isLogin.js";
 import { apiConnection } from "../../functions/wellcome/main.js";
 
-import styles from "../../styles/styles.js";
+import { theme } from "../../styles/theme.js";
 
 /**
  * @author VAMPETA
@@ -28,10 +28,10 @@ export default function Main({ navigation }) {
 	if (load) return (<Load />);
 
 	return (
-		<View style={styles.containerCenter} >
+		<View style={main.container} >
 			<Image source={require("../../../assets/img/athlete1.png")} style={main.img} />
-			<Text style={styles.title}>Olá</Text>
-			<Text style={styles.text}>Bem-Vindo ao Seu App de Treinamento</Text>
+			<Text style={main.title}>Olá</Text>
+			<Text style={main.text}>Bem-Vindo ao Seu App de Treinamento</Text>
 			<View>
 				<Button text="Login" style={main.button} onPress={() => navigation.navigate("login")} />
 				<Button text="Cadastrar" style={main.button} onPress={() => navigation.navigate("register1")} />
@@ -41,9 +41,22 @@ export default function Main({ navigation }) {
 }
 
 const main = StyleSheet.create({
+	container: {
+		flex: 1,
+		alignItems: "center",
+		justifyContent: "center"
+	},
 	img: {
 		width: 200,
 		height: 200
+	},
+	title: {
+		color: theme.primaryTextColor,
+		fontSize: 25,
+	},
+	text: {
+		color: theme.secondaryTextColor,
+		fontSize: 15
 	},
 	button: {
 		marginVertical: 10

@@ -1,5 +1,7 @@
 import { StyleSheet, StatusBar, Platform  } from "react-native";
 
+import { theme } from "./theme.js";
+
 const statusBarHeight = Platform.OS === 'android' ? StatusBar.currentHeight : 20;
 
 export default StyleSheet.create({
@@ -33,12 +35,12 @@ export default StyleSheet.create({
 		justifyContent: "center"
 	},
 	title: {
-		color: "white",
+		color: theme.primaryTextColor,
 		fontSize: 25,
 		marginHorizontal: "10%"
 	},
 	text: {
-		color: "white",
+		color: theme.primaryTextColor,
 		fontSize: 15
 	}
 });

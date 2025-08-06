@@ -2,6 +2,8 @@ import { StyleSheet, TouchableOpacity, Text } from "react-native";
 import { useNavigationState } from "@react-navigation/native";
 import { MaterialIcons } from "@expo/vector-icons";
 
+import { theme } from "../styles/theme.js";
+
 /**
  * @author VAMPETA
  * @brief BOTAO CRIADO PARA SER USADO NO TABBAR
@@ -13,7 +15,7 @@ export default function ButtonTabBar({name, icon, onPress, onLongPress}) {
 
 	return (
 		<TouchableOpacity style={[buttonTabBar.container, isSelected && buttonTabBar.containerSelected]} onPress={onPress} onLongPress={onLongPress} >
-			<MaterialIcons name={icon} color="white" size={(isSelected) ? 45 : 25} />
+			<MaterialIcons name={icon} color={theme.primaryTextColor} size={(isSelected) ? 45 : 25} />
 			<Text style={buttonTabBar.text} >{name}</Text>
 		</TouchableOpacity>
 	);
@@ -28,9 +30,7 @@ const buttonTabBar = StyleSheet.create({
 		paddingBottom: 3
 	},
 	containerSelected: {
-		// backgroundColor: "blue",
-		// borderBottomLeftRadius: 30,
-		// borderBottomRightRadius: 30,
+
 	},
 	text: {
 		color: "white",

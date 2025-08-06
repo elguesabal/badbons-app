@@ -1,5 +1,7 @@
 import { StyleSheet, TouchableOpacity, Text } from "react-native";
 
+import { theme } from "../styles/theme.js";
+
 /**
  * @author VAMPETA
  * @brief CRIA UM CHECKBOX JA COM UMA ESTILIZACAO PADRAO
@@ -10,7 +12,7 @@ import { StyleSheet, TouchableOpacity, Text } from "react-native";
 */
 export default function Checkbox({ text, style, setCheckbox, inputCheckbox }) {
 	return (
-		<TouchableOpacity style={[checkbox.button, style, { backgroundColor: (inputCheckbox) ? "blue" : "transparent", borderWidth: 0.3, borderColor: "blue" }]} onPress={() => setCheckbox(!inputCheckbox)} >
+		<TouchableOpacity style={[checkbox.button, style, { backgroundColor: (inputCheckbox) ? theme.primaryBackgroundColor : "transparent", borderWidth: 0.3, borderColor: theme.primaryBackgroundColor }]} onPress={() => setCheckbox(!inputCheckbox)} >
 			<Text style={checkbox.text} >{text}</Text>
 		</TouchableOpacity>
 	);
@@ -18,7 +20,6 @@ export default function Checkbox({ text, style, setCheckbox, inputCheckbox }) {
 
 const checkbox = StyleSheet.create({
 	button: {
-		backgroundColor: "blue",
 		borderRadius: 20,
 		width: 150,
 		height: 40,
@@ -26,7 +27,7 @@ const checkbox = StyleSheet.create({
 		justifyContent: "center"
 	},
 	text: {
-		color: "white",
+		color: theme.primaryTextColor,
 		fontSize: 15
 	}
 });

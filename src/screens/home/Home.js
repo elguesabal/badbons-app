@@ -1,4 +1,7 @@
 import { StyleSheet, StatusBar, Platform, ScrollView } from "react-native";
+import { useState, useEffect } from "react";
+
+import { getCredentials } from "../../functions/home/home.js";
 
 import Days from "../../components/home/Days.js";
 import Scoreboard from "../../components/home/Scoreboard.js";
@@ -14,9 +17,13 @@ const statusBarHeight = Platform.OS === 'android' ? StatusBar.currentHeight : 20
  * @brief TELA HOME
 */
 export default function Home() {
+	const [credentials, setCredentials] = useState({});
+
+	useEffect(() => { getCredentials(setCredentials) }, []);
+
 	return (
 		<ScrollView style={home.scroll} showsVerticalScrollIndicator={false} >
-			<Days style={home.days} />
+			<Days style={home.days} times={credentials.times} />
 			<Scoreboard style={home.scoreboard} title="NDB Games" />
 			<Exercises style={home.exercises} />
 			<Events style={home.events} />
@@ -39,7 +46,7 @@ const home = StyleSheet.create({
 		marginTop: 25,
 	},
 	exercises: {
-		marginHorizontal: "5%",
+		marginHorizontal: "10%",
 		marginTop: 25
 	},
 	events: {

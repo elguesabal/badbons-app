@@ -1,6 +1,8 @@
 import { StyleSheet, View, Image, TouchableOpacity, Text } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 
+import { theme } from "../../styles/theme.js";
+
 /**
  * @author VAMPETA
  * @brief COMPONENTE COM FOTO DE PERFIL DO USUARIO
@@ -14,10 +16,10 @@ export default function Photo({ urlPhoto, name, units }) {
 			</View>
 			<View style={photo.containerImg} >
 				<View style={photo.containerPhoto} >
-					{(urlPhoto) ? <Image source={{ uri: urlPhoto }} style={photo.photo} /> : <MaterialIcons name="person" size={100} color="grey" />}
+					{(urlPhoto) ? <Image source={{ uri: urlPhoto }} style={photo.photo} /> : <MaterialIcons name="person" size={100} color={theme.secondaryBackgroundColor} />}
 				</View>
 				<TouchableOpacity style={photo.ButtonIcon} onPress={() => alert("mudar foto")}>
-					<MaterialIcons name="edit" size={32} color="blue" />
+					<MaterialIcons name="edit" size={32} color={theme.primaryBackgroundColor} />
 				</TouchableOpacity>
 			</View>
 			<Text style={photo.student} >{name}</Text>
@@ -32,7 +34,7 @@ const photo = StyleSheet.create({
 	},
 	background: {
 		position: "absolute",
-		backgroundColor: "blue",
+		backgroundColor: theme.primaryBackgroundColor,
 		width: "150%",
 		height: 200,
 		top: 0,
@@ -57,7 +59,7 @@ const photo = StyleSheet.create({
 		paddingLeft: 12
 	},
 	containerPhoto: {
-		backgroundColor: "white",
+		backgroundColor: theme.tertiaryBackgroundColor,
 		alignItems: "center",
 		justifyContent: "center",
 		width: 150,
@@ -75,13 +77,13 @@ const photo = StyleSheet.create({
 	},
 	student: {
 		textAlign: "center",
-		color: "white",
+		color: theme.primaryTextColor,
 		fontSize: 20,
 		marginTop: 15
 	},
 	units: {
 		textAlign: "center",
-		color: "grey",
+		color: theme.secondaryTextColor,
 		fontSize: 15,
 		marginTop: 5
 	}

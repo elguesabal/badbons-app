@@ -2,6 +2,7 @@ import { StyleSheet, View, Text } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 
 import styles from "../../styles/styles";
+import { theme } from "../../styles/theme.js";
 
 /**
  * @author VAMPETA
@@ -35,7 +36,7 @@ export default function Scoreboard({ style, title }) {
 
 const scoreboard = StyleSheet.create({
 	container: {
-		backgroundColor: "blue",
+		backgroundColor: theme.primaryBackgroundColor,
 		height: 130,
 		borderRadius: 10
 	},
@@ -48,7 +49,7 @@ const scoreboard = StyleSheet.create({
 		paddingHorizontal: 15
 	},
 	title: {
-		color: "white",
+		color: theme.primaryTextColor,
 		fontSize: 15,
 	},
 	containerScore: {
@@ -59,7 +60,7 @@ const scoreboard = StyleSheet.create({
 		alignItems: "center"
 	},
 	containerPhoto: {
-		backgroundColor: "white",
+		backgroundColor: theme.tertiaryBackgroundColor,
 		alignItems: "center",
 		justifyContent: "center",
 		width: 40,
@@ -73,10 +74,10 @@ const scoreboard = StyleSheet.create({
 	// 	resizeMode: "cover",
 	// },
 	player: {
-		color: "white"
+		color: theme.primaryTextColor
 	},
 	score: {
-		color: "white",
+		color: theme.primaryTextColor,
 		fontSize: 20,
 		marginBottom: 10
 	}

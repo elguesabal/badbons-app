@@ -8,6 +8,7 @@ import Button from "../../components/Button.js";
 import { createArray, register } from "../../functions/wellcome/register5.js";
 
 import styles from "../../styles/styles.js";
+import { theme } from "../../styles/theme.js";
 
 /**
  * @author VAMPETA
@@ -33,9 +34,7 @@ export default function Register5({ navigation, route }) {
 					renderItem={({ item }) => (
 						<View key={item.id} style={register5.containerUnit} >
 							<Text style={styles.title} >{item.unit}</Text>
-							{item.times.map((time, i) => (
-								<Text key={i} style={register5.time} >{time.day}: {time.start} - {time.end}</Text>
-							))}
+							{item.times.map((time, i) => (<Text key={i} style={register5.time} >{time.day}: {time.start} - {time.end}</Text>))}
 						</View>
 					)}
 				/>
@@ -64,15 +63,15 @@ const register5 = StyleSheet.create({
 		marginVertical: 15
 	},
 	time: {
-		backgroundColor: "blue",
+		backgroundColor: theme.primaryBackgroundColor,
 		textAlign: "center",
 		width: "80%",
 		marginVertical: 5,
 		padding: 15,
 		borderRadius: 15,
-		borderColor: "white",
+		borderColor: theme.primaryTextColor,
 		borderWidth: 0.2,
-		color: "white"
+		color: theme.primaryTextColor
 	},
 	containerButton: {
 		alignSelf: "stretch",

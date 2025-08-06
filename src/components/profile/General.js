@@ -3,6 +3,8 @@ import { MaterialIcons } from "@expo/vector-icons";
 
 import Scoreboard from "../home/Scoreboard.js";
 
+import { theme } from "../../styles/theme.js";
+
 /**
  * @author VAMPETA
  * @brief COMPONENTE RESPONSAVEL PELA SECAO DE "Geral" DA ABA PERFIL
@@ -50,10 +52,10 @@ export default function General({ date }) {
 			<View style={general.containerHistory}>
 				<TouchableOpacity style={general.buttonHistory} onPress={() => alert("teste")}>
 					<View style={general.containerTitleHistory} >
-						<MaterialIcons name="replay" size={24} color="white" />
+						<MaterialIcons name="replay" size={24} color={theme.primaryTextColor} />
 						<Text style={general.titleHistory} >Histórico de Partidas</Text>
 					</View>
-						<MaterialIcons name="keyboard-arrow-right" size={24} color="white" />
+						<MaterialIcons name="keyboard-arrow-right" size={24} color={theme.primaryTextColor} />
 				</TouchableOpacity>
 				<Scoreboard style={general.scoreboard} title="Final" />
 			</View>
@@ -69,7 +71,7 @@ const general = StyleSheet.create({
 		alignSelf: "stretch",
 	},
 	card: {
-		backgroundColor: "dimgrey",
+		backgroundColor: theme.secondaryBackgroundColor,
 		width: 120,
 		height: 80,
 		borderRadius: "10%",
@@ -78,17 +80,17 @@ const general = StyleSheet.create({
 		paddingHorizontal: 10
 	},
 	titleCard: {
-		color: "white"
+		color: theme.primaryTextColor
 	},
 	textCard: {
-		color: "grey"
+		color: theme.primaryTextColor
 	},
 	containerInfo: {
 		marginHorizontal: "10%",
 		marginTop: 25
 	},
 	titleInfo: {
-		color: "white",
+		color: theme.primaryTextColor,
 		fontSize: 15,
 		marginBottom: 5
 	},
@@ -97,14 +99,14 @@ const general = StyleSheet.create({
 		alignSelf: "stretch",
 		justifyContent: "space-between",
 		borderBottomWidth: 1,
-		borderBottomColor: "grey",
+		borderBottomColor: theme.secondaryTextColor,
 		paddingVertical: 10
 	},
 	textInfo: {
-		color: "grey"
+		color: theme.secondaryTextColor
 	},
 	textCredentials: {
-		color: "white"
+		color: theme.primaryTextColor
 	},
 	containerHistory: {
 		marginHorizontal: "10%",
@@ -120,7 +122,7 @@ const general = StyleSheet.create({
 		alignItems: "center"
 	},
 	titleHistory: {
-		color: "white",
+		color: theme.primaryTextColor,
 		fontSize: 15,
 		marginLeft: 3
 	},

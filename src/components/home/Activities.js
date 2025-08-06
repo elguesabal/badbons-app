@@ -1,5 +1,7 @@
 import { StyleSheet, View, Text } from "react-native";
 
+import { theme } from "../../styles/theme.js";
+
 /**
  * @author VAMPETA
  * @brief COMPONENTE DE ATIVIDADES RECENTES
@@ -25,7 +27,7 @@ const activities = StyleSheet.create({
 
 	},
 	title: {
-		color: "white",
+		color: theme.primaryTextColor,
 		fontSize: 20,
 		marginLeft: 10,
 		marginBottom: "5%"
@@ -35,13 +37,13 @@ const activities = StyleSheet.create({
 		marginBottom: "3%"
 	},
 	img: {
-		backgroundColor: "blue",
+		backgroundColor: theme.primaryBackgroundColor,
 		width: 30,
 		height: 30,
 		borderRadius: 3
 	},
 	textActivitie: {
-		color: "white",
+		color: theme.primaryTextColor,
 		marginLeft: 5
 	}
 });

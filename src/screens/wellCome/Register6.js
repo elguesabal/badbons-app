@@ -6,12 +6,17 @@ import Button from "../../components/Button.js";
 import { backLogin } from "../../functions/wellcome/register6.js";
 
 import styles from "../../styles/styles";
+import { theme } from "../../styles/theme.js";
 
+/**
+ * @author VAMPETA
+ * @brief TELA DE CADASTRO
+*/
 export default function Register6({ navigation }) {
 	return (
 		<View style={styles.containerCenter} >
 			<View style={register6.containerIcon} >
-				<MaterialIcons name="check" size={70} color="white" />
+				<MaterialIcons name="check" size={70} color={theme.primaryTextColor} />
 			</View>
 			<View style={register6.containerText} >
 				<Text style={styles.title} >Matrícula Confirmada!</Text>
@@ -31,7 +36,7 @@ const register6 = StyleSheet.create({
 		padding: 20
 	},
 	containerText: {
-		alignItems: "center",
+		alignItems: theme.primaryTextColor,
 		marginVertical: "25%"
 	}
 });

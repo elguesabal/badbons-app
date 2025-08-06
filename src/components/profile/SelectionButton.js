@@ -2,6 +2,8 @@ import { StyleSheet, View } from "react-native";
 
 import Button from "../Button.js";
 
+import { theme } from "../../styles/theme.js";
+
 /**
  * @author VAMPETA
  * @brief GRUPO DE BOTAO QUE CONTROLA QUAL COMPONENTE VAI SER RENDEIZADO
@@ -9,8 +11,8 @@ import Button from "../Button.js";
  * @param setButtonSelected HOOK QUE PERMITE MODIFICAR buttonSelected
 */
 export default function SelectionButtun({ buttonSelected, setButtonSelected }) {
-	const general = { backgroundColor: (buttonSelected === "general") ? "blue" : "grey", zIndex: (buttonSelected === "general") ? 1 : 0 };
-	const statistics = { backgroundColor: (buttonSelected === "statistics") ? "blue" : "grey", zIndex: (buttonSelected === "statistics") ? 1 : 0 };
+	const general = { backgroundColor: (buttonSelected === "general") ? theme.primaryBackgroundColor : theme.secondaryBackgroundColor, zIndex: (buttonSelected === "general") ? 1 : 0 };
+	const statistics = { backgroundColor: (buttonSelected === "statistics") ? theme.primaryBackgroundColor : theme.secondaryBackgroundColor, zIndex: (buttonSelected === "statistics") ? 1 : 0 };
 
 	return (
 		<View style={selectionButtun.container} >

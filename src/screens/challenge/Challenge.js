@@ -1,5 +1,7 @@
 import { View, Text, ScrollView } from "react-native";
 
+import { theme } from "../../styles/theme.js";
+
 const letter = [
 	[
 		"Você diz que sabe dançar",
@@ -59,11 +61,11 @@ const letter = [
 export default function Challenge() {
 	return (
 		<View style={{ flex: 1, alignItems: "center", justifyContent: "center", padding: 50 }}>
-			<Text style={{ color: "white", fontSize: 30, marginVertical: 30 }} >Vou Desafiar Você</Text>
+			<Text style={{ color: theme.primaryTextColor, fontSize: 30, marginVertical: 30 }} >Vou Desafiar Você</Text>
 			<ScrollView style={{ height: 100, alignSelf: "stretch" }} >
 				{letter.map((stanza, i) => (
 					<View key={i} style={{ marginVertical: 15 }}>
-						{stanza.map((phrase, j) => (<Text key={j} style={{ color: "white" }} >{phrase}a</Text>))}
+						{stanza.map((phrase, j) => (<Text key={j} style={{ color: theme.primaryTextColor }} >{phrase}a</Text>))}
 					</View>
 				))}
 			</ScrollView>

@@ -1,6 +1,8 @@
 import { StyleSheet, Platform, StatusBar, View, TouchableOpacity, Text, Image } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 
+import { theme } from "../styles/theme.js";
+
 const statusBarHeight = Platform.OS == "android" ? StatusBar.currentHeight : 0;
 
 /**
@@ -39,12 +41,12 @@ const headerStack = StyleSheet.create({
 		marginHorizontal: 15
 	},
 	button: {
-		backgroundColor: "blue",
+		backgroundColor: theme.primaryBackgroundColor,
 		borderRadius: 50,
 		padding: 5
 	},
 	titleHeader: {
-		color: "white",
+		color: theme.primaryTextColor,
 		fontSize: 25
 	},
 	img: {

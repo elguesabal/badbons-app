@@ -1,5 +1,7 @@
 import { StyleSheet, View, Text, TextInput } from "react-native";
 
+import { theme } from "../styles/theme.js";
+
 /**
  * @author VAMPETA
  * @brief CRIA UM INPUT JA COM UM PLACEHOLDER E ESTILIZACAO PADRAO
@@ -21,16 +23,16 @@ const input = StyleSheet.create({
 		marginVertical: 10
 	},
 	text: {
-		color: "white",
+		color: theme.primaryTextColor,
 		marginLeft: "15%",
 		marginBottom: 5
 	},
 	input: {
-		color: "white",
+		color: theme.primaryTextColor,
 		height: 30,
 		width: "80%",
 		marginLeft: "10%",
-		borderColor: "white",
+		borderColor: theme.primaryTextColor,
 		borderWidth: 0.1,
 		paddingHorizontal: 10,
 		borderRadius: 8,

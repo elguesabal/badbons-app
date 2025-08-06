@@ -1,5 +1,7 @@
 import { StyleSheet, TouchableOpacity, Text } from "react-native";
 
+import { theme } from "../styles/theme.js";
+
 /**
  * @author VAMPETA
  * @brief CRIA UM BOTAO JA COM UMA ESTILIZACAO PADRAO
@@ -17,7 +19,7 @@ export default function Button({ text, style, onPress, activeOpacity = 0.7 }) {
 
 const button = StyleSheet.create({
 	container: {
-		backgroundColor: "blue",
+		backgroundColor: theme.primaryBackgroundColor,
 		borderRadius: 20,
 		width: 150,
 		height: 40,
@@ -25,7 +27,7 @@ const button = StyleSheet.create({
 		justifyContent: "center"
 	},
 	text: {
-		color: "white",
+		color: theme.primaryTextColor,
 		fontSize: 15
 	}
 });

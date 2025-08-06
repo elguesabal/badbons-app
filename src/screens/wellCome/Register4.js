@@ -9,6 +9,7 @@ import Button from "../../components/Button.js";
 import { getTimetable, scrollToIndex, findSelected, buttonTime, validation } from "../../functions/wellcome/register4.js";
 
 import styles from "../../styles/styles.js";
+import { theme } from "../../styles/theme.js";
 
 /**
  * @author VAMPETA
@@ -43,7 +44,7 @@ export default function Register4({ navigation, route }) {
 								<View style={register4.containerIcon} >
 									{(classItem.id > 1) ? (
 										<TouchableOpacity style={register4.bottomIcon} onPress={() => scrollToIndex(flatListRef, classItem.id - 1)}>
-											<MaterialIcons name="arrow-back" size={30} color="white" />
+											<MaterialIcons name="arrow-back" size={30} color={theme.primaryTextColor} />
 										</TouchableOpacity>
 									) : (null)}
 								</View>
@@ -54,7 +55,7 @@ export default function Register4({ navigation, route }) {
 								<View style={register4.containerIcon} >
 									{(classItem.id < data.length) ? (
 										<TouchableOpacity style={register4.bottomIcon} onPress={() => scrollToIndex(flatListRef, classItem.id + 1)}>
-											<MaterialIcons name="arrow-forward" size={30} color="white" />
+											<MaterialIcons name="arrow-forward" size={30} color={theme.primaryTextColor} />
 										</TouchableOpacity>
 									) : (null)}
 								</View>
@@ -123,7 +124,7 @@ const register4 = StyleSheet.create({
 		flexDirection: "row",
 		alignItems: "center",
 		justifyContent: "center",
-		borderColor: "white",
+		borderColor: theme.primaryTextColor,
 		borderWidth: 0.2,
 		marginVertical: 5,
 		borderRadius: 15,

@@ -1,6 +1,6 @@
 import { StyleSheet, View, Text } from "react-native";
 
-// import styles from "../../styles/styles.js";
+import { theme } from "../../styles/theme.js";
 
 /**
  * @author VAMPETA
@@ -13,7 +13,7 @@ export default function Events({ style }) {
 		<View style={[events.container, style]} >
 			<View style={events.containerTitle}>
 				<Text style={events.title} >NDB Games</Text>
-				<Text style={{ color: "white" }} >Ver mais</Text>
+				<Text style={{ color: theme.primaryTextColor }} >Ver mais</Text>
 			</View>
 			<View style={events.containerCards} >
 				{cards.map((card, i) => <View key={i} style={events.card} ></View>)}
@@ -24,7 +24,7 @@ export default function Events({ style }) {
 
 const events = StyleSheet.create({
 	container: {
-		backgroundColor: "blue",
+		backgroundColor: theme.primaryBackgroundColor,
 		height: 200,
 		borderRadius: 20
 	},
@@ -37,7 +37,7 @@ const events = StyleSheet.create({
 		paddingHorizontal: 15
 	},
 	title: {
-		color: "white",
+		color: theme.primaryTextColor,
 		fontSize: 20,
 	},
 	containerCards: {
@@ -48,7 +48,7 @@ const events = StyleSheet.create({
 		alignItems: "center",
 	},
 	card: {
-		backgroundColor: "grey",
+		backgroundColor: theme.secondaryBackgroundColor,
 		height: "90%",
 		width: "28%",
 		borderRadius: 10
