@@ -36,14 +36,14 @@ export default function Home() {
 const home = StyleSheet.create({
 	scroll: {
 		flex: 1,
-		marginTop: statusBarHeight + 30,
+		marginTop: statusBarHeight,
 	},
 	days: {
-
+		marginTop: 25
 	},
 	scoreboard: {
 		marginHorizontal: "15%",
-		marginTop: 25,
+		marginTop: 25
 	},
 	exercises: {
 		marginHorizontal: "10%",
@@ -60,6 +60,6 @@ const home = StyleSheet.create({
 	publicity: {
 		marginHorizontal: "5%",
 		marginTop: 25,
-		marginBottom: 50,
+		marginBottom: 50
 	}
 });
