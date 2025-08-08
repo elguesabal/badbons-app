@@ -1,15 +1,16 @@
-import { StyleSheet, View, ScrollView, Text, TouchableOpacity } from "react-native";
-import { MaterialIcons } from "@expo/vector-icons";
+import { StyleSheet, View, ScrollView, Text } from "react-native";
 
-import Scoreboard from "../home/Scoreboard.js";
+import CardHistory from "./CardHistory.js";
 
 import { theme } from "../../styles/theme.js";
 
 /**
  * @author VAMPETA
  * @brief COMPONENTE RESPONSAVEL PELA SECAO DE "Geral" DA ABA PERFIL
+ * @param navigation OBJETO QUE COM METODO COM METODOS DE NAVEGACAO ENTRE SCREENS
+ * @param date DATA DE NASCIMENTO DO USUARIO
 */
-export default function General({ date }) {
+export default function General({ navigation, date }) {
 	return (
 		<View style={general.container} >
 			<ScrollView style={general.scrollCard} horizontal={true} showsHorizontalScrollIndicator={false} >
@@ -49,16 +50,7 @@ export default function General({ date }) {
 					<Text style={general.textCredentials} >Masculino</Text>
 				</View>
 			</View>
-			<View style={general.containerHistory}>
-				<TouchableOpacity style={general.buttonHistory} onPress={() => alert("teste")}>
-					<View style={general.containerTitleHistory} >
-						<MaterialIcons name="replay" size={24} color={theme.primaryTextColor} />
-						<Text style={general.titleHistory} >Histórico de Partidas</Text>
-					</View>
-						<MaterialIcons name="keyboard-arrow-right" size={24} color={theme.primaryTextColor} />
-				</TouchableOpacity>
-				<Scoreboard style={general.scoreboard} title="Final" />
-			</View>
+			<CardHistory navigation={navigation} style={general.cardHistory} />
 		</View>
 	);
 }
@@ -108,25 +100,8 @@ const general = StyleSheet.create({
 	textCredentials: {
 		color: theme.primaryTextColor
 	},
-	containerHistory: {
+	cardHistory: {
 		marginHorizontal: "10%",
 		marginTop: 25
 	},
-	buttonHistory: {
-		flexDirection: "row",
-		justifyContent: "space-between",
-		paddingVertical: 10
-	},
-	containerTitleHistory: {
-		flexDirection: "row",
-		alignItems: "center"
-	},
-	titleHistory: {
-		color: theme.primaryTextColor,
-		fontSize: 15,
-		marginLeft: 3
-	},
-	scoreboard: {
-
-	}
 });
