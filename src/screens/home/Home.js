@@ -4,13 +4,20 @@ import { useState, useEffect } from "react";
 import { getCredentials } from "../../functions/home/home.js";
 
 import Days from "../../components/home/Days.js";
-import Scoreboard from "../../components/home/Scoreboard.js";
+import Scoreboard from "../../components/Scoreboard.js";
 import Exercises from "../../components/home/Exercises.js";
 import Events from "../../components/home/Events.js";
 import Activities from "../../components/home/Activities.js";
 import Publicity from "../../components/home/Publicity.js";
 
-const statusBarHeight = Platform.OS === 'android' ? StatusBar.currentHeight : 20;
+const statusBarHeight = Platform.OS === "android" ? StatusBar.currentHeight : 20;
+
+const game = {
+	title: "Semi-Final",
+	favorite: true,
+	player1: { name: "Grupo 1", points: "17" },
+	player2: { name: "Grupo 2", points: "5" }
+};
 
 /**
  * @author VAMPETA
@@ -22,9 +29,9 @@ export default function Home() {
 	useEffect(() => { getCredentials(setCredentials) }, []);
 
 	return (
-		<ScrollView style={home.scroll} showsVerticalScrollIndicator={false} >
+		<ScrollView style={home.container} contentContainerStyle={home.scroll} showsVerticalScrollIndicator={false} >
 			<Days style={home.days} times={credentials.times} />
-			<Scoreboard style={home.scoreboard} title="NDB Games" />
+			<Scoreboard style={home.scoreboard} game={game} />
 			<Exercises style={home.exercises} />
 			<Events style={home.events} />
 			<Activities style={home.activities} />
@@ -34,32 +41,36 @@ export default function Home() {
 }
 
 const home = StyleSheet.create({
+	container: {
+		marginTop: statusBarHeight
+	},
 	scroll: {
-		flex: 1,
-		marginTop: statusBarHeight,
+		flexGrow: 1,
+		paddingBottom: 25,
+		alignItems: "center"
 	},
 	days: {
+		width: "100%",
 		marginTop: 25
 	},
 	scoreboard: {
-		marginHorizontal: "15%",
+		width: "70%",
 		marginTop: 25
 	},
 	exercises: {
-		marginHorizontal: "10%",
+		width: "80%",
 		marginTop: 25
 	},
 	events: {
-		marginHorizontal: "5%",
+		width: "90%",
 		marginTop: 25
 	},
 	activities: {
-		marginHorizontal: "5%",
+		width: "90%",
 		marginTop: 25
 	},
 	publicity: {
-		marginHorizontal: "5%",
+		width: "90%",
 		marginTop: 25,
-		marginBottom: 50
 	}
 });

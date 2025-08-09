@@ -11,11 +11,12 @@ import General from "../../components/profile/General.js";
 import Statistics from "../../components/profile/Statistics.js";
 import Button from "../../components/Button.js";
 
-const statusBarHeight = Platform.OS === 'android' ? StatusBar.currentHeight : 20;
+const statusBarHeight = Platform.OS === "android" ? StatusBar.currentHeight : 20;
 
 /**
  * @author VAMPETA
  * @brief TELA DE PERFIL
+ * @param navigation OBJETO QUE COM METODO COM METODOS DE NAVEGACAO ENTRE SCREENS
 */
 export default function Main({ navigation }) {
 	const { setIsLogin } = useLogin();
@@ -25,30 +26,34 @@ export default function Main({ navigation }) {
 	useEffect(() => { getCredentials(setCredentials) }, []);
 
 	return (
-		<ScrollView style={profile.scroll} showsVerticalScrollIndicator={false} >
+		<ScrollView style={profile.container} contentContainerStyle={profile.scroll} showsVerticalScrollIndicator={false} >
 			<Photo urlPhoto={credentials.photo} name={credentials.name} units={credentials.units} />
 			<SelectionButtun style={profile.selectionButtun} buttonSelected={buttonSelected} setButtonSelected={setButtonSelected} buttons={["Geral", "Estatísticas"]} />
-			{buttonSelected === "Geral" && <General navigation={navigation} date={credentials.date} />}
-			{buttonSelected === "Estatísticas" && <Statistics />}
-			<Button text="Sair" style={{ backgroundColor: "red" }} onPress={() => logout(setIsLogin)} />
+			{buttonSelected === "Geral" && <General style={profile.general} navigation={navigation} date={credentials.date} />}
+			{buttonSelected === "Estatísticas" && <Statistics style={profile.statistics} />}
+			<Button text="Sair" style={{ backgroundColor: "red", marginTop: 25 }} onPress={() => logout(setIsLogin)} />
 		</ScrollView>
 	);
 }
 
 const profile = StyleSheet.create({
-	scroll: {
-		flex: 1,
+	container: {
 		marginTop: statusBarHeight
+	},
+	scroll: {
+		alignItems: "center",
+		paddingBottom: 25
 	},
 	photo: {
 
 	},
 	selectionButtun: {
-		marginHorizontal: "10%",
+		width: "80%",
 		marginTop: 15
 	},
 	general: {
-
+		alignSelf: "stretch",
+		marginTop: 25
 	},
 	statistics: {
 

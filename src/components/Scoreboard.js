@@ -1,33 +1,35 @@
 import { StyleSheet, View, Text } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 
-import styles from "../../styles/styles";
-import { theme } from "../../styles/theme.js";
+import styles from "../styles/styles.js";
+import { theme } from "../styles/theme.js";
 
 /**
  * @author VAMPETA
  * @brief PLACAR DE JOGOS
+ * @param style ESTILIZACAO EXTRA DO COMPONENTE
+ * @param game INFORMACOES DA PARTIDA
 */
-export default function Scoreboard({ style, title }) {
+export default function Scoreboard({ style, game }) {
 	return (
 		<View style={[scoreboard.container, style]} >
 			<View style={scoreboard.containerTitle}>
-				<Text style={scoreboard.title} >{title}</Text>
-				<MaterialIcons name="favorite" color="red" size={24} />
+				<Text style={scoreboard.title} >{game.title}</Text>
+				<MaterialIcons name="favorite" color={(game.favorite) ? "red" : "blue"} size={24} />
 			</View>
 			<View style={scoreboard.containerScore} >
 				<View style={styles.center} >
 					<View style={scoreboard.containerPhoto} >
 						<MaterialIcons name="person" size={30} color="grey" />
 					</View>
-					<Text style={scoreboard.player} >Grupo 1</Text>
+					<Text style={scoreboard.player} >{game.player1.name}</Text>
 				</View>
-				<Text style={scoreboard.score} >17:5</Text>
+				<Text style={scoreboard.score} >{game.player1.points}:{game.player2.points}</Text>
 				<View style={styles.center} >
 					<View style={scoreboard.containerPhoto} >
 						<MaterialIcons name="person" size={30} color="grey" />
 					</View>
-					<Text style={scoreboard.player} >Grupo 2</Text>
+					<Text style={scoreboard.player} >{game.player2.name}</Text>
 				</View>
 			</View>
 		</View>

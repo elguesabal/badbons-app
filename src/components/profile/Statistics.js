@@ -2,11 +2,12 @@ import { StyleSheet, View, Text } from "react-native";
 
 /**
  * @author VAMPETA
- * @brief 
+ * @brief COMPONENTE RESPONSAVEL PELA SECAO DE "Estatísticas" DA ABA PERFIL
+ * @param style ESTILIZACAO EXTRA DO COMPONENTE
 */
-export default function Statistics() {
+export default function Statistics({ style }) {
 	return (
-		<View style={statistics.container} >
+		<View style={[statistics.container, style]} >
 			<Text style={{ color: "white" }} >ainda nao tem nada aki</Text>
 		</View>
 	);
