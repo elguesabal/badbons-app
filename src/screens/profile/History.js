@@ -1,14 +1,28 @@
 import { StyleSheet, View, ScrollView, Text } from "react-native";
+import { useState, useEffect } from "react";
+
+import { useLogin } from "../../app/isLogin.js";
+import { requestGameHistory } from "../../functions/profile/history.js";
+
+import Load from "../../screens/load/Load.js";
+import Error from "../../screens/error/Error.js";
 
 import Scoreboard from "../../components/Scoreboard.js";
 
 /**
  * @author VAMPETA
  * @brief SCREEN COM HISTORICO DE PARTIDAS
- * @param route OBJETO CONTENDO DADOS DE EVENTOS E PARTIDAS
 */
-export default function History({ route }) {
-	const { events } = route.params;
+export default function History() {
+	const { setIsLogin } = useLogin();
+	const [load, setLoad] = useState(true);
+	const [error, setError] = useState("");
+	const [events, setEvents] = useState({});
+
+	useEffect(() => { requestGameHistory(setEvents, setLoad, setError, setIsLogin) }, []);
+
+	if (error) return (<Error error={error} />);
+	if (load) return (<Load />);
 
 	return (
 		<ScrollView contentContainerStyle={history.scroll} >
