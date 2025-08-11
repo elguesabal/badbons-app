@@ -17,10 +17,10 @@ import { theme } from "../../styles/theme.js";
 export default function Register5({ navigation, route }) {
 	const { inputName, inputEmail, inputPassword, inputCpf, inputDate, inputPhone, times } = route.params;
 	const [load, setLoad] = useState(false);
-	const [error, setError] = useState("");
+	const [error, setError] = useState(false);
 	const array = createArray(times);
 
-	if (error) return (<Error error={error} />);
+	if (error) return (<Error {...error} />);
 	if (load) return (<Load />);
 
 	return (

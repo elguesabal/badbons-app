@@ -35,6 +35,7 @@ function includeId(data) {
  * @author VAMPETA
  * @brief FAZ UMA CONSULTA BUSCANDO OS HORARIOS DAS UNIDADES ENVIADAS NO ARRAY units
  * @param units ARRAY COM A LISTA DE UNIDADES SELECIONADAS DA PAGINA ANTERIOR
+ * @param setSelectedTimes FUNCAO QUE SALVA AS UNIDADES
  * @param setData FUNCAO QUE ATRIBUI AS INFORMACOES QUE SERA USADO NO FlatList
  * @param setLoad FUNCAO QUE MUDA O STATUS DE LOAD
  * @param setError FUNCAO QUE MUDA O STATUS DE ERROR
@@ -42,14 +43,18 @@ function includeId(data) {
 export async function getTimetable(units, setSelectedTimes, setData, setLoad, setError) {
 	try {
 		const res = await axios.get(`${API_URL}/timetable-units`, { params: { units: units } });
-		if (res.status !== 200) {
-			setError("error");
-			return ;
+		if (res.status === 200) {
+			startSelectedTimes(units, setSelectedTimes);
+			setData(includeId(res.data));
+		} else {
+			setError({ message: `Status ${res.status}` });
 		}
-		startSelectedTimes(units, setSelectedTimes);
-		setData(includeId(res.data));
 	} catch (error) {
-		setError(error.message);
+		if (error.message === "Network Error") {
+			setError({ icon: "wifi-off", message: "Sem conexão com a internet" });
+		} else {
+			setError({ message: error.message });
+		}
 	} finally {
 		setLoad(false);
 	}

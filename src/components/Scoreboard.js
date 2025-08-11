@@ -11,7 +11,6 @@ import { theme } from "../styles/theme.js";
  * @param game INFORMACOES DA PARTIDA
 */
 export default function Scoreboard({ style, game }) {
-
 	if (!game) return (<View style={[scoreboard.container, style]} ></View>);
 
 	return (

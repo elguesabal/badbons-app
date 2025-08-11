@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 
 import { useLogin } from "../../app/isLogin.js";
 import { getCredentials } from "../../functions/profile/profile.js";
-import { logout } from "../../functions/profile/profile.js";
+import { logout } from "../../functions/logout.js";
 
 import Photo from "../../components/profile/Photo.js";
 import SelectionButtun from "../../components/SelectionButton.js";

@@ -17,12 +17,12 @@ import styles from "../../styles/styles.js";
 */
 export default function Login({ navigation }) {
 	const [load, setLoad] = useState(false);
-	const [error, setError] = useState("");
+	const [error, setError] = useState(false);
 	const [inputLogin, setInputLogin] = useState("");
 	const [inputPassword, setInputPassword] = useState("");
 	const { setIsLogin } = useLogin();
 
-	if (error) return (<Error error={error} />);
+	if (error) return (<Error {...error} />);
 	if (load) return (<Load />);
 
 	return (

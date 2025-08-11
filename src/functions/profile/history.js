@@ -2,7 +2,7 @@ import * as SecureStore from "expo-secure-store";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 
-import { logout } from "./profile.js";
+import { logout } from "../logout.js";
 
 import API_URL from "../../Api.js";
 
@@ -21,13 +21,19 @@ export async function requestGameHistory(setEvents, setLoad, setError, setIsLogi
 				Authorization: `Bearer ${await SecureStore.getItemAsync("token")}`
 			}
 		});
-		await AsyncStorage.setItem("lastGame", JSON.stringify(res.data[0].games[0]));
-		setEvents(res.data);
+		if (res.status === 200) {
+			await AsyncStorage.setItem("lastGame", (res.data.length) ? JSON.stringify(res.data[0].games[0]) : "");
+			setEvents(res.data);
+		} else {
+			setError({ message: `Status ${res.status}` });
+		}
 	} catch (error) {
-		if (error.response && error.response.status === 401) {
+		if (error.message === "Network Error") {
+			setError({ icon: "wifi-off", message: "Sem conexão com a internet" });
+		} else if (error.response && error.response.status === 401) {
 			logout(setIsLogin);
 		} else {
-			setError(error.message);
+			setError({ message: error.message });
 		}
 	} finally {
 		setLoad(false);

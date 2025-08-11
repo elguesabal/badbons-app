@@ -9,6 +9,8 @@ import Error from "../../screens/error/Error.js";
 
 import Scoreboard from "../../components/Scoreboard.js";
 
+import { theme } from "../../styles/theme.js";
+
 /**
  * @author VAMPETA
  * @brief SCREEN COM HISTORICO DE PARTIDAS
@@ -16,13 +18,20 @@ import Scoreboard from "../../components/Scoreboard.js";
 export default function History() {
 	const { setIsLogin } = useLogin();
 	const [load, setLoad] = useState(true);
-	const [error, setError] = useState("");
+	const [error, setError] = useState(false);
 	const [events, setEvents] = useState({});
 
 	useEffect(() => { requestGameHistory(setEvents, setLoad, setError, setIsLogin) }, []);
 
-	if (error) return (<Error error={error} />);
+	if (error) return (<Error {...error} />);
 	if (load) return (<Load />);
+	if (!events.length) {
+		return (
+			<View style={history.containerNoHistory} >
+				<Text style={history.textNoHistory} >Sem histórico de partidas</Text>
+			</View>
+		);
+	}
 
 	return (
 		<ScrollView contentContainerStyle={history.scroll} >
@@ -46,11 +55,20 @@ const history = StyleSheet.create({
 		marginTop: 30
 	},
 	titleEvent: {
-		color: "white",
+		color: theme.primaryTextColor,
 		fontSize: 15,
 		marginLeft: 10
 	},
 	scoreboard: {
 		marginTop: 15
+	},
+	containerNoHistory: {
+		flex: 1,
+		justifyContent: "center",
+		alignItems: "center"
+	},
+	textNoHistory: {
+		color: theme.primaryTextColor,
+		fontSize: 25
 	}
 });

@@ -29,12 +29,19 @@ export function createArray(timesUnits) {
 export async function register(navigation, setLoad, setError, name, email, password, cpf, date, phone, times) {
 	navigation.setOptions({ headerShown: false });
 	setLoad(true);
-	setError("");
 	try {
 		const res = await axios.post(`${API_URL}/register`, { name: name, email: email, password: password, cpf: cpf, date: date, phone: phone, times: times });
-		if (res.status === 200) navigation.navigate("register6");
+		if (res.status === 200) {
+			navigation.navigate("register6");
+		} else {
+			setError({ message: `Status ${res.status}` });
+		}
 	} catch (error) {
-		setError(error.message);
+		if (error.message === "Network Error") {
+			setError({ icon: "wifi-off", message: "Sem conexão com a internet" });
+		} else {
+			setError({ message: error.message });
+		}
 	} finally {
 		setLoad(false);
 		navigation.setOptions({ headerShown: true });

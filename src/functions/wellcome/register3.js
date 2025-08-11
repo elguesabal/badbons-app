@@ -38,14 +38,18 @@ function doubleUnits(array) {
 export async function trainingLocations(setSelected, setLocations, setLoad, setError) {
 	try {
 		const res = await axios.get(`${API_URL}/training-locations`);
-		if (res.status !== 200) {
-			setError("error");
-			return ;
+		if (res.status === 200) {
+			startSelected(res.data, setSelected);
+			setLocations(doubleUnits(res.data));
+		} else {
+			setError({ message: `Status ${res.status}` });
 		}
-		startSelected(res.data, setSelected);
-		setLocations(doubleUnits(res.data));
 	} catch (error) {
-		setError(error.message);
+		if (error.message === "Network Error") {
+			setError({ icon: "wifi-off", message: "Sem conexão com a internet" });
+		} else {
+			setError({ message: error.message });
+		}
 	} finally {
 		setLoad(false);
 	}

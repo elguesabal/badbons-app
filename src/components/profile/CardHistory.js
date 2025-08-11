@@ -28,7 +28,13 @@ export default function CardHistory({ navigation, style }) {
 				</View>
 				<MaterialIcons name="keyboard-arrow-right" size={24} color={theme.primaryTextColor} />
 			</TouchableOpacity>
-			<Scoreboard style={history.scoreboard} game={game} />
+			{(game != null) ? (
+				<Scoreboard style={history.scoreboard} game={game} />
+			) : (
+				<View style={history.containerNoLastGame} >
+					<Text style={history.textNoLastGame} >Sem histórico</Text>
+				</View>
+			)}
 		</View>
 	);
 }
@@ -53,5 +59,16 @@ const history = StyleSheet.create({
 	},
 	scoreboard: {
 
+	},
+	containerNoLastGame: {
+		backgroundColor: theme.primaryBackgroundColor,
+		justifyContent: "center",
+		alignItems: "center",
+		height: 130,
+		borderRadius: 10
+	},
+	textNoLastGame: {
+		color: theme.primaryTextColor,
+		fontSize: 20
 	}
 });

@@ -8,25 +8,28 @@ import API_URL from "../../Api.js";
  * @author VAMPETA
  * @brief FAZ UMA CONSULTA DE PING PARA A API PARA VER SE O SERVIDOR ESTA ACESSIVEL
  * @param setError FUNCAO QUE MUDA O STATUS DE ERROR
- * @param setUpdate FUNCAO QUE MUDA O STATUS DE UPDATE
  * @return RETORNA TRUE SE A API ESTIVER ACESSIVEL E FALSE CASO NAO
 */
-export async function ping(setError, setUpdate) {
+export async function ping(setError) {
 	const version = Constants.expoConfig?.version ?? "";
 
 	try {
 		const res = await axios.get(`${API_URL}/ping`);
-		if (res.status !== 200) {
-			setError("error");
+		if (res.status != 200) {
+			setError({ message: `Status ${res.status}` });
 			return (false);
 		}
 		if (!res.data.versions.includes(version)) {
-			setUpdate(true);
+			setError({ icon: "update", message: "Seu app está desatualizado", button: "Atualizar" });
 			return (false);
 		}
 		return (true);
 	} catch (error) {
-		setError(error.message);
+		if (error.message === "Network Error") {
+			setError({ icon: "wifi-off", message: "Sem conexão com a internet" });
+			return (false);
+		}
+		setError({ message: error.message });
 		return (false);
 	}
 }
@@ -60,10 +63,9 @@ async function login(setIsLogin, setLoad) {
  * @param setIsLogin FUNCAO DE CONTROLE DE LOGIN
  * @param setLoad FUNCAO QUE MUDA O STATUS DE LOAD
  * @param setError FUNCAO QUE MUDA O STATUS DE ERROR
- * @param setUpdate FUNCAO QUE MUDA O STATUS DE UPDATE
 */
-export async function apiConnection(setIsLogin, setLoad, setError, setUpdate) {
-	const isOnline = await ping(setError, setUpdate);
+export async function apiConnection(setIsLogin, setLoad, setError) {
+	const isOnline = await ping(setError);
 
 	if (!isOnline) return ;
 	await login(setIsLogin, setLoad);

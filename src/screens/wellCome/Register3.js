@@ -17,13 +17,13 @@ import styles from "../../styles/styles.js";
 export default function Register3({ navigation, route }) {
 	const { inputName, inputEmail, inputPassword, inputCpf, inputDate, inputPhone } = route.params;
 	const [load, setLoad] = useState(true);
-	const [error, setError] = useState("");
+	const [error, setError] = useState(false);
 	const [selected, setSelected] = useState({});
 	const [locations, setLocations] = useState([]);
 
 	useEffect(() => { trainingLocations(setSelected, setLocations, setLoad, setError) }, []);
 
-	if (error) return (<Error error={error} />);
+	if (error) return (<Error {...error} />);
 	if (load) return (<Load />);
 
 	return (

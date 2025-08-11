@@ -22,8 +22,8 @@ function validation(login, password) {
 /**
  * @author VAMPETA
  * @brief FUNCAO QUE CONTROLA O HEADER, TELA DE LOAD E ERRO FAZENDO REQUISICAO NA API, ALEM DE SALVAR OS DADOS CASO O USUARIO EXISTA
- * @param setLoad FUNCAO QUE MUDA O STATUS DE LOAD
- * @param setError FUNCAO QUE MUDA O STATUS DE ERROR
+ * @param login LOGIN DO USUARIO
+ * @param password SENHA DO USUARIO
  * @param navigation OBJETO QUE COM METODO COM METODOS DE NAVEGACAO ENTRE SCREENS
  * @param setLoad FUNCAO QUE MUDA O STATUS DE LOAD
  * @param setError FUNCAO QUE MUDA O STATUS DE ERROR
@@ -43,12 +43,16 @@ async function requestLogin(login, password, navigation, setLoad, setError, setI
 			await AsyncStorage.setItem("units", JSON.stringify(res.data.units));
 			await AsyncStorage.setItem("times", JSON.stringify(res.data.times));
 			setIsLogin(true);
+		} else {
+			setError({ message: `Status ${res.status}` });
 		}
 	} catch (error) {
-		if (error.response && error.response.status === 401) {
+		if (error.message === "Network Error") {
+			setError({ icon: "wifi-off", message: "Sem conexão com a internet" });
+		} else if (error.response && error.response.status === 401) {
 			Alert.alert("Login", "Login ou senha errada!");
 		} else {
-			setError(error.message);
+			setError({ message: error.message });
 		}
 	} finally {
 		setLoad(false);
@@ -70,6 +74,5 @@ export async function hundleLogin(login, password, navigation, setLoad, setError
 	if (validation(login, password)) return ;
 	navigation.setOptions({ headerShown: false });
 	setLoad(true);
-	setError("");
 	requestLogin(login, password, navigation, setLoad, setError, setIsLogin);
 }

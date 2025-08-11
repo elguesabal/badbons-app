@@ -9,6 +9,7 @@ import styles from "../../styles/styles.js";
 */
 export default function Load() {
 	const rotateValue = useRef(new Animated.Value(0)).current;
+
 	useEffect(() => {
 		const animation = Animated.loop(
 			Animated.timing(rotateValue, {
