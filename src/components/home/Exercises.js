@@ -5,6 +5,7 @@ import { theme } from "../../styles/theme.js";
 /**
  * @author VAMPETA
  * @brief COMPONENTE DE EXERCICIOS COMPLETOS
+ * @param style ESTILIZACAO EXTRA DO COMPONENTE
 */
 export default function Exercises({ style }) {
 	const nExercises = 10;

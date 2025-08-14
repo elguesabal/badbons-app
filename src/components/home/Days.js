@@ -1,4 +1,8 @@
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, TouchableOpacity, Text } from "react-native";
+
+import { useBottomSheet } from "../../app/BottomSheetGlobal.js";
+
+import DaysBottomSheet from "./DayBottomSheet.js";
 
 import { theme } from "../../styles/theme.js";
 
@@ -9,14 +13,15 @@ import { theme } from "../../styles/theme.js";
 export default function Days({ style, times }) {
 	const arrayDays = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sab", "Dom"];
 	const trainingDays = (times) ? [...new Set(Object.values(times).flat().map(item => item.day))].map(day => day.slice(0, 3)) : [];
+	const { openSheet } = useBottomSheet();
 
 	return (
 		<View style={[days.container, style]} >
 			{arrayDays.map((day, i) => (
-				<View key={i} style={[days.day, { backgroundColor: (trainingDays.includes(day)) ? theme.primaryBackgroundColor : theme.secondaryBackgroundColor }]} >
+				<TouchableOpacity key={i} style={[days.day, { backgroundColor: (trainingDays.includes(day)) ? theme.primaryBackgroundColor : theme.secondaryBackgroundColor }]} onPress={() => (trainingDays.includes(day)) ? openSheet(<DaysBottomSheet />) : null} >
 					<Text style={days.text} >{day}</Text>
 					<Text style={days.text} >{i + 1}</Text>
-				</View>
+				</TouchableOpacity>
 			))}
 		</View>
 	);

@@ -5,6 +5,7 @@ import { theme } from "../../styles/theme.js";
 /**
  * @author VAMPETA
  * @brief COMPONENTE DE EVENTOS
+ * @param style ESTILIZACAO EXTRA DO COMPONENTE
 */
 export default function Events({ style }) {
 	const cards = [0, 1, 2];

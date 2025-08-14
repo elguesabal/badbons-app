@@ -1,15 +1,15 @@
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import HeaderStack from '../../components/HeaderStack.js';
+import HeaderStack from "../../components/HeaderStack.js";
 
-import Main from './Main.js';
+import Main from "./Main.js";
 import History from "./History.js";
 
 const Stack = createNativeStackNavigator();
 
 /**
  * @author VAMPETA
- * @brief FUNCAO RESPONSAVEL POR GERENCIAR ABAS EM CASCATA DA SECAO LOGIN/CADASTRO
+ * @brief FUNCAO RESPONSAVEL POR GERENCIAR ABAS EM CASCATA DA SECAO PERFIL
 */
 export default function Profile() {
 	return (

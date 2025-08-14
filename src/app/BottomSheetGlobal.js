@@ -1,5 +1,6 @@
 import { createContext, useContext, useRef, useMemo, useState, useCallback } from "react";
 import BottomSheet, { BottomSheetView, BottomSheetBackdrop } from "@gorhom/bottom-sheet";
+import { StyleSheet } from "react-native";
 
 import { theme } from "../styles/theme.js";
 
@@ -44,7 +45,7 @@ export function BottomSheetGlobal({ children }) {
 	return (
 		<BottomSheetContext.Provider value={{ openSheet, closeSheet }} >
 			{children}
-			<BottomSheet ref={sheetRef} index={-1} snapPoints={snapPoints} enablePanDownToClose={true} backgroundStyle={{ backgroundColor: theme.primaryBackgroundColor }} handleIndicatorStyle={{ backgroundColor: theme.secondaryBackgroundColor }} backdropComponent={(props) => (<BottomSheetBackdrop {...props} disappearsOnIndex={-1} appearsOnIndex={0} pressBehavior="close" opacity={0.5} />)} >
+			<BottomSheet ref={sheetRef} index={-1} snapPoints={snapPoints} enablePanDownToClose={true} backgroundStyle={bottomSheetGlobal.backgroundStyle} handleIndicatorStyle={bottomSheetGlobal.handleIndicatorStyle} backdropComponent={(props) => (<BottomSheetBackdrop {...props} disappearsOnIndex={-1} appearsOnIndex={0} pressBehavior="close" opacity={0.5} />)} >
 				<BottomSheetView>
 					{sheetContent}
 				</BottomSheetView>
@@ -52,3 +53,14 @@ export function BottomSheetGlobal({ children }) {
 		</BottomSheetContext.Provider>
 	);
 }
+
+const bottomSheetGlobal = StyleSheet.create({
+	backgroundStyle: {
+		backgroundColor: theme.primaryBackgroundColor,
+		borderTopLeftRadius: 30,
+		borderTopRightRadius: 30
+	},
+	handleIndicatorStyle: {
+		backgroundColor: theme.secondaryBackgroundColor
+	}
+});

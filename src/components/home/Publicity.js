@@ -5,6 +5,7 @@ import { theme } from "../../styles/theme.js";
 /**
  * @author VAMPETA
  * @brief COMPONENTE DE ANUNCIO
+ * @param style ESTILIZACAO EXTRA DO COMPONENTE
 */
 export default function Publicity({ style }) {
 	return (

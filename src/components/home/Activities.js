@@ -5,6 +5,7 @@ import { theme } from "../../styles/theme.js";
 /**
  * @author VAMPETA
  * @brief COMPONENTE DE ATIVIDADES RECENTES
+ * @param style ESTILIZACAO EXTRA DO COMPONENTE
 */
 export default function Activities({ style }) {
 	const recentActivities = ["Treinamento", "Torneio Amigavel", "Badbons Open", "NDB Games"];
