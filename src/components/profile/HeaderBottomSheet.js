@@ -22,7 +22,6 @@ const headerBottomSheet = StyleSheet.create({
 		flexDirection: "row",
 		justifyContent: "space-around",
 		alignItems: "center",
-		alignSelf: "stretch",
 		borderBottomWidth: 10,
 		borderBottomColor: theme.secondaryBackgroundColor,
 		paddingBottom: 10

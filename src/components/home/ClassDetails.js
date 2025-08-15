@@ -32,7 +32,6 @@ export default function ClassDetails({ style }) {
 
 const classDetails = StyleSheet.create({
 	container: {
-		alignSelf: "stretch",
 		padding: 10,
 		borderBottomWidth: 10,
 		borderBottomColor: theme.secondaryBackgroundColor

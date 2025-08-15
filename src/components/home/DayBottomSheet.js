@@ -8,7 +8,7 @@ const students = ["Natan do Egito", "Alexandre Oliveira", "Alunos", "Alunos", "A
 
 /**
  * @author VAMPETA
- * @brief 
+ * @brief COMPONENTE QUE AGRUPA TODOS OS ELEMENTOS DO BottomSheet
 */
 export default function DaysBottomSheet() {
 	return (
@@ -22,16 +22,17 @@ export default function DaysBottomSheet() {
 
 const daysBottomSheet = StyleSheet.create({
 	container: {
-		alignItems: "center",
+		flex: 1,
+		alignItems: "center"
 	},
 	header: {
-
+		alignSelf: "stretch",
 	},
 	classDetails: {
-
+		alignSelf: "stretch",
 	},
 	presenceList: {
-		// width: "80%",
-		// marginVertical: 20
+		width: "80%",
+		marginTop: 20
 	}
 });

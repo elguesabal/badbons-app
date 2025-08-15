@@ -46,7 +46,7 @@ export function BottomSheetGlobal({ children }) {
 		<BottomSheetContext.Provider value={{ openSheet, closeSheet }} >
 			{children}
 			<BottomSheet ref={sheetRef} index={-1} snapPoints={snapPoints} enablePanDownToClose={true} backgroundStyle={bottomSheetGlobal.backgroundStyle} handleIndicatorStyle={bottomSheetGlobal.handleIndicatorStyle} backdropComponent={(props) => (<BottomSheetBackdrop {...props} disappearsOnIndex={-1} appearsOnIndex={0} pressBehavior="close" opacity={0.5} />)} >
-				<BottomSheetView>
+				<BottomSheetView style={bottomSheetGlobal.container} >
 					{sheetContent}
 				</BottomSheetView>
 			</BottomSheet>
@@ -62,5 +62,9 @@ const bottomSheetGlobal = StyleSheet.create({
 	},
 	handleIndicatorStyle: {
 		backgroundColor: theme.secondaryBackgroundColor
+	},
+	container: {
+		height: "100%",
+		paddingBottom: 25
 	}
 });

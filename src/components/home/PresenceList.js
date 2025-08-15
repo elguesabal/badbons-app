@@ -11,26 +11,21 @@ import { theme } from "../../styles/theme.js";
 */
 export default function PresenceList({ style, students }) {
 	return (
-		<BottomSheetScrollView style={[presenceList.container, style]} contentContainerStyle={presenceList.scroll} >
+		<View style={[presenceList.container, style]} >
 			<Text style={presenceList.title} >Tag de Presença</Text>
 			<Text style={presenceList.teacher} >Professor Marcos</Text>
-			<View style={presenceList.students} >
+			<BottomSheetScrollView style={presenceList.students} contentContainerStyle={presenceList.scroll} >
 				{students.map((student, i) => (<Text key={i} style={presenceList.student} >{i + 1}. {student}</Text>))}
-			</View>
-		</BottomSheetScrollView>
+			</BottomSheetScrollView>
+		</View>
 	);
 }
 
 const presenceList = StyleSheet.create({
 	container: {
+		flex: 1,
 		backgroundColor: theme.secondaryBackgroundColor,
-		borderRadius: 15,
-		marginTop: 20,
-		width: "80%",
-		height: 200
-	},
-	scroll: {
-
+		borderRadius: 15
 	},
 	title: {
 		alignSelf: "center",
@@ -44,9 +39,10 @@ const presenceList = StyleSheet.create({
 		fontSize: 15
 	},
 	students: {
-		alignSelf: "stretch",
 		marginTop: 20,
-		paddingHorizontal: 20,
+	},
+	scroll: {
+		paddingLeft: 20
 	},
 	student: {
 		color: theme.primaryTextColor,
