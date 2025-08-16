@@ -9,4 +9,4 @@ export async function getCredentials(setCredentials) {
 	setCredentials({
 		times: JSON.parse(await AsyncStorage.getItem("times"))
 	});
-}
+}	// SALVAR OS DIAS DE TREINO NO CELULAR OU NO SERVIDOR???

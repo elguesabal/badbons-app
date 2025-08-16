@@ -14,19 +14,20 @@ export async function ping(setError) {
 	const version = Constants.expoConfig?.version ?? "";
 
 	try {
-		const res = await axios.get(`${API_URL}/ping`);
+		const res = await axios.get(`${API_URL}/ping`, { params: { version: version } });
 		if (res.status != 200) {
 			setError({ message: `Status ${res.status}` });
-			return (false);
-		}
-		if (!res.data.versions.includes(version)) {
-			setError({ icon: "update", message: "Seu app está desatualizado", button: "Atualizar" });
 			return (false);
 		}
 		return (true);
 	} catch (error) {
 		if (error.message === "Network Error") {
 			setError({ icon: "wifi-off", message: "Sem conexão com a internet" });
+			return (false);
+		}
+		if (error.response.status === 426) {
+			console.log("veio aki")
+			setError({ icon: "update", message: "Seu app está desatualizado", button: "Atualizar" });
 			return (false);
 		}
 		setError({ message: error.message });
