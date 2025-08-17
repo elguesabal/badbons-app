@@ -1,4 +1,8 @@
 import { StyleSheet, View } from "react-native";
+import { useEffect, useState } from "react";
+
+import { useLogin } from "../../app/isLogin.js";
+import { getPresenceList } from "../../functions/home/dayBottomSheet.js";
 
 import HeaderBottomSheet from "../profile/HeaderBottomSheet.js";
 import ClassDetails from "./ClassDetails.js";
@@ -9,8 +13,16 @@ const students = ["Natan do Egito", "Alexandre Oliveira", "Alunos", "Alunos", "A
 /**
  * @author VAMPETA
  * @brief COMPONENTE QUE AGRUPA TODOS OS ELEMENTOS DO BottomSheet
+ * @param day 
 */
-export default function DaysBottomSheet() {
+export default function DaysBottomSheet({ day }) {
+	const { setIsLogin } = useLogin(); // PQ ISSO TA DANDO ERRO???
+	const [error, setError] = useState(false);
+	const [presenceList, setPresenceList] = useState({});
+
+// console.log("aaaa")
+	// useEffect(() => { getPresenceList(day, setPresenceList, setError, setIsLogin) }, []);
+
 	return (
 		<View style={daysBottomSheet.container} >
 			<HeaderBottomSheet style={daysBottomSheet.header} />

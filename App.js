@@ -10,12 +10,12 @@ import { BottomSheetGlobal } from "./src/app/BottomSheetGlobal.js";
 */
 export default function App() {
 	return (
-		<GestureHandlerRootView>
-			<BottomSheetGlobal>
-				<LoginProvider>
+		<LoginProvider>
+			<GestureHandlerRootView>
+				<BottomSheetGlobal>
 					<MainApp />
-				</LoginProvider>
-			</BottomSheetGlobal>
-		</GestureHandlerRootView>
+				</BottomSheetGlobal>
+			</GestureHandlerRootView>
+		</LoginProvider>
 	);
 }

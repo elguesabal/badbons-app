@@ -26,7 +26,6 @@ export async function ping(setError) {
 			return (false);
 		}
 		if (error.response.status === 426) {
-			console.log("veio aki")
 			setError({ icon: "update", message: "Seu app está desatualizado", button: "Atualizar" });
 			return (false);
 		}

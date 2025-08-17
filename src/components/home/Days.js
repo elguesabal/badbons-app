@@ -18,7 +18,7 @@ export default function Days({ style, times }) {
 	return (
 		<View style={[days.container, style]} >
 			{arrayDays.map((day, i) => (
-				<TouchableOpacity key={i} style={[days.day, { backgroundColor: (trainingDays.includes(day)) ? theme.primaryBackgroundColor : theme.secondaryBackgroundColor }]} onPress={() => (trainingDays.includes(day)) ? openSheet(<DaysBottomSheet />) : null} >
+				<TouchableOpacity key={i} style={[days.day, { backgroundColor: (trainingDays.includes(day)) ? theme.primaryBackgroundColor : theme.secondaryBackgroundColor }]} onPress={() => (trainingDays.includes(day)) ? openSheet(<DaysBottomSheet day={day} />) : null} >
 					<Text style={days.text} >{day}</Text>
 					<Text style={days.text} >{i + 1}</Text>
 				</TouchableOpacity>
