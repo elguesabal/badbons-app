@@ -7,13 +7,14 @@ import { theme } from "../../styles/theme.js";
  * @author VAMPETA
  * @brief LISTA DE PRESENCA DO BottomSheet
  * @param style ESTILIZACAO EXTRA DO COMPONENTE
+ * @param teacher NOME DO PROFESSOR
  * @param students LISTA DE ESTUDANTES QUE MARCARAM PRESENCAO PARA IR AO TREINO
 */
-export default function PresenceList({ style, students }) {
+export default function PresenceList({ style, teacher, students }) {
 	return (
 		<View style={[presenceList.container, style]} >
 			<Text style={presenceList.title} >Tag de Presença</Text>
-			<Text style={presenceList.teacher} >Professor Marcos</Text>
+			<Text style={presenceList.teacher} >Professor {teacher}</Text>
 			<BottomSheetScrollView style={presenceList.students} contentContainerStyle={presenceList.scroll} >
 				{students.map((student, i) => (<Text key={i} style={presenceList.student} >{i + 1}. {student}</Text>))}
 			</BottomSheetScrollView>
