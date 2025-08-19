@@ -1,4 +1,4 @@
-import { createContext, useContext, useRef, useMemo, useState, useCallback } from "react";
+import React, { createContext, useContext, useRef, useMemo, useState, useCallback } from "react";
 import BottomSheet, { BottomSheetView, BottomSheetBackdrop } from "@gorhom/bottom-sheet";
 import { StyleSheet } from "react-native";
 
@@ -47,7 +47,7 @@ export function BottomSheetGlobal({ children }) {
 			{children}
 			<BottomSheet ref={sheetRef} index={-1} snapPoints={snapPoints} enablePanDownToClose={true} backgroundStyle={bottomSheetGlobal.backgroundStyle} handleIndicatorStyle={bottomSheetGlobal.handleIndicatorStyle} backdropComponent={(props) => (<BottomSheetBackdrop {...props} disappearsOnIndex={-1} appearsOnIndex={0} pressBehavior="close" opacity={0.5} />)} >
 				<BottomSheetView style={bottomSheetGlobal.container} >
-					{sheetContent}
+					{sheetContent && React.cloneElement(sheetContent, { key: Date.now() })}
 				</BottomSheetView>
 			</BottomSheet>
 		</BottomSheetContext.Provider>

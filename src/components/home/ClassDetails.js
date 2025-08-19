@@ -1,4 +1,9 @@
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, ActivityIndicator, Switch } from "react-native";
+import { useState } from "react";
+
+import { useLogin } from "../../app/isLogin.js";
+import { useBottomSheet } from "../../app/BottomSheetGlobal.js";
+import { confirmPresence } from "../../functions/home/classDetails.js";
 
 import { theme } from "../../styles/theme.js";
 
@@ -12,6 +17,11 @@ import { theme } from "../../styles/theme.js";
  * @param confirmedPresence BOOLEANO INFORMANDO SE O PROPRIO ALUNO MARCOU PRESENCA OU NAO
 */
 export default function ClassDetails({ style, address, start, end, confirmedPresence }) {
+	const { setIsLogin } = useLogin();
+	const { closeSheet } = useBottomSheet();
+	const [presence, setPresence] = useState(confirmedPresence);
+	const [spinner, setSpinner] = useState(false);
+
 	return (
 		<View style={[classDetails.container, style]} >
 			<View style={classDetails.containerInfo} >
@@ -28,7 +38,10 @@ export default function ClassDetails({ style, address, start, end, confirmedPres
 			</View>
 			<View style={classDetails.containerInfo} >
 				<Text style={classDetails.textInfo} >Marcar Presença</Text>
-				<Text style={classDetails.textInfo} >{(confirmedPresence) ? "true" : "false"}</Text>
+				<View style={classDetails.containerSwitch} >
+					{(spinner) ? <ActivityIndicator style={classDetails.spinner} size="30" color="white" /> : null}
+					<Switch style={classDetails.switch} trackColor={{ false: "#ccc", true: "green" }} thumbColor={"white"} value={presence} onValueChange={(newPresence) => confirmPresence(newPresence, setPresence, setSpinner, setIsLogin, closeSheet)} />
+				</View>
 			</View>
 		</View>
 	);
@@ -43,10 +56,21 @@ const classDetails = StyleSheet.create({
 	containerInfo: {
 		flexDirection: "row",
 		justifyContent: "space-between",
+		alignItems: "center",
 		marginVertical: 10
 	},
 	textInfo: {
 		color: theme.primaryTextColor,
 		fontSize: 15
 	},
+	containerSwitch: {
+		flexDirection: "row",
+		alignItems: "center"
+	},
+	spinner: {
+		height: 5
+	},
+	switch: {
+		height: 17
+	}
 });

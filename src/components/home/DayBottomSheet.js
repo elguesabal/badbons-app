@@ -1,4 +1,4 @@
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, ActivityIndicator, View } from "react-native";
 import { useEffect, useState } from "react";
 
 import { useLogin } from "../../app/isLogin.js";
@@ -25,7 +25,11 @@ export default function DaysBottomSheet({ day }) {
 	useEffect(() => { getPresenceList(day, setPresenceList, setError, setIsLogin, closeSheet) }, []);
 
 	if (error) return (<Error {...error} />);
-	if (!presenceList) return (<></>);
+	if (!presenceList) return (
+		<View style={daysBottomSheet.load} >
+			<ActivityIndicator size="70" color="white" />
+		</View>
+	);
 
 	return (
 		<View style={daysBottomSheet.container} >
@@ -37,6 +41,11 @@ export default function DaysBottomSheet({ day }) {
 }
 
 const daysBottomSheet = StyleSheet.create({
+	load: {
+		flex: 1,
+		justifyContent: "center",
+		alignContent: "center"
+	},
 	container: {
 		flex: 1,
 		alignItems: "center"
