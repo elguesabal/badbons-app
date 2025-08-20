@@ -34,7 +34,7 @@ export default function DaysBottomSheet({ day }) {
 	return (
 		<View style={daysBottomSheet.container} >
 			<HeaderBottomSheet style={daysBottomSheet.header} />
-			<ClassDetails style={daysBottomSheet.classDetails} address={presenceList.address} start={presenceList.start} end={presenceList.end} confirmedPresence={presenceList.confirmedPresence} />
+			<ClassDetails style={daysBottomSheet.classDetails} presenceList={presenceList} setPresenceList={setPresenceList} />
 			<PresenceList style={daysBottomSheet.presenceList} teacher={presenceList.teacher} students={presenceList.confirmedStudents} />
 		</View>
 	);

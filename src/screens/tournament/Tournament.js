@@ -1,7 +1,9 @@
-import { StyleSheet, View, Text, Switch } from "react-native";
+// import { StyleSheet, View, Text, Switch } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
 import { useState } from "react";
 
 import Button from "../../components/Button.js";
+import ToggleSwitch from "../../components/ToggleSwitch.js";
 
 import { useBottomSheet } from "../../app/BottomSheetGlobal.js";
 
@@ -16,7 +18,8 @@ export default function Tournament() {
 	return (
 		<View style={tournament.container}>
 			<Text style={{ color: "white" }} >Torneio</Text>
-			<Switch value={isEnabled} onValueChange={setIsEnabled} />
+			{/* <Switch value={isEnabled} onValueChange={setIsEnabled} /> */}
+			<ToggleSwitch style={{ marginVertical: 10 }} value={isEnabled} onValueChange={setIsEnabled} />
 			<Button text="Abrir Bottom Sheet" onPress={() => openSheet(
 				<View style={tournament.bottomSheet} >
 					<Text style={{ color: "white" }} >treino</Text>
