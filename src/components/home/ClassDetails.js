@@ -1,5 +1,4 @@
-import { StyleSheet, View, Text, ActivityIndicator } from "react-native";
-import { useState } from "react";
+import { StyleSheet, View, Text } from "react-native";
 
 import { useLogin } from "../../app/isLogin.js";
 import { useBottomSheet } from "../../app/BottomSheetGlobal.js";

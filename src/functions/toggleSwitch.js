@@ -1,4 +1,3 @@
-
 /**
  * @author VAMPETA
  * @brief GERENCIA A FUNCAO PASSADA COM O SPINNER DO SWITCH
