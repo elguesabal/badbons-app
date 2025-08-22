@@ -22,15 +22,3 @@ export default function App() {
 		</LoginProvider>
 	);
 }
-// export default function App() {
-// 	return (
-// 		<LoginProvider>
-// 			<GestureHandlerRootView>
-// 				<BottomSheetGlobal>
-// 					<MainApp />
-// 				</BottomSheetGlobal>
-// 				<ModalGlobal/>
-// 			</GestureHandlerRootView>
-// 		</LoginProvider>
-// 	);
-// }

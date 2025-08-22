@@ -1,5 +1,6 @@
-import { StyleSheet, View, Switch, ActivityIndicator } from "react-native";
-import { useState } from "react";
+import { StyleSheet, View, Switch } from "react-native";
+
+import { useModal } from "../app/ModalGlobal.js";
 
 import { handleToggleSwitch } from "../functions/toggleSwitch.js";
 
@@ -11,19 +12,14 @@ import { handleToggleSwitch } from "../functions/toggleSwitch.js";
  * @param onValueChange FUNCAO QUE ATIVA OU DESATIVA O BOTAO
 */
 export default function ToggleSwitch({ style, value, onValueChange }) {
-	const [spinner, setSpinner] = useState(false);
+	const { openModal, closeModal } = useModal();
 
 	return (
 		<View style={[toggleSwitch.container, { backgroundColor: (value) ? "green" : "#ccc" }, style]} >
-			{/* {(spinner) ? (
-				<ActivityIndicator style={toggleSwitch.spinner} size="30" color="white" />
-			) : (
-				<Switch style={toggleSwitch.switch} trackColor={{ false: "#ccc", true: "green" }} thumbColor={(value) ? "rgba(255, 255, 255, 0.5)" : "rgba(0, 0, 0, 0.5)"} value={value} onValueChange={(newValue) => handleToggleSwitch(setSpinner, () => onValueChange(newValue))} />
-			)} */}
-			<Switch style={toggleSwitch.switch} trackColor={{ false: "#ccc", true: "green" }} thumbColor={(value) ? "rgba(255, 255, 255, 0.5)" : "rgba(0, 0, 0, 0.5)"} value={value} onValueChange={(newValue) => handleToggleSwitch(setSpinner, () => onValueChange(newValue))} />
+			<Switch style={toggleSwitch.switch} trackColor={{ false: "#ccc", true: "green" }} thumbColor={(value) ? "rgba(255, 255, 255, 0.5)" : "rgba(0, 0, 0, 0.5)"} value={value} onValueChange={(newValue) => handleToggleSwitch(openModal, closeModal, () => onValueChange(newValue))} />
 		</View>
 	);
-}						// SERA Q EU COLOCO UM SPINNER Q COBRE A TELA TODA???
+}
 
 const toggleSwitch = StyleSheet.create({
 	container: {

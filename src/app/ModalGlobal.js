@@ -1,7 +1,12 @@
-import React, { createContext, useContext, useState, useCallback } from "react";
-import { StyleSheet, Modal, View, Text } from "react-native";
+import { createContext, useContext, useState, useCallback } from "react";
+import { StyleSheet, BackHandler, View, Pressable, ActivityIndicator, Text } from "react-native";
+import { useEffect } from "react";
+import { Host, Portal } from "react-native-portalize";
+import { MaterialIcons } from "@expo/vector-icons";
 
 import Button from "../components/Button.js";
+
+import { theme } from "../styles/theme.js";
 
 const ModalContext = createContext();
 
@@ -20,12 +25,14 @@ export function useModal() {
 */
 export function ModalGlobal({ children }) {
 	const [visible, setVisible] = useState(false);
+	const [data, setData] = useState({});
 
 	/**
 	 * @author VAMPETA
 	 * @brief FUNCAO QUE ABRE O ModalGlobal
 	*/
-	const openModal = useCallback(() => {
+	const openModal = useCallback((data = {}) => {
+		setData(data);
 		setVisible(true);
 	}, []);
 
@@ -35,63 +42,56 @@ export function ModalGlobal({ children }) {
 	*/
 	const closeModal = useCallback(() => {
 		setVisible(false);
+		setData({});
 	}, []);
+
+	useEffect(() => {
+		if (!visible) return ;
+		if (data.spinner) return ;
+		const backHandler = BackHandler.addEventListener(
+			"hardwareBackPress",
+			() => {
+				closeModal();
+				return (true);
+			}
+		);
+		return (() => backHandler.remove());
+	}, [visible, closeModal]);
 
 	return (
 		<ModalContext.Provider value={{ openModal, closeModal }}>
-			{children}
-			<Modal visible={visible} transparent={true} animationType="slide" onRequestClose={closeModal} >
-				<View style={modalGlobal.container} >
-					<View style={modalGlobal.box}>
-						<Text style={{ fontSize: 18 }}>⚠️ Aviso Importante</Text>
-						<Button text="Fechar" onPress={closeModal} />
-					</View>
-				</View>
-			</Modal>
+			<Host>
+				{children}
+				{visible && ((data.spinner) ? (
+					<Portal>
+						<View style={[StyleSheet.absoluteFill, modalGlobal.container]}>
+							<Pressable style={StyleSheet.absoluteFill} onPress={closeModal} />
+							<ActivityIndicator size="large" color="white" />
+						</View>
+					</Portal>
+				) : (
+					<Portal>
+						<View style={[StyleSheet.absoluteFill, modalGlobal.container]}>
+							<Pressable style={StyleSheet.absoluteFill} onPress={closeModal} />
+							<View style={modalGlobal.box}>
+								{(data.icon) ? <MaterialIcons name={data.icon} size={100} color={theme.secondaryTextColor} /> : null}
+								{(data.text) ? <Text style={modalGlobal.text}>{data.text}</Text> : null}
+								<Button text="Ok" onPress={closeModal} />
+							</View>
+						</View>
+					</Portal>
+				))}
+			</Host>
 		</ModalContext.Provider>
 	);
 }
-// export function ModalGlobal() {
-// 	const [visible, setVisible] = useState(false);
-
-// 	/**
-// 	 * @author VAMPETA
-// 	 * @brief FUNCAO QUE ABRE O ModalGlobal
-// 	*/
-// 	const openModal = useCallback(() => {
-// 		setVisible(true);
-// 	}, []);
-
-// 	/**
-// 	 * @author VAMPETA
-// 	 * @brief FUNCAO QUE FECHA O ModalGlobal
-// 	*/
-// 	const closeModal = useCallback(() => {
-// 		setVisible(false);
-// 	}, []);
-
-// 	return (
-// 		<ModalContext.Provider value={{ openModal, closeModal }}>
-// 			<Modal visible={visible} transparent={true} animationType="slide" onRequestClose={closeModal} >
-// 				<View style={modalGlobal.container} >
-// 					<View style={modalGlobal.box}>
-// 						<Text style={{ fontSize: 18 }}>⚠️ Aviso Importante</Text>
-// 						<Button text="Fechar" onPress={closeModal} />
-// 					</View>
-// 				</View>
-// 			</Modal>
-// 		</ModalContext.Provider>
-// 	);
-// }
 
 const modalGlobal = StyleSheet.create({
 	container: {
 		backgroundColor: "rgba(0,0,0,0.5)",
-		// flex: 1,
-		// justifyContent: "center",
-		// alignItems: "center",
-		// top: 0,
-		// left: 0
+		flex: 1,
+		justifyContent: "center",
+		alignItems: "center"
 	},
 	box: {
 		backgroundColor: "white",
@@ -102,5 +102,8 @@ const modalGlobal = StyleSheet.create({
 		padding: 20,
 		borderRadius: 10,
 		elevation: 5
+	},
+	text: {
+		fontSize: 18
 	}
 });

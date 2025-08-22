@@ -27,7 +27,9 @@ export default function Tournament() {
 				</View>
 			)} />
 
-			<Button text="Abrir Modal" onPress={openModal} />
+			{/* <Button text="Abrir Modal" onPress={openModal} /> */}
+			{/* <Button text="Abrir Modal" onPress={() => openModal({ spinner: true })} /> */}
+			<Button text="Abrir Modal" onPress={() => openModal({ icon: "teste", text: "aviso" })} />
 		</View>
 	);
 }
