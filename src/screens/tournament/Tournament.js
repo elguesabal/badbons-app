@@ -5,7 +5,7 @@ import Button from "../../components/Button.js";
 import ToggleSwitch from "../../components/ToggleSwitch.js";
 
 import { useBottomSheet } from "../../app/BottomSheetGlobal.js";
-import { useModal } from "../../app/ModalGlobal.js";
+import { useModal } from "../ModalGlobal/ModalGlobal.js";
 
 /**
  * @author VAMPETA
@@ -28,7 +28,8 @@ export default function Tournament() {
 			)} />
 
 			{/* <Button text="Abrir Modal" onPress={openModal} /> */}
-			{/* <Button text="Abrir Modal" onPress={() => openModal({ spinner: true })} /> */}
+			<Button text="Abrir spinner" onPress={() => openModal({ spinner: true })} />
+			<Button text="Abrir load" onPress={() => openModal({ load: true })} />
 			<Button text="Abrir Modal" onPress={() => openModal({ icon: "chair" })} />
 			<Button text="Abrir Modal" onPress={() => openModal({ text: "aviso" })} />
 			<Button text="Abrir Modal" onPress={() => openModal({ icon: "chair", text: "aviso" })} />

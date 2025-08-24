@@ -1,6 +1,6 @@
 import { StyleSheet, TouchableOpacity, Text } from "react-native";
 
-import { useModal } from "../app/ModalGlobal.js";
+import { useModal } from "../screens/ModalGlobal/ModalGlobal.js";
 
 import { handleButton } from "../functions/button.js";
 

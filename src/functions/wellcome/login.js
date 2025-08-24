@@ -12,7 +12,10 @@ import API_URL from "../../Api.js";
 */
 function validation(login, password) {
 	if (!login || !password) {
-		throw (new Error("Preencha todos os campos!"));
+		const err = new Error("Preencha todos os campos!");
+		err.icon = "edit-document";
+		err.button = "Ok";
+		throw (err);
 	}
 }
 

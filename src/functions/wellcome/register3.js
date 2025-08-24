@@ -35,7 +35,7 @@ function doubleUnits(array) {
  * @param setLoad FUNCAO QUE MUDA O STATUS DE LOAD
  * @param setError FUNCAO QUE MUDA O STATUS DE ERROR
 */
-export async function trainingLocations(setSelected, setLocations, setLoad, setError) {	// COMECAR A USAR MODAL AKI
+export async function trainingLocations(setSelected, setLocations, setLoad, setError) {
 	try {
 		const res = await axios.get(`${API_URL}/training-locations`);
 		if (res.status === 200) {
@@ -71,8 +71,10 @@ export function validation(navigation, name, email, password, cpf, date, phone, 
 	const units = Object.keys(selected).filter((key) => selected[key]);
 
 	if (units.length === 0) {
-		Alert.alert("Atenção", "Escolha ao mínimo uma unidade!");
-		return ;
+		const err = new Error("Escolha ao mínimo uma unidade!");
+		err.icon = "location-on";
+		err.button = "Ok";
+		throw (err);
 	}
 	navigation.navigate("register4", {
 		inputNome: name,

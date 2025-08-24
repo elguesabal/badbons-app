@@ -1,4 +1,3 @@
-import { Alert } from "react-native";
 import axios from "axios";
 
 import API_URL from "../../Api.js";
@@ -113,16 +112,20 @@ export function buttonTime(setSelectedTimes, unit, timeItem) {
 */
 export function validation(navigation, name, email, password, cpf, date, phone, selectedTimes) {
 	if (Object.values(selectedTimes).every((arr) => { return (arr.length === 0) })) {
-		Alert.alert("Atenção", "Escolha ao mínimo um horário de treino!");
-		return ;
+		const err = new Error("Escolha ao mínimo um horário de treino!");
+		err.icon = "calendar-month";
+		err.button = "Ok";
+		throw (err);
 	}
 	const auxObj = new Set();
 	for (const [unit, timeUnit] of Object.entries(selectedTimes)) {
 		for (const time of timeUnit) {
 			const auxStr = `${time.day}|${time.start}|${time.end}`;
 			if (auxObj.has(auxStr)) {
-				Alert.alert("Atenção", `Não é possível selecionar o mesmo dia e horário em múltiplas unidades!\n\n${time.day}, ${time.start} - ${time.end}`);
-				return ;
+				const err = new Error(`Não é possível selecionar o mesmo dia e horário em múltiplas unidades!\n\n${time.day}, ${time.start} - ${time.end}`);
+				err.icon = "calendar-month";
+				err.button = "Ok";
+				throw (err);
 			}
 			auxObj.add(auxStr);
 		}

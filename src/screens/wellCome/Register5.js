@@ -1,8 +1,5 @@
 import { StyleSheet, View, Image, FlatList, Text } from "react-native";
-import { useState } from "react";
 
-import Load from "../load/Load.js";
-import Error from "../error/Error.js";
 import Button from "../../components/Button.js";
 
 import { createArray, register } from "../../functions/wellcome/register5.js";
@@ -16,12 +13,7 @@ import { theme } from "../../styles/theme.js";
 */
 export default function Register5({ navigation, route }) {
 	const { inputName, inputEmail, inputPassword, inputCpf, inputDate, inputPhone, times } = route.params;
-	const [load, setLoad] = useState(false);
-	const [error, setError] = useState(false);
 	const array = createArray(times);
-
-	if (error) return (<Error {...error} />);
-	if (load) return (<Load />);
 
 	return (
 		<View style={styles.containerBetween} >
@@ -40,7 +32,7 @@ export default function Register5({ navigation, route }) {
 				/>
 			</View>
 			<View style={register5.containerButton} >
-				<Button text="Próximo" onPress={() => register(navigation, setLoad, setError, inputName, inputEmail, inputPassword, inputCpf, inputDate, inputPhone, times)} />
+				<Button text="Próximo" onPress={() => register(navigation, inputName, inputEmail, inputPassword, inputCpf, inputDate, inputPhone, times)} load />
 			</View>
 		</View>
 	);

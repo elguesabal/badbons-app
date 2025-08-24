@@ -16,8 +16,6 @@ export function createArray(timesUnits) {
  * @author VAMPETA
  * @brief FAZ UMA UMA REQUISICAO A API ENVIANDO OS DADOS DE CADASTRO E DIRECIONA PARA A TELA DE CONFIRMACAO DE MATRICULA SE A API RESPONDER COM STATUS 200
  * @param navigation OBJETO QUE COM METODO COM METODOS DE NAVEGACAO ENTRE SCREENS
- * @param setLoad FUNCAO QUE MUDA O STATUS DE LOAD
- * @param setError FUNCAO QUE MUDA O STATUS DE ERROR
  * @param name NOME RECEBIDO NO INPUT
  * @param email EMAIL RECEBIDO NO INPUT
  * @param password SENHA RECEBIDO NO INPUT
@@ -26,24 +24,17 @@ export function createArray(timesUnits) {
  * @param phone NUMERO DE TELEFONE RECEBIDO NO INPUT
  * @param times OBJETO COM HORARIOS E UNIDADES SELECIONADAS PELO CLIENTE
 */
-export async function register(navigation, setLoad, setError, name, email, password, cpf, date, phone, times) {
-	navigation.setOptions({ headerShown: false });
-	setLoad(true);
+export async function register(navigation, name, email, password, cpf, date, phone, times) {
 	try {
 		const res = await axios.post(`${API_URL}/register`, { name: name, email: email, password: password, cpf: cpf, date: date, phone: phone, times: times });
 		if (res.status === 200) {
 			navigation.navigate("register6");
 		} else {
-			setError({ message: `Status ${res.status}` });
+			throw (new Error(`Status ${res.status}`));
 		}
 	} catch (error) {
-		if (error.message === "Network Error") {
-			setError({ icon: "wifi-off", message: "Sem conexão com a internet" });
-		} else {
-			setError({ message: error.message });
-		}
-	} finally {
-		setLoad(false);
-		navigation.setOptions({ headerShown: true });
+		const err = new Error(error.message);
+		err.status = error.status;
+		throw (err);
 	}
 }

@@ -1,6 +1,6 @@
 import { StyleSheet, View, Switch } from "react-native";
 
-import { useModal } from "../app/ModalGlobal.js";
+import { useModal } from "../screens/ModalGlobal/ModalGlobal.js";
 
 import { handleToggleSwitch } from "../functions/toggleSwitch.js";
 

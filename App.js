@@ -2,7 +2,7 @@ import { LoginProvider } from "./src/app/isLogin.js";
 import { MainApp } from "./src/app/app.js";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
-import { ModalGlobal } from "./src/app/ModalGlobal.js";
+import { ModalGlobal } from "./src/screens/ModalGlobal/ModalGlobal.js";
 import { BottomSheetGlobal } from "./src/app/BottomSheetGlobal.js";
 
 /**
