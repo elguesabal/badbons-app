@@ -11,6 +11,7 @@ import styles from "../../styles/styles.js";
 /**
  * @author VAMPETA
  * @brief TELA DE CADASTRO
+ * @param navigation FUNCAO QUE CONTROLA A NAVEGACAO ENTRE AS SCREENS
 */
 export default function Register1({ navigation }) {
 	const [inputName, setInputNome] = useState("");

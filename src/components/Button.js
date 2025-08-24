@@ -1,5 +1,9 @@
 import { StyleSheet, TouchableOpacity, Text } from "react-native";
 
+import { useModal } from "../app/ModalGlobal.js";
+
+import { handleButton } from "../functions/button.js";
+
 import { theme } from "../styles/theme.js";
 
 /**
@@ -9,9 +13,11 @@ import { theme } from "../styles/theme.js";
  * @param style ESTILIZACAO EXTRA Q PODE SER APLICADA A TouchableOpacity
  * @param onPress ESPERA UMA FUNCAO PARA SER REPASSADA PARA TouchableOpacity
 */
-export default function Button({ text, style, onPress, activeOpacity = 0.7 }) {
+export default function Button({ text, style, onPress, activeOpacity = 0.7, load = false }) {
+	const { openModal, closeModal } = useModal();
+
 	return (
-		<TouchableOpacity style={[button.container, style]} onPress={onPress} activeOpacity={activeOpacity}>
+		<TouchableOpacity style={[button.container, style]} onPress={() => handleButton(openModal, closeModal, onPress, load)} activeOpacity={activeOpacity}>
 			<Text style={button.text}>{text}</Text>
 		</TouchableOpacity>
 	);

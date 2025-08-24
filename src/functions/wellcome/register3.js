@@ -35,7 +35,7 @@ function doubleUnits(array) {
  * @param setLoad FUNCAO QUE MUDA O STATUS DE LOAD
  * @param setError FUNCAO QUE MUDA O STATUS DE ERROR
 */
-export async function trainingLocations(setSelected, setLocations, setLoad, setError) {
+export async function trainingLocations(setSelected, setLocations, setLoad, setError) {	// COMECAR A USAR MODAL AKI
 	try {
 		const res = await axios.get(`${API_URL}/training-locations`);
 		if (res.status === 200) {

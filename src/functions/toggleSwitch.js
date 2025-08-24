@@ -1,6 +1,6 @@
 /**
  * @author VAMPETA
- * @brief GERENCIA A FUNCAO PASSADA COM O SPINNER DO SWITCH
+ * @brief GERENCIA A FUNCAO PASSADA PARA O ToggleSwitch
  * @param openModal FUNCAO QUE ABRE O MODAL
  * @param closeModal FUNCAO QUE FECHA O MODAL
  * @param onValueChange FUNCAO PASSADA PARA O SWITCH
@@ -9,7 +9,12 @@ export async function handleToggleSwitch(openModal, closeModal, onValueChange) {
 	try {
 		openModal({ spinner: true });
 		await onValueChange();
-	} finally {
 		closeModal();
+	} catch(error) {
+		if (error.message === "Network Error") {
+			openModal({ icon: "wifi-off", text: "Sem conexão com a internet", button: "Ok" });
+		} else {
+			openModal({ text: error.message, status: error.status });
+		}
 	}
 }

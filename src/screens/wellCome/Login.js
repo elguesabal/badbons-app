@@ -1,8 +1,6 @@
 import { KeyboardAvoidingView, ScrollView, Platform, StyleSheet, View, Image } from "react-native";
 import { useState } from "react";
 
-import Load from "../load/Load.js";
-import Error from "../error/Error.js";
 import Input from "../../components/Input.js";
 import Button from "../../components/Button.js";
 
@@ -15,15 +13,10 @@ import styles from "../../styles/styles.js";
  * @author VAMPETA
  * @brief TELA DE LOGIN
 */
-export default function Login({ navigation }) {
-	const [load, setLoad] = useState(false);
-	const [error, setError] = useState(false);
+export default function Login() {
 	const [inputLogin, setInputLogin] = useState("");
 	const [inputPassword, setInputPassword] = useState("");
 	const { setIsLogin } = useLogin();
-
-	if (error) return (<Error {...error} />);
-	if (load) return (<Load />);
 
 	return (
 		<KeyboardAvoidingView style={styles.backgorund} behavior={Platform.OS === "ios" ? "padding" : "height"} keyboardVerticalOffset={Platform.OS === "ios" ? 60 : 0} >
@@ -35,7 +28,7 @@ export default function Login({ navigation }) {
 						<Input placeholder="Senha" value={inputPassword} onChangeText={setInputPassword} secureTextEntry />
 					</View>
 					<View style={login.containerButton} >
-						<Button text="proximo" onPress={() => hundleLogin(inputLogin, inputPassword, navigation, setLoad, setError, setIsLogin)} />
+						<Button text="proximo" onPress={() => hundleLogin(inputLogin, inputPassword, setIsLogin)} load={true} />
 					</View>
 				</View>
 			</ScrollView>

@@ -1,4 +1,4 @@
-import { KeyboardAvoidingView, ScrollView, Platform, StyleSheet, Alert, View, Image } from "react-native";
+import { KeyboardAvoidingView, ScrollView, Platform, StyleSheet, View, Image } from "react-native";
 import { useState } from "react";
 
 import Input from "../../components/Input.js";
@@ -11,6 +11,8 @@ import styles from "../../styles/styles.js";
 /**
  * @author VAMPETA
  * @brief TELA DE CADASTRO
+ * @param navigation FUNCAO QUE CONTROLA A NAVEGACAO ENTRE AS SCREENS
+ * @param route OBJETO COM PARAMETROS DA SCREEN ANTERIOR
 */
 export default function Cadastrar2({ navigation, route }) {
 	const { inputName, inputEmail, inputPassword } = route.params;

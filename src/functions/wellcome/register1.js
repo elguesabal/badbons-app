@@ -1,5 +1,3 @@
-import { Alert } from "react-native";
-
 /**
  * @author VAMPETA
  * @brief FUNCAO RESPONSAVEL POR VALIDAR INFORMACOES E PASSAR ELAS PARA A Register2
@@ -10,12 +8,16 @@ import { Alert } from "react-native";
 */
 export function validation(navigation, name, email, password) {
 	if (!name || !email || !password) {
-		Alert.alert("Atenção", "Preencha todos os campos!");
-		return ;
+		const err = new Error("Preencha todos os campos!");
+		err.icon = "edit-document";
+		err.button = "Ok";
+		throw (err);
 	}
 	if (!/\S+@\S+\.\S+/.test(email)) {
-		Alert.alert("Atenção", "Email inválido!");
-		return ;
+		const err = new Error("Email inválido!");
+		err.icon = "alternate-email";
+		err.button = "Ok";
+		throw (err);
 	}
 	navigation.navigate("register2", {
 		inputNome: name,

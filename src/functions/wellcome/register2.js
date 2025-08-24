@@ -1,5 +1,3 @@
-import { Alert } from "react-native";
-
 /**
  * @author VAMPETA
  * @brief FUNCAO RESPONSAVEL POR VALIDAR INFORMACOES E PASSAR ELAS PARA A Register3
@@ -13,12 +11,16 @@ import { Alert } from "react-native";
 */
 export function validation(navigation, name, email, password, cpf, date, phone) {
 	if (!cpf || !date || !phone) {
-		Alert.alert("Atenção", "Preencha todos os campos!");
-		return ;
+		const err = new Error("Preencha todos os campos!");
+		err.icon = "edit-document";
+		err.button = "Ok";
+		throw (err);
 	}
 	if (!/^\d{11}$/.test(cpf)) {
-		Alert.alert("Atenção", "CPF inválido");
-		return ;
+		const err = new Error("CPF inválido");
+		err.icon = "edit-document";
+		err.button = "Ok";
+		throw (err);
 	}
 	navigation.navigate("register3", {
 		inputNome: name,

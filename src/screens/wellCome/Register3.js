@@ -13,6 +13,8 @@ import styles from "../../styles/styles.js";
 /**
  * @author VAMPETA
  * @brief TELA DE CADASTRO
+ * @param navigation FUNCAO QUE CONTROLA A NAVEGACAO ENTRE AS SCREENS
+ * @param route OBJETO COM PARAMETROS DA SCREEN ANTERIOR
 */
 export default function Register3({ navigation, route }) {
 	const { inputName, inputEmail, inputPassword, inputCpf, inputDate, inputPhone } = route.params;

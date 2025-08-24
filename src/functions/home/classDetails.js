@@ -21,16 +21,16 @@ export async function confirmPresence(newPresence, setPresenceList, setIsLogin, 
 			const name = await AsyncStorage.getItem("name");
 			setPresenceList((prev) => ({ ...prev, confirmedPresence: newPresence, confirmedStudents: (newPresence) ? [...prev.confirmedStudents, name] : prev.confirmedStudents.filter((student) => student !== name) }));
 		} else {
-// console.log(`Status ${res.status}`)
+			throw (new Error(`Status ${res.status}`));
 		}
 	} catch (error) {
-		if (error.message === "Network Error") {
-// console.log("Sem conexão com a internet")		// NAO SEI COMO INFORMAR O CLIENTE DESSE ERRO
-		} else if (error.response && error.response.status === 401) {
+		if (error.response && error.response.status === 401) {
 			closeSheet();
 			logout(setIsLogin);
 		} else {
-// console.log(error.message)		// NAO SEI COMO INFORMAR O CLIENTE DESSE ERRO
+			const err = new Error(error.message);
+			err.status = error.status;
+			throw (err);
 		}
 	}
 }

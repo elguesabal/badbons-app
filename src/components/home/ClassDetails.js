@@ -2,6 +2,7 @@ import { StyleSheet, View, Text } from "react-native";
 
 import { useLogin } from "../../app/isLogin.js";
 import { useBottomSheet } from "../../app/BottomSheetGlobal.js";
+
 import { confirmPresence } from "../../functions/home/classDetails.js";
 
 import ToggleSwitch from "../ToggleSwitch.js";

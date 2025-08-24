@@ -13,6 +13,7 @@ import { theme } from "../../styles/theme.js";
 /**
  * @author VAMPETA
  * @brief TELA PRINCIPAL COM AS OPCOES DE LOGIN E CADASTRO
+ * @param navigation FUNCAO QUE CONTROLA A NAVEGACAO ENTRE AS SCREENS
 */
 export default function Main({ navigation }) {
 	const [load, setLoad] = useState(true);

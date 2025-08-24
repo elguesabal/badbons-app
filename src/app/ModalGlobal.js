@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useCallback } from "react";
-import { StyleSheet, BackHandler, View, Pressable, ActivityIndicator, Text } from "react-native";
+import { StyleSheet, BackHandler, View, Pressable, ActivityIndicator, TouchableOpacity, Text } from "react-native";
 import { useEffect } from "react";
 import { Host, Portal } from "react-native-portalize";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -62,22 +62,29 @@ export function ModalGlobal({ children }) {
 		<ModalContext.Provider value={{ openModal, closeModal }}>
 			<Host>
 				{children}
-				{visible && ((data.spinner) ? (
+				{visible && ((
 					<Portal>
 						<View style={[StyleSheet.absoluteFill, modalGlobal.container]}>
-							<Pressable style={StyleSheet.absoluteFill} onPress={closeModal} />
-							<ActivityIndicator size="large" color="white" />
-						</View>
-					</Portal>
-				) : (
-					<Portal>
-						<View style={[StyleSheet.absoluteFill, modalGlobal.container]}>
-							<Pressable style={StyleSheet.absoluteFill} onPress={closeModal} />
-							<View style={modalGlobal.box}>
-								{(data.icon) ? <MaterialIcons name={data.icon} size={100} color={theme.secondaryTextColor} /> : null}
-								{(data.text) ? <Text style={modalGlobal.text}>{data.text}</Text> : null}
-								<Button text="Ok" onPress={closeModal} />
-							</View>
+							{(data.spinner) ? (
+								<ActivityIndicator size="large" color="white" />
+							) : (
+								<>
+									<Pressable style={StyleSheet.absoluteFill} onPress={closeModal} />
+									<View style={modalGlobal.box}>
+										<View style={modalGlobal.header} >
+											<TouchableOpacity onPress={closeModal} >
+												<MaterialIcons name="close" size={30} color={theme.secondaryTextColor} />
+											</TouchableOpacity>
+										</View>
+										<View style={modalGlobal.body} >									
+											{(data.icon) ? <MaterialIcons name={data.icon} size={100} color={theme.secondaryTextColor} /> : null}
+											{(data.text) ? <Text style={modalGlobal.text}>{data.text}</Text> : null}
+											{(data.status) ? <Text style={modalGlobal.status}>Status {data.status}</Text> : null}
+											{(data.button) ? <Button text={data.button} onPress={closeModal} /> : null}
+										</View>
+									</View>
+								</>
+							)}
 						</View>
 					</Portal>
 				))}
@@ -95,15 +102,23 @@ const modalGlobal = StyleSheet.create({
 	},
 	box: {
 		backgroundColor: "white",
-		alignItems: "center",
-		justifyContent: "center",
-		height: "30%",
+		height: "40%",
 		width: "80%",
 		padding: 20,
-		borderRadius: 10,
-		elevation: 5
+		borderRadius: 10
+	},
+	header: {
+		alignItems: "flex-end"
+	},
+	body: {
+		flex: 1,
+		alignItems: "center",
+		justifyContent: "space-evenly"
 	},
 	text: {
-		fontSize: 18
+		fontSize: 18,
+	},
+	status: {
+		fontSize: 16,
 	}
 });

@@ -1,4 +1,3 @@
-import { Alert } from "react-native";
 import axios from "axios";
 import * as SecureStore from "expo-secure-store";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -13,10 +12,8 @@ import API_URL from "../../Api.js";
 */
 function validation(login, password) {
 	if (!login || !password) {
-		Alert.alert("Atenção", "Preencha todos os campos!");
-		return (true);
+		throw (new Error("Preencha todos os campos!"));
 	}
-	return (false);
 }
 
 /**
@@ -24,12 +21,9 @@ function validation(login, password) {
  * @brief FUNCAO QUE CONTROLA O HEADER, TELA DE LOAD E ERRO FAZENDO REQUISICAO NA API, ALEM DE SALVAR OS DADOS CASO O USUARIO EXISTA
  * @param login LOGIN DO USUARIO
  * @param password SENHA DO USUARIO
- * @param navigation OBJETO QUE COM METODO COM METODOS DE NAVEGACAO ENTRE SCREENS
- * @param setLoad FUNCAO QUE MUDA O STATUS DE LOAD
- * @param setError FUNCAO QUE MUDA O STATUS DE ERROR
- * @param setIsLogin FUNCAO Q CONTROLA SE O USUARIO ESTA LOGADO OU NAO
+ * @param setIsLogin FUNCAO QUE CONTROLA SE O USUARIO ESTA LOGADO OU NAO
 */
-async function requestLogin(login, password, navigation, setLoad, setError, setIsLogin) {
+async function requestLogin(login, password, setIsLogin) {
 	try {
 		const res = await axios.post(`${API_URL}/login`, { login: login, password: password });
 		if (res.status === 200) {
@@ -44,19 +38,20 @@ async function requestLogin(login, password, navigation, setLoad, setError, setI
 			await AsyncStorage.setItem("times", JSON.stringify(res.data.times));
 			setIsLogin(true);
 		} else {
-			setError({ message: `Status ${res.status}` });
+			throw (new Error(`Status ${res.status}`));
 		}
 	} catch (error) {
-		if (error.message === "Network Error") {
-			setError({ icon: "wifi-off", message: "Sem conexão com a internet" });
-		} else if (error.response && error.response.status === 401) {
-			Alert.alert("Login", "Login ou senha errada!");
+		if (error.response && error.response.status === 401) {
+			const err = new Error("Login ou senha errada!");
+			err.icon = "person-off";
+			err.status = error.status;
+			err.button = "Ok";
+			throw (err);
 		} else {
-			setError({ message: error.message });
+			const err = new Error(error.message);
+			err.status = error.status;
+			throw (err);
 		}
-	} finally {
-		setLoad(false);
-		navigation.setOptions({ headerShown: true });
 	}
 }
 
@@ -65,14 +60,13 @@ async function requestLogin(login, password, navigation, setLoad, setError, setI
  * @brief FUNCAO QUE CONTROLA O HEADER, TELA DE LOAD E ERRO FAZENDO REQUISICAO NA API
  * @param login LOGIN REVIDO PELO INPUT
  * @param password SENHA RECEBIDO NO INPUT
- * @param navigation OBJETO QUE COM METODO COM METODOS DE NAVEGACAO ENTRE SCREENS
- * @param setLoad FUNCAO QUE MUDA O STATUS DE LOAD
- * @param setError FUNCAO QUE MUDA O STATUS DE ERROR
- * @param setIsLogin FUNCAO Q CONTROLA SE O USUARIO ESTA LOGADO OU NAO
+ * @param setIsLogin FUNCAO QUE CONTROLA SE O USUARIO ESTA LOGADO OU NAO
 */
-export async function hundleLogin(login, password, navigation, setLoad, setError, setIsLogin) {
-	if (validation(login, password)) return ;
-	navigation.setOptions({ headerShown: false });
-	setLoad(true);
-	requestLogin(login, password, navigation, setLoad, setError, setIsLogin);
+export async function hundleLogin(login, password, setIsLogin) {
+	try {
+		validation(login, password);
+		await requestLogin(login, password, setIsLogin);
+	} catch (error) {
+		throw (error);
+	}
 }
