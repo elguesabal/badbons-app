@@ -1,8 +1,6 @@
 import { StyleSheet, View, Pressable, TouchableOpacity, Text } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 
-import Button from "../../components/Button.js";
-
 import { theme } from "../../styles/theme.js";
 
 /**
@@ -25,12 +23,16 @@ export default function BoxModal({ data, closeModal }) {
 					{(data.icon) ? <MaterialIcons name={data.icon} size={100} color={theme.secondaryTextColor} /> : null}
 					{(data.text) ? <Text style={boxModal.text}>{data.text}</Text> : null}
 					{(data.status) ? <Text style={boxModal.status}>Status {data.status}</Text> : null}
-					{(data.button) ? <Button text={data.button} onPress={closeModal} /> : null}
+					{(data.button) ? (
+						<TouchableOpacity style={boxModal.button} onPress={closeModal} >
+							<Text style={boxModal.textButton}>{data.button}</Text>
+						</TouchableOpacity>
+					) : null}
 				</View>
 			</View>
 		</>
 	);
-}					// ACHO QUE EU DEVERIA PARAR DE USAR Button DENTRO DE ModalGlobal PRA EVITAR O AVISO "Require cycle" DO RIECT
+}
 
 const boxModal = StyleSheet.create({
 	box: {
@@ -53,5 +55,17 @@ const boxModal = StyleSheet.create({
 	},
 	status: {
 		fontSize: 16,
+	},
+	button: {
+		backgroundColor: theme.primaryBackgroundColor,
+		borderRadius: 20,
+		width: 150,
+		height: 40,
+		alignItems: "center",
+		justifyContent: "center"
+	},
+	textButton: {
+		color: theme.primaryTextColor,
+		fontSize: 15
 	}
 });

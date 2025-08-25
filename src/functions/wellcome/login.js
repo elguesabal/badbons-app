@@ -1,6 +1,7 @@
 import axios from "axios";
 import * as SecureStore from "expo-secure-store";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as FileSystem from "expo-file-system";
 
 import API_URL from "../../Api.js";
 
@@ -31,7 +32,13 @@ async function requestLogin(login, password, setIsLogin) {
 		const res = await axios.post(`${API_URL}/login`, { login: login, password: password });
 		if (res.status === 200) {
 			await SecureStore.setItemAsync("token", res.data.token);
-			await AsyncStorage.setItem("photo", res.data.photo);
+			// await AsyncStorage.setItem("photo", res.data.photo);
+// console.log("teste: ", FileSystem.documentDirectory)
+			try {
+				await FileSystem.downloadAsync(res.data.photo, FileSystem.documentDirectory + "user.jpg");
+			} catch (error) {
+
+			}
 			await AsyncStorage.setItem("name", res.data.name);
 			await AsyncStorage.setItem("email", res.data.email);
 			await SecureStore.setItemAsync("cpf", res.data.cpf);

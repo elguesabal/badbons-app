@@ -1,6 +1,5 @@
-import { createContext, useContext, useState, useCallback } from "react";
+import { createContext, useContext, useState, useEffect, useCallback } from "react";
 import { StyleSheet, BackHandler, View } from "react-native";
-import { useEffect } from "react";
 import { Host, Portal } from "react-native-portalize";
 
 import SpinnerModal from "./SpinnerModal.js";

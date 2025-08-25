@@ -7,7 +7,7 @@ import { getPresenceList } from "../../functions/home/dayBottomSheet.js";
 
 import Error from "../../screens/error/Error.js";
 
-import HeaderBottomSheet from "../profile/HeaderBottomSheet.js";
+import HeaderBottomSheet from "./HeaderBottomSheet.js";
 import ClassDetails from "./ClassDetails.js";
 import PresenceList from "./PresenceList.js";
 

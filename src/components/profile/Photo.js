@@ -6,8 +6,11 @@ import { theme } from "../../styles/theme.js";
 /**
  * @author VAMPETA
  * @brief COMPONENTE COM FOTO DE PERFIL DO USUARIO
+ * @param urlPhoto
+ * @param name NOME DO CLIENTE
+ * @param units UNIDADES QUE O CLIENTE ESTA INSCRITA
 */
-export default function Photo({ urlPhoto, name, units }) {
+export default function Photo({ urlPhoto, name, units }) {			// NAO TA RENDERISANDO A IMAGEM SALVA DENTRO DO CELULAR
 	return (
 		<View style={photo.container} >
 			<View style={photo.background} ></View>

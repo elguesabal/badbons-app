@@ -1,6 +1,6 @@
-import React, { createContext, useContext, useRef, useMemo, useState, useCallback } from "react";
+import React, { createContext, useContext, useRef, useMemo, useState, useEffect, useCallback } from "react";
 import BottomSheet, { BottomSheetView, BottomSheetBackdrop } from "@gorhom/bottom-sheet";
-import { StyleSheet } from "react-native";
+import { StyleSheet, BackHandler } from "react-native";
 
 import { theme } from "../styles/theme.js";
 
@@ -23,6 +23,7 @@ export function BottomSheetGlobal({ children }) {
 	const sheetRef = useRef(null);
 	const snapPoints = useMemo(() => ["50%", "80%"], []);
 	const [sheetContent, setSheetContent] = useState(null);
+	const [isOpen, setIsOpen] = useState(false);
 
 	/**
 	 * @author VAMPETA
@@ -32,6 +33,7 @@ export function BottomSheetGlobal({ children }) {
 	const openSheet = useCallback((content) => {
 		setSheetContent(content);
 		sheetRef.current?.expand();
+		setIsOpen(true);
 	}, []);
 
 	/**
@@ -40,12 +42,27 @@ export function BottomSheetGlobal({ children }) {
 	*/
 	const closeSheet = useCallback(() => {
 		sheetRef.current?.close();
+		setIsOpen(false);
 	}, []);
+
+	useEffect(() => {
+		const backHandler = BackHandler.addEventListener(
+			"hardwareBackPress",
+			() => {
+				if (isOpen) {
+					closeSheet();
+					return (true);
+				}
+				return (false);
+			}
+		);
+		return (() => backHandler.remove());
+	}, [isOpen, closeSheet]);
 
 	return (
 		<BottomSheetContext.Provider value={{ openSheet, closeSheet }} >
 			{children}
-			<BottomSheet ref={sheetRef} index={-1} snapPoints={snapPoints} enablePanDownToClose={true} backgroundStyle={bottomSheetGlobal.backgroundStyle} handleIndicatorStyle={bottomSheetGlobal.handleIndicatorStyle} backdropComponent={(props) => (<BottomSheetBackdrop {...props} disappearsOnIndex={-1} appearsOnIndex={0} pressBehavior="close" opacity={0.5} />)} >
+			<BottomSheet ref={sheetRef} index={-1} snapPoints={snapPoints} enablePanDownToClose={true} onClose={() => setIsOpen(false)} backgroundStyle={bottomSheetGlobal.backgroundStyle} handleIndicatorStyle={bottomSheetGlobal.handleIndicatorStyle} backdropComponent={(props) => (<BottomSheetBackdrop {...props} disappearsOnIndex={-1} appearsOnIndex={0} pressBehavior="close" opacity={0.5} />)} >
 				<BottomSheetView style={bottomSheetGlobal.container} >
 					{sheetContent && React.cloneElement(sheetContent, { key: Date.now() })}
 				</BottomSheetView>
