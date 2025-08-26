@@ -9,9 +9,7 @@ import * as FileSystem from "expo-file-system";
 */
 export async function getCredentials(setCredentials) {
 	const photo = await FileSystem.getInfoAsync(FileSystem.documentDirectory + "user.jpg");
-// console.log("teste: ", photo.uri)
 	setCredentials({
-		// photo: await AsyncStorage.getItem("photo"),
 		photo: (photo.exists) ? photo.uri : null,
 		name: await AsyncStorage.getItem("name"),
 		email: await AsyncStorage.getItem("email"),

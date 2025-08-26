@@ -32,10 +32,9 @@ async function requestLogin(login, password, setIsLogin) {
 		const res = await axios.post(`${API_URL}/login`, { login: login, password: password });
 		if (res.status === 200) {
 			await SecureStore.setItemAsync("token", res.data.token);
-			// await AsyncStorage.setItem("photo", res.data.photo);
-// console.log("teste: ", FileSystem.documentDirectory)
 			try {
-				await FileSystem.downloadAsync(res.data.photo, FileSystem.documentDirectory + "user.jpg");
+				const infoDoc = await FileSystem.downloadAsync(res.data.photo, FileSystem.documentDirectory + "user.jpg", { headers: { Authorization: `Bearer ${res.data.token}` }});
+				if (infoDoc.status !== 200) await FileSystem.deleteAsync(infoDoc.uri, { idempotent: true });
 			} catch (error) {
 
 			}

@@ -10,7 +10,7 @@ import { theme } from "../../styles/theme.js";
  * @param name NOME DO CLIENTE
  * @param units UNIDADES QUE O CLIENTE ESTA INSCRITA
 */
-export default function Photo({ urlPhoto, name, units }) {			// NAO TA RENDERISANDO A IMAGEM SALVA DENTRO DO CELULAR
+export default function Photo({ urlPhoto, name, units }) {
 	return (
 		<View style={photo.container} >
 			<View style={photo.background} ></View>

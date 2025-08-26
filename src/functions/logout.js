@@ -1,5 +1,6 @@
 import * as SecureStore from "expo-secure-store";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as FileSystem from "expo-file-system";
 
 /**
  * @author VAMPETA
@@ -8,8 +9,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 */
 export async function logout(setIsLogin) {
 	await SecureStore.deleteItemAsync("token");
-	await SecureStore.deleteItemAsync("token");
-	await AsyncStorage.removeItem("photo");
+	await FileSystem.deleteAsync(FileSystem.documentDirectory + "user.jpg", { idempotent: true });
 	await AsyncStorage.removeItem("name");
 	await AsyncStorage.removeItem("email");
 	await SecureStore.deleteItemAsync("cpf");
