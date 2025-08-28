@@ -35,9 +35,7 @@ async function requestLogin(login, password, setIsLogin) {
 			try {
 				const infoDoc = await FileSystem.downloadAsync(res.data.photo, FileSystem.documentDirectory + "user.jpg", { headers: { Authorization: `Bearer ${res.data.token}` }});
 				if (infoDoc.status !== 200) await FileSystem.deleteAsync(infoDoc.uri, { idempotent: true });
-			} catch (error) {
-
-			}
+			} catch (error) {}
 			await AsyncStorage.setItem("name", res.data.name);
 			await AsyncStorage.setItem("email", res.data.email);
 			await SecureStore.setItemAsync("cpf", res.data.cpf);
