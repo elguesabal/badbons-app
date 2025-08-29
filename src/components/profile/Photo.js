@@ -1,5 +1,8 @@
 import { StyleSheet, View, Image, TouchableOpacity, Text } from "react-native";
+import { useState, useEffect } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
+
+import { getPhoto } from "../../functions/profile/photo.js";
 
 import { theme } from "../../styles/theme.js";
 
@@ -11,6 +14,10 @@ import { theme } from "../../styles/theme.js";
  * @param units UNIDADES QUE O CLIENTE ESTA INSCRITA
 */
 export default function Photo({ urlPhoto, name, units }) {
+	const [img, setImg] = useState(urlPhoto);
+
+	useEffect(() => { setImg(urlPhoto ?? null) }, [urlPhoto]);
+
 	return (
 		<View style={photo.container} >
 			<View style={photo.background} ></View>
@@ -19,9 +26,9 @@ export default function Photo({ urlPhoto, name, units }) {
 			</View>
 			<View style={photo.containerImg} >
 				<View style={photo.containerPhoto} >
-					{(urlPhoto) ? <Image source={{ uri: urlPhoto }} style={photo.photo} /> : <MaterialIcons name="person" size={100} color={theme.secondaryBackgroundColor} />}
+					{(img) ? <Image source={{ uri: img }} style={photo.photo} /> : <MaterialIcons name="person" size={100} color={theme.secondaryBackgroundColor} />}
 				</View>
-				<TouchableOpacity style={photo.ButtonIcon} onPress={() => alert("mudar foto")}>
+				<TouchableOpacity style={photo.ButtonIcon} onPress={() => getPhoto(setImg)}>
 					<MaterialIcons name="edit" size={32} color={theme.primaryBackgroundColor} />
 				</TouchableOpacity>
 			</View>

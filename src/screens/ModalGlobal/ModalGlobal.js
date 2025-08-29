@@ -46,19 +46,10 @@ export function ModalGlobal({ children }) {
 
 	useEffect(() => {
 		if (!visible) return ;
-		// if (data.spinner) return ;
-		// if (data.load) return ;
-		if (data.spinner || data.load) {
-			const backHandler = BackHandler.addEventListener(
-				"hardwareBackPress",
-				() => (true)
-			);
-			return (() => backHandler.remove());
-		}
 		const backHandler = BackHandler.addEventListener(
 			"hardwareBackPress",
 			() => {
-				closeModal();
+				if (!data.spinner && !data.load) closeModal();
 				return (true);
 			}
 		);
