@@ -1,0 +1,1 @@
+export const compatibleProfilePictures = ["jpg", "jpeg", "png", "heic"];

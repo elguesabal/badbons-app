@@ -2,6 +2,8 @@ import { StyleSheet, View, Image, TouchableOpacity, Text } from "react-native";
 import { useState, useEffect } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 
+import { useModal } from "../../screens/ModalGlobal/ModalGlobal.js";
+
 import { getPhoto } from "../../functions/profile/photo.js";
 
 import { theme } from "../../styles/theme.js";
@@ -14,8 +16,10 @@ import { theme } from "../../styles/theme.js";
  * @param units UNIDADES QUE O CLIENTE ESTA INSCRITA
 */
 export default function Photo({ urlPhoto, name, units }) {
+	const { openModal, closeModal } = useModal();
 	const [img, setImg] = useState(urlPhoto);
 
+	// console.log(img)
 	useEffect(() => { setImg(urlPhoto ?? null) }, [urlPhoto]);
 
 	return (
@@ -28,7 +32,7 @@ export default function Photo({ urlPhoto, name, units }) {
 				<View style={photo.containerPhoto} >
 					{(img) ? <Image source={{ uri: img }} style={photo.photo} /> : <MaterialIcons name="person" size={100} color={theme.secondaryBackgroundColor} />}
 				</View>
-				<TouchableOpacity style={photo.ButtonIcon} onPress={() => getPhoto(setImg)}>
+				<TouchableOpacity style={photo.ButtonIcon} onPress={() => getPhoto(openModal, closeModal, setImg)}>
 					<MaterialIcons name="edit" size={32} color={theme.primaryBackgroundColor} />
 				</TouchableOpacity>
 			</View>

@@ -33,7 +33,7 @@ async function requestLogin(login, password, setIsLogin) {
 		if (res.status === 200) {
 			await SecureStore.setItemAsync("token", res.data.token);
 			try {
-				const infoDoc = await FileSystem.downloadAsync(res.data.photo, FileSystem.documentDirectory + "user.jpg", { headers: { Authorization: `Bearer ${res.data.token}` }});
+				const infoDoc = await FileSystem.downloadAsync(res.data.photo, `${FileSystem.documentDirectory}user.${res.data.photo.split(".").pop().toLowerCase()}`, { headers: { Authorization: `Bearer ${res.data.token}` }});
 				if (infoDoc.status !== 200) await FileSystem.deleteAsync(infoDoc.uri, { idempotent: true });
 			} catch (error) {
 
