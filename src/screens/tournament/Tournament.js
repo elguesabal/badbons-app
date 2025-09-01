@@ -7,6 +7,22 @@ import ToggleSwitch from "../../components/ToggleSwitch.js";
 import { useBottomSheet } from "../../app/BottomSheetGlobal.js";
 import { useModal } from "../ModalGlobal/ModalGlobal.js";
 
+
+import Modal from "react-native-modal";
+function SideModal() {
+	const [isVisible, setIsVisible] = useState(false);
+	return (
+		<>
+			<Button text="modal lateral" onPress={() => setIsVisible(true)} />
+			<Modal isVisible={isVisible} onBackdropPress={() => setIsVisible(false)} animationIn="slideInLeft" animationOut="slideOutLeft">
+				<View style={{ backgroundColor: "red", height: 200, width: 200 }}>
+					<Text style={{ color: "white" }}>Modal da lateral!</Text>
+				</View>
+			</Modal>
+		</>
+	);
+}
+
 /**
  * @author VAMPETA
  * @brief TELA DE TORNEIO
@@ -23,17 +39,14 @@ export default function Tournament() {
 
 			<Button text="Abrir BottomSheet" onPress={() => openSheet(
 				<View style={tournament.bottomSheet} >
-					<Text style={{ color: "white" }} >treino</Text>
+					<Text>treino</Text>
 				</View>
 			)} />
 
-			{/* <Button text="Abrir Modal" onPress={openModal} /> */}
 			<Button text="Abrir spinner" onPress={() => openModal({ spinner: true })} />
 			<Button text="Abrir load" onPress={() => openModal({ load: true })} />
-			<Button text="Abrir Modal" onPress={() => openModal({ icon: "chair" })} />
-			<Button text="Abrir Modal" onPress={() => openModal({ text: "aviso" })} />
-			<Button text="Abrir Modal" onPress={() => openModal({ icon: "chair", text: "aviso" })} />
-			<Button text="Abrir Modal" onPress={() => openModal({ icon: "chair", text: "aviso", button: "ok" })} />
+			<Button text="Abrir Modal" onPress={() => openModal({ icon: "android", text: "Aviso: Voçê foi avisado", button: "ok" })} />
+			<SideModal />
 		</View>
 	);
 }

@@ -18,7 +18,7 @@ export const LoginProvider = ({ children }) => {
 
 /**
  * @author VAMPETA
- * @brief FUNCAO QUE EXPOTA O HOOK
+ * @brief FUNCAO QUE EXPORTA O HOOK
 */
 export function useLogin() {
 	return (useContext(LoginContext));

@@ -2,6 +2,7 @@ import { StyleSheet, View, Image, TouchableOpacity, Text } from "react-native";
 import { useState, useEffect } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 
+import { useLogin } from "../../app/isLogin.js";
 import { useModal } from "../../screens/ModalGlobal/ModalGlobal.js";
 
 import { getPhoto } from "../../functions/profile/photo.js";
@@ -11,15 +12,15 @@ import { theme } from "../../styles/theme.js";
 /**
  * @author VAMPETA
  * @brief COMPONENTE COM FOTO DE PERFIL DO USUARIO
- * @param urlPhoto
+ * @param urlPhoto LINK DA FOTO DE PERFIL DO USUARIO
  * @param name NOME DO CLIENTE
  * @param units UNIDADES QUE O CLIENTE ESTA INSCRITA
 */
 export default function Photo({ urlPhoto, name, units }) {
+	const { setIsLogin } = useLogin();
 	const { openModal, closeModal } = useModal();
 	const [img, setImg] = useState(urlPhoto);
 
-	// console.log(img)
 	useEffect(() => { setImg(urlPhoto ?? null) }, [urlPhoto]);
 
 	return (
@@ -32,7 +33,7 @@ export default function Photo({ urlPhoto, name, units }) {
 				<View style={photo.containerPhoto} >
 					{(img) ? <Image source={{ uri: img }} style={photo.photo} /> : <MaterialIcons name="person" size={100} color={theme.secondaryBackgroundColor} />}
 				</View>
-				<TouchableOpacity style={photo.ButtonIcon} onPress={() => getPhoto(openModal, closeModal, setImg)}>
+				<TouchableOpacity style={photo.ButtonIcon} onPress={() => getPhoto(openModal, closeModal, setImg, setIsLogin)}>
 					<MaterialIcons name="edit" size={32} color={theme.primaryBackgroundColor} />
 				</TouchableOpacity>
 			</View>

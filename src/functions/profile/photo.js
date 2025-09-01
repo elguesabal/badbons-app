@@ -1,7 +1,13 @@
 import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from "expo-file-system";
+import axios from "axios";
+import * as SecureStore from "expo-secure-store";
+
+import { logout } from "../logout.js";
 
 import { compatibleProfilePictures } from "../../compatibleImages.js";
+
+import API_URL from "../../Api.js";
 
 /**
  * @author VAMPETA
@@ -27,36 +33,69 @@ async function selectPhoto() {
 		err.icon = "image-not-supported";
 		throw (err);
 	}
-	compatibleProfilePictures.map(async (format) => await FileSystem.deleteAsync(`${FileSystem.documentDirectory}user.${format}`, { idempotent: true }));
 	return (photo);
 }
 
-// async function requestPhoto(photo) {
-
-// }
+/**
+ * @author VAMPETA
+ * @brief ENVIA A NOVA FOTO DE PERFIL PARA O SERVIDOR
+ * @param setImg FUNCAO QUE DEFINE O LINK DA FOTO DE PERFIL DO USUARIO
+ * @param setIsLogin FUNCAO DE CONTROLE DE LOGIN
+*/
+async function uploadPhoto(photo, setIsLogin) {
+	try {
+		const formData = new FormData();
+		formData.append("photo", {
+			uri: photo.assets[0].uri,
+			name: `user.${photo.assets[0].uri.split(".").pop().toLowerCase()}`,
+			type: `image/${photo.assets[0].uri.split(".").pop().toLowerCase()}`
+		});
+		const res = await axios.post(`${API_URL}/upload-photo-profile`, formData, {
+			headers: {
+				"Content-Type": "multipart/form-data",
+				Authorization: `Bearer ${await SecureStore.getItemAsync("token")}`
+			}
+		});
+		if (res.status !== 200) {
+			const err = new Error(res.data);
+			err.status = res.status;
+			throw (err);
+		}
+	} catch (error) {
+		if (error.message === "Network Error") {
+			const err = new Error("Sem conexão com a internet");
+			err.icon = "wifi-off";
+			throw (err);
+		} else if (error.response && error.response.status === 401) {
+			logout(setIsLogin);
+		} else {
+			const err = new Error(error.message);
+			err.status = error.status;
+			throw (err);
+		}
+	}
+}
 
 /**
  * @author VAMPETA
- * @brief 
+ * @brief PERMITE O USUARIO ESCOLHER UMA FOTO, ESSA FOTO E ENVIADA PARA O SERVIDOR E SALVA NO DISPOSITIVO DO CLIENTE
  * @param openModal FUNCAO QUE ABRE O MODAL
  * @param closeModal FUNCAO QUE FECHA O MODAL
- * @param setImg 
+ * @param setImg FUNCAO QUE DEFINE O LINK DA FOTO DE PERFIL DO USUARIO
+ * @param setIsLogin FUNCAO DE CONTROLE DE LOGIN
 */
-export async function getPhoto(openModal, closeModal, setImg) {
-	let photo;
-	let type;
-
+export async function getPhoto(openModal, closeModal, setImg, setIsLogin) {
 	try {
 		openModal({ spinner: true });
-		photo = await selectPhoto();
+		const photo = await selectPhoto();
 		if (photo.canceled) {
 			closeModal();
 			return ;
 		}
-		type = photo.assets[0].uri.split(".").pop().toLowerCase();
-		await FileSystem.copyAsync({ from: photo.assets[0].uri, to: `${FileSystem.documentDirectory}user.${type}` });
+		await uploadPhoto(photo, setIsLogin);
+		compatibleProfilePictures.map(async (format) => await FileSystem.deleteAsync(`${FileSystem.documentDirectory}user.${format}`, { idempotent: true }));
+		await FileSystem.copyAsync({ from: photo.assets[0].uri, to: `${FileSystem.documentDirectory}user.${photo.assets[0].uri.split(".").pop().toLowerCase()}` });
 		setImg(photo.assets[0].uri);
-		// FALTA ENVIAR A IMAGEM PARA O BACK END
 		closeModal();
 	} catch (error) {
 		openModal({ icon: error.icon, text: error.message, status: error.status, button: "ok" });
