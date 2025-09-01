@@ -56,7 +56,7 @@ export async function getPhoto(openModal, closeModal, setImg) {
 		type = photo.assets[0].uri.split(".").pop().toLowerCase();
 		await FileSystem.copyAsync({ from: photo.assets[0].uri, to: `${FileSystem.documentDirectory}user.${type}` });
 		setImg(photo.assets[0].uri);
-// FALTA ENVIAR A IMAGEM PARA O BACK END
+		// FALTA ENVIAR A IMAGEM PARA O BACK END
 		closeModal();
 	} catch (error) {
 		openModal({ icon: error.icon, text: error.message, status: error.status, button: "ok" });
