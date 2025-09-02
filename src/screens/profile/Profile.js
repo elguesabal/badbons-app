@@ -16,6 +16,7 @@ export default function Profile() {
 		<Stack.Navigator screenOptions={{ contentStyle: { backgroundColor: "transparent" }, animation: "slide_from_right", header: (props) => <HeaderStack text="login" {...props} /> }} >
 			<Stack.Screen name="main" component={Main} options={{ header: () => null }} />
 			<Stack.Screen name="history" component={History} options={{ title: "Histórico de Partidas" }} />
+			{/* COMECAR ADICIONAR NOVAS STACK PARA O MODAL LATERAL */}
 		</Stack.Navigator>
 	);
 }

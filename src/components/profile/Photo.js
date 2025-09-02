@@ -5,6 +5,8 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { useLogin } from "../../app/isLogin.js";
 import { useModal } from "../../screens/ModalGlobal/ModalGlobal.js";
 
+import MenuProfile from "./MenuProfile.js";
+
 import { getPhoto } from "../../functions/profile/photo.js";
 
 import { theme } from "../../styles/theme.js";
@@ -27,6 +29,7 @@ export default function Photo({ urlPhoto, name, units }) {
 		<View style={photo.container} >
 			<View style={photo.background} ></View>
 			<View style={photo.containerLogo} >
+				<MenuProfile />
 				<Image source={require("../../../assets/img/logo-badbons.png")} style={photo.logo} />
 			</View>
 			<View style={photo.containerImg} >
@@ -58,8 +61,11 @@ const photo = StyleSheet.create({
 		borderBottomRightRadius: "100%",
 	},
 	containerLogo: {
+		flexDirection: "row",
 		alignSelf: "stretch",
-		alignItems: "flex-end",
+		alignItems: "center",
+		justifyContent: "space-between",
+		paddingLeft: 10
 	},
 	logo: {
 		width: 100,

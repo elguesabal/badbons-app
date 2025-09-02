@@ -14,7 +14,7 @@ function SideModal() {
 	return (
 		<>
 			<Button text="modal lateral" onPress={() => setIsVisible(true)} />
-			<Modal isVisible={isVisible} onBackdropPress={() => setIsVisible(false)} animationIn="slideInLeft" animationOut="slideOutLeft">
+			<Modal isVisible={isVisible} onBackdropPress={() => setIsVisible(false)} animationIn="slideInLeft" animationOut="slideOutLeft"  backdropTransitionOutTiming={1}>
 				<View style={{ backgroundColor: "red", height: 200, width: 200 }}>
 					<Text style={{ color: "white" }}>Modal da lateral!</Text>
 				</View>
