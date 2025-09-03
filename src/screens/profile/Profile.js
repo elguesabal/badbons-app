@@ -4,6 +4,7 @@ import HeaderStack from "../../components/HeaderStack.js";
 
 import Main from "./Main.js";
 import History from "./History.js";
+import SwapEmail from "./SwapEmail.js";
 
 const Stack = createNativeStackNavigator();
 
@@ -16,7 +17,7 @@ export default function Profile() {
 		<Stack.Navigator screenOptions={{ contentStyle: { backgroundColor: "transparent" }, animation: "slide_from_right", header: (props) => <HeaderStack text="login" {...props} /> }} >
 			<Stack.Screen name="main" component={Main} options={{ header: () => null }} />
 			<Stack.Screen name="history" component={History} options={{ title: "Histórico de Partidas" }} />
-			{/* COMECAR ADICIONAR NOVAS STACK PARA O MODAL LATERAL */}
+			<Stack.Screen name="swapEmail" component={SwapEmail} options={{ title: "Trocar Email" }} />
 		</Stack.Navigator>
 	);
 }

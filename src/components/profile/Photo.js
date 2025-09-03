@@ -17,8 +17,9 @@ import { theme } from "../../styles/theme.js";
  * @param urlPhoto LINK DA FOTO DE PERFIL DO USUARIO
  * @param name NOME DO CLIENTE
  * @param units UNIDADES QUE O CLIENTE ESTA INSCRITA
+ * @param navigation OBJETO QUE COM METODO COM METODOS DE NAVEGACAO ENTRE SCREENS
 */
-export default function Photo({ urlPhoto, name, units }) {
+export default function Photo({ urlPhoto, name, units, navigation }) {
 	const { setIsLogin } = useLogin();
 	const { openModal, closeModal } = useModal();
 	const [img, setImg] = useState(urlPhoto);
@@ -29,7 +30,7 @@ export default function Photo({ urlPhoto, name, units }) {
 		<View style={photo.container} >
 			<View style={photo.background} ></View>
 			<View style={photo.containerLogo} >
-				<MenuProfile />
+				<MenuProfile navigation={navigation} />
 				<Image source={require("../../../assets/img/logo-badbons.png")} style={photo.logo} />
 			</View>
 			<View style={photo.containerImg} >

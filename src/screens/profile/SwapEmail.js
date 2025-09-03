@@ -1,0 +1,49 @@
+import { StyleSheet, View, Text } from "react-native";
+import { useState } from "react";
+
+import Input from "../../components/Input.js";
+import Button from "../../components/Button.js";
+
+import requestSwapEmail from "../../functions/profile/swapEmail.js";
+
+import { theme } from "../../styles/theme.js";
+
+/**
+ * @author VAMPETA
+ * @brief TELA DE TROCA DE SENHA
+ * @param navigation OBJETO QUE COM METODO COM METODOS DE NAVEGACAO ENTRE SCREENS
+*/
+export default function SwapEmail({ navigation }) {
+	const [newEmail, setNewEmail] = useState("");
+	const [newEmailConfirmation, setNewEmailConfirmation] = useState("");
+
+	return (
+		// KeyboardAvoidingView // PRECISA DISSO
+		<View style={swapEmail.container} >
+			<Text style={swapEmail.section} >Conta</Text>
+			<Input placeholder="Novo Email" value={newEmail} onChangeText={setNewEmail} />
+			<Input placeholder="Confirmar Novo Email" value={newEmailConfirmation} onChangeText={setNewEmailConfirmation} />
+			<View style={swapEmail.line} />
+			<Button text="Trocar Email" onPress={() => requestSwapEmail(newEmail, newEmailConfirmation, navigation)} load />
+		</View>
+	);
+}
+
+const swapEmail = StyleSheet.create({
+	container: {
+		flex: 1,
+		alignItems: "center"
+	},
+	section: {
+		color: theme.secondaryTextColor,
+		alignSelf: "stretch",
+		margin: 30,
+		fontSize: 15
+	},
+	line: {
+		backgroundColor: theme.primaryBackgroundColor,
+		alignSelf: "stretch",
+		height: 2,
+		marginVertical: 20
+	},
+});

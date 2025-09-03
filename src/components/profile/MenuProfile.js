@@ -11,27 +11,28 @@ import { theme } from "../../styles/theme.js";
 /**
  * @author VAMPETA
  * @brief COMPONENTE COM MENU DE OPCOES DA ABA PERFIL
+ * @param navigation OBJETO QUE COM METODO COM METODOS DE NAVEGACAO ENTRE SCREENS
 */
-export default function MenuProfile() {
-	const [isVisible, setIsVisible] = useState(false);
+export default function MenuProfile({ navigation }) {
+	const [visible, setVisible] = useState(false);
 	const { setIsLogin } = useLogin();
 
 	return (
 		<>
-			<TouchableOpacity onPress={() => setIsVisible(true)} >
+			<TouchableOpacity onPress={() => setVisible(true)} >
 				<MaterialIcons name="menu" size={50} color={theme.primaryTextColor} />
 			</TouchableOpacity>
-			<Modal isVisible={isVisible} onBackdropPress={() => setIsVisible(false)} style={menuProfile.modal} animationIn="slideInLeft" animationOut="slideOutLeft" backdropTransitionOutTiming={1} >
+			<Modal isVisible={visible} onBackdropPress={() => setVisible(false)} onRequestClose={() => setVisible(false)} style={menuProfile.modal} animationIn="slideInLeft" animationOut="slideOutLeft" backdropTransitionOutTiming={1} >
 				<View style={menuProfile.containerModal}>
 					<View style={menuProfile.header} >
-						<TouchableOpacity onPress={() => setIsVisible(false)} >
+						<TouchableOpacity onPress={() => setVisible(false)} >
 							<MaterialIcons name="close" size={50} color={theme.primaryTextColor} />
 						</TouchableOpacity>
 						<Image source={require("../../../assets/img/logo-badbons.png")} style={menuProfile.logo} />
 					</View>
 					<Text style={menuProfile.section} >Conta</Text>
 					<View style={menuProfile.containerOptions} >
-						<Pressable style={({ pressed }) => [menuProfile.buttonOption, { backgroundColor: (pressed) ? "rgba(0, 0, 0, 0.5)" : "transparent" }]} >
+						<Pressable style={({ pressed }) => [menuProfile.buttonOption, { backgroundColor: (pressed) ? "rgba(0, 0, 0, 0.5)" : "transparent" }]} onPress={() => { setVisible(false); navigation.navigate("swapEmail") }} >
 							<Text style={menuProfile.option}>Alterar Email</Text>
 						</Pressable>
 						<Pressable style={({ pressed }) => [menuProfile.buttonOption, { backgroundColor: (pressed) ? "rgba(0, 0, 0, 0.5)" : "transparent" }]} >
@@ -69,7 +70,7 @@ const menuProfile = StyleSheet.create({
 	},
 	section: {
 		color: theme.secondaryTextColor,
-		paddingHorizontal: 10,
+		marginHorizontal: 10,
 		fontSize: 15
 	},
 	containerOptions: {

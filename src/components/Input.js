@@ -18,7 +18,7 @@ export default function Input({ placeholder, value, onChangeText, secureTextEntr
 }
 
 const input = StyleSheet.create({
-	container: {
+	container: { // ADEQUAR ESSA ESTILIZACAO MELHOR
 		alignSelf: "stretch",
 		marginVertical: 10
 	},
