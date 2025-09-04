@@ -66,7 +66,7 @@ async function uploadPhoto(photo, setIsLogin) {
 			const err = new Error("Sem conexão com a internet");
 			err.icon = "wifi-off";
 			throw (err);
-		} else if (error.response && error.response.status === 401) {
+		} else if (error.response && error.response.status === 400) {
 			logout(setIsLogin);
 		} else {
 			const err = new Error(error.message);

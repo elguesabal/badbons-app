@@ -1,3 +1,5 @@
+import { Keyboard } from "react-native";
+
 /**
  * @author VAMPETA
  * @brief GERENCIA A FUNCAO PASSADA PARA O Button
@@ -8,13 +10,10 @@
 */
 export async function handleButton(openModal, closeModal, onPress, load) {
 	try {
-		if (load) {
-			openModal({ spinner: true });
-			await onPress();
-			closeModal();
-		} else {
-			await onPress();
-		}
+		Keyboard.dismiss();
+		if (load) openModal({ spinner: true });
+		await onPress();
+		if (load) closeModal();
 	} catch (error) {
 		if (error.message === "Network Error") {
 			openModal({ icon: "wifi-off", text: "Sem conexão com a internet", button: "Ok" });
