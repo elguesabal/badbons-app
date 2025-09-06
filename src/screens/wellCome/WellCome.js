@@ -20,15 +20,15 @@ const Stack = createNativeStackNavigator();
 */
 export default function Wellcome() {
 	return (
-		<Stack.Navigator screenOptions={{ contentStyle: { backgroundColor: "transparent" }, animation: "slide_from_right", header: (props) => <HeaderStack text="login" {...props} /> }}>
-			<Stack.Screen name="main" component={Main} options={{ header: () => <HeaderLogo /> }} />
+		<Stack.Navigator screenOptions={{ contentStyle: { backgroundColor: "transparent" }, animation: "slide_from_right", header: (props) => (<HeaderStack text="login" {...props} />) }}>
+			<Stack.Screen name="main" component={Main} options={{ header: () => (<HeaderLogo />) }} />
 			<Stack.Screen name="login" component={Login} options={{ title: "Login" }} />
 			<Stack.Screen name="register1" component={Register1} options={{ title: "Cadastrar" }} />
 			<Stack.Screen name="register2" component={Register2} options={{ title: "Cadastrar" }} />
 			<Stack.Screen name="register3" component={Register3} options={{ title: "Cadastrar" }} />
 			<Stack.Screen name="register4" component={Register4} options={{ title: "Cadastrar" }} />
 			<Stack.Screen name="register5" component={Register5} options={{ title: "Cadastrar" }} />
-			<Stack.Screen name="register6" component={Register6}  options={{ header: () => <HeaderLogo /> }} />
+			<Stack.Screen name="register6" component={Register6}  options={{ header: () => (<HeaderLogo />) }} />
 		</Stack.Navigator>
 	);
 }

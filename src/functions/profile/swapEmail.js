@@ -25,12 +25,23 @@ function validation(newEmail, newEmailConfirmation, password) {
 		err.button = "Ok";
 		throw (err);
 	}
-	// if (!/\S+@\S+\.\S+/.test(newEmail)) {
-	// 	const err = new Error("Email inválido!");
-	// 	err.icon = "alternate-email";
-	// 	err.button = "Ok";
-	// 	throw (err);
-	// }
+	if (!/\S+@\S+\.\S+/.test(newEmail)) {
+		const err = new Error("Email inválido!");
+		err.icon = "alternate-email";
+		err.button = "Ok";
+		throw (err);
+	}
+}
+
+/**
+ * @author VAMPETA
+ * @brief FUNCAO QUE CONTROLA O COMPORTAMENTO DO BOTAO DENTRO DO MODAL
+ * @param closeModal FUNCAO QUE FECHA O MODAL
+ * @param navigation OBJETO QUE COM METODO COM METODOS DE NAVEGACAO ENTRE SCREENS
+*/
+function handleButtonModal(closeModal, navigation) {
+	closeModal();
+	navigation.navigate("main");
 }
 
 /**
@@ -47,7 +58,7 @@ async function requestSwapEmail(newEmail, password, navigation, openModal, close
 	try {
 		const res = await axios.post(`${API_URL}/swap-email`, { email: newEmail, password: password }, { headers: { Authorization: `Bearer ${await SecureStore.getItemAsync("token")}` } });
 		if (res.status !== 200) throw (new Error(`Status ${res.status}`));
-		setTimeout(() => openModal({ icon: "check-circle", text: "Email trocado com sucesso!", button: "ok" }), 100); // TO PENSANDO EM ADICIONAR UM ESPACO PARA TER UMA FUNCAO OPCIONAO PARA O BOTAO "OK"
+		setTimeout(() => openModal({ icon: "check-circle", text: "Email trocado com sucesso!", button: "ok", handleButton: () => handleButtonModal(closeModal, navigation) }), 100);
 	} catch (error) {
 		if (error.response && error.response.status === 400) {
 			logout(setIsLogin);

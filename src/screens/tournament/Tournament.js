@@ -9,6 +9,7 @@ import { useModal } from "../ModalGlobal/ModalGlobal.js";
 
 
 import Modal from "react-native-modal";
+import { handleButton } from "../../functions/button.js";
 function SideModal() {
 	const [isVisible, setIsVisible] = useState(false);
 	return (
@@ -45,7 +46,7 @@ export default function Tournament() {
 
 			<Button text="Abrir spinner" onPress={() => openModal({ spinner: true })} />
 			<Button text="Abrir load" onPress={() => openModal({ load: true })} />
-			<Button text="Abrir Modal" onPress={() => openModal({ icon: "android", text: "Aviso: Voçê foi avisado", button: "ok" })} />
+			<Button text="Abrir Modal" onPress={() => openModal({ icon: "android", text: "Aviso: Voçê foi avisado", button: "ok", handleButton: () => alert("aaa") })} />
 			<SideModal />
 		</View>
 	);

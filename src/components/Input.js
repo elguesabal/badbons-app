@@ -5,12 +5,15 @@ import { theme } from "../styles/theme.js";
 /**
  * @author VAMPETA
  * @brief CRIA UM INPUT JA COM UM PLACEHOLDER E ESTILIZACAO PADRAO
+ * @param style ESTILIZACAO EXTRA Q PODE SER APLICADA A View
  * @param placeholder TEXTO DESCRITIVO DO INPUT
- * @return RETORNA UMA View COM INPUT E TEXTO DESCRITIVO
+ * @param value VALOR ATUAL QUE FICARA ARMAZENADA DENTRO DE TextInput
+ * @param onChangeText FUNCAO QUE SALVA O TEXTO DIGITADO EM UM HOOK EXTERNO
+ * @param secureTextEntry BOOLEANO QUE DEFINE SE O CONTEUDO DO INPUT SERA OCULTO OU NAO
 */
-export default function Input({ placeholder, value, onChangeText, secureTextEntry = false }) {
+export default function Input({ style, placeholder, value, onChangeText, secureTextEntry = false }) {
 	return (
-		<View style={input.container} >
+		<View style={[input.container, style]} >
 			<Text style={input.text} >{placeholder}</Text>
 			<TextInput style={input.input} value={value} onChangeText={onChangeText} secureTextEntry={secureTextEntry} />
 		</View>
@@ -18,10 +21,8 @@ export default function Input({ placeholder, value, onChangeText, secureTextEntr
 }
 
 const input = StyleSheet.create({
-	container: { // ADEQUAR ESSA ESTILIZACAO MELHOR
-		// backgroundColor: "red",
-		alignSelf: "stretch",
-		marginVertical: 10
+	container: {
+		alignSelf: "stretch"
 	},
 	text: {
 		color: theme.primaryTextColor,

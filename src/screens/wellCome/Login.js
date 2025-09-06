@@ -18,13 +18,13 @@ export default function Login() {
 	const { setIsLogin } = useLogin();
 
 	return (
-		<KeyboardAvoidingView style={login.backgorund} behavior={Platform.OS === "ios" ? "padding" : "height"} keyboardVerticalOffset={Platform.OS === "ios" ? 60 : 0} >
+		<KeyboardAvoidingView style={login.background} behavior={Platform.OS === "ios" ? "padding" : "height"} keyboardVerticalOffset={Platform.OS === "ios" ? 60 : 0} >
 			<ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps="handled">
 				<View style={login.container} >
 					<Image source={require("../../../assets/img/athlete2.png")} style={login.img} />
 					<View style={login.containerInputs} >
-						<Input placeholder="Login" value={inputLogin} onChangeText={setInputLogin} />
-						<Input placeholder="Senha" value={inputPassword} onChangeText={setInputPassword} secureTextEntry />
+						<Input style={login.input} placeholder="Login" value={inputLogin} onChangeText={setInputLogin} />
+						<Input style={login.input} placeholder="Senha" value={inputPassword} onChangeText={setInputPassword} secureTextEntry />
 					</View>
 					<View style={login.containerButton} >
 						<Button text="proximo" onPress={() => hundleLogin(inputLogin, inputPassword, setIsLogin)} load={true} />
@@ -36,8 +36,8 @@ export default function Login() {
 }
 
 const login = StyleSheet.create({
-	backgorund: {
-		flex: 1
+	background: {
+		flex: 1,
 	},
 	container: {
 		flex: 1,
@@ -53,6 +53,9 @@ const login = StyleSheet.create({
 		alignSelf: "stretch",
 		alignItems: "center",
 		justifyContent: "center"
+	},
+	input: {
+		marginVertical: 10
 	},
 	containerButton: {
 		alignSelf: "stretch",

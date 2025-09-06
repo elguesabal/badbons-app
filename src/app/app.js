@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import * as NavigationBar from "expo-navigation-bar";
 import { enableScreens } from "react-native-screens";
 import { StyleSheet, StatusBar, ImageBackground } from "react-native";
+import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 
 import { useLogin } from "./isLogin.js";
 import ButtonTabBar from "../components/ButtonTabBar.js";
@@ -21,16 +22,33 @@ const Tab = createBottomTabNavigator();
 
 /**
  * @author VAMPETA
+ * @brief FUNCAO CRIADA PARA FACILITAR A CONFIGURACAO DO options DO Tab.Screen
+ * @param name NOME DA ROTA
+ * @param icon NOME DO ICONE QUE VAI APARECER TabBar
+*/
+function tabOptions(name, icon) {
+	return (({ route }) => {
+		const routeName = getFocusedRouteNameFromRoute(route) ?? "main";
+
+		return ({
+			tabBarButton: (props) => (<ButtonTabBar {...props} name={name} icon={icon} />),
+			tabBarStyle: { display: (routeName === "main") ? "flex" : "none" }
+		});
+	});
+}
+
+/**
+ * @author VAMPETA
  * @brief FUNCAO QUE GERENCIA AS ABAS PRINCIPAIS Perfil Treino Home Torneio E Desafio
 */
 function Sections() {
 	return (
-		<Tab.Navigator initialRouteName="Home" screenOptions={{ headerShown: false,  tabBarStyle: sections.tabBar }} >
-			<Tab.Screen name="Perfil" component={Profile} options={{ tabBarButton: (props) => (<ButtonTabBar {...props} name="Perfil" icon="person" />) }} />
-			<Tab.Screen name="Treino" component={Training} options={{ tabBarButton: (props) => (<ButtonTabBar {...props} name="Treino" icon="fitness-center" />) }} />
-			<Tab.Screen name="Home" component={Home} options={{ tabBarButton: (props) => (<ButtonTabBar {...props} name="Home" icon="home" />) }} />
-			<Tab.Screen name="Torneio" component={Tournament} options={{ tabBarButton: (props) => (<ButtonTabBar {...props} name="Torneio" icon="emoji-events" />) }} />
-			<Tab.Screen name="Desafio" component={Challenge} options={{ tabBarButton: (props) => (<ButtonTabBar {...props} name="Desafio" icon="handshake" />)}} />
+		<Tab.Navigator initialRouteName="Home" screenOptions={{ headerShown: false, tabBarStyle: sections.tabBar }} >
+			<Tab.Screen name="Perfil" component={Profile} options={tabOptions("Perfil", "person")} />
+			<Tab.Screen name="Treino" component={Training} options={tabOptions("Treino", "fitness-center")} />
+			<Tab.Screen name="Home" component={Home} options={tabOptions("Home", "home")} />
+			<Tab.Screen name="Torneio" component={Tournament} options={tabOptions("Torneio", "emoji-events")} />
+			<Tab.Screen name="Desafio" component={Challenge} options={tabOptions("Desafio", "handshake")} />
 		</Tab.Navigator>
 	);
 }

@@ -32,10 +32,13 @@ export default function MenuProfile({ navigation }) {
 					</View>
 					<Text style={menuProfile.section} >Conta</Text>
 					<View style={menuProfile.containerOptions} >
+						<Pressable style={({ pressed }) => [menuProfile.buttonOption, { backgroundColor: (pressed) ? "rgba(0, 0, 0, 0.5)" : "transparent" }]} onPress={() => alert("ainda nao tem nada aki")} >
+							<Text style={menuProfile.option}>Planos BadBons</Text>
+						</Pressable>
 						<Pressable style={({ pressed }) => [menuProfile.buttonOption, { backgroundColor: (pressed) ? "rgba(0, 0, 0, 0.5)" : "transparent" }]} onPress={() => { setVisible(false); navigation.navigate("swapEmail") }} >
 							<Text style={menuProfile.option}>Alterar Email</Text>
 						</Pressable>
-						<Pressable style={({ pressed }) => [menuProfile.buttonOption, { backgroundColor: (pressed) ? "rgba(0, 0, 0, 0.5)" : "transparent" }]} >
+						<Pressable style={({ pressed }) => [menuProfile.buttonOption, { backgroundColor: (pressed) ? "rgba(0, 0, 0, 0.5)" : "transparent" }]} onPress={() => { setVisible(false); navigation.navigate("swapPassword") }} >
 							<Text style={menuProfile.option}>Alterar Senha</Text>
 						</Pressable>
 					</View>

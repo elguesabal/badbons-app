@@ -24,7 +24,7 @@ export default function BoxModal({ data, closeModal }) {
 					{(data.text) ? <Text style={boxModal.text}>{data.text}</Text> : null}
 					{(data.status) ? <Text style={boxModal.status}>Status {data.status}</Text> : null}
 					{(data.button) ? (
-						<TouchableOpacity style={boxModal.button} onPress={closeModal} >
+						<TouchableOpacity style={boxModal.button} onPress={(data.handleButton) ? data.handleButton : closeModal} >
 							<Text style={boxModal.textButton}>{data.button}</Text>
 						</TouchableOpacity>
 					) : null}

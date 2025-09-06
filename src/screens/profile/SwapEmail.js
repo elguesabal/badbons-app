@@ -13,7 +13,7 @@ import { theme } from "../../styles/theme.js";
 
 /**
  * @author VAMPETA
- * @brief TELA DE TROCA DE SENHA
+ * @brief TELA DE TROCA DE EMAIL
  * @param navigation OBJETO QUE COM METODO COM METODOS DE NAVEGACAO ENTRE SCREENS
 */
 export default function SwapEmail({ navigation }) {
@@ -24,13 +24,13 @@ export default function SwapEmail({ navigation }) {
 	const { setIsLogin } = useLogin();
 
 	return (
-		<KeyboardAvoidingView style={setNewEmail.backgorund} behavior={Platform.OS === "ios" ? "padding" : "height"} keyboardVerticalOffset={Platform.OS === "ios" ? 60 : 0} >
+		<KeyboardAvoidingView style={swapEmail.backgorund} behavior={Platform.OS === "ios" ? "padding" : "height"} keyboardVerticalOffset={Platform.OS === "ios" ? 60 : 0} >
 			<ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps="handled">
 				<View style={swapEmail.container} >
 					<Text style={swapEmail.section} >Conta</Text>
-					<Input placeholder="Novo Email" value={newEmail} onChangeText={setNewEmail} />
-					<Input placeholder="Confirmar Novo Email" value={newEmailConfirmation} onChangeText={setNewEmailConfirmation} />
-					<Input placeholder="Senha" value={password} onChangeText={setPassword} />
+					<Input style={swapEmail.input} placeholder="Novo Email" value={newEmail} onChangeText={setNewEmail} />
+					<Input style={swapEmail.input} placeholder="Confirmar Novo Email" value={newEmailConfirmation} onChangeText={setNewEmailConfirmation} />
+					<Input style={swapEmail.input} placeholder="Senha" value={password} onChangeText={setPassword} />
 					<View style={swapEmail.line} />
 					<Button text="Trocar Email" onPress={() => handleSwapEmail(newEmail, newEmailConfirmation, password, navigation, openModal, closeModal, setIsLogin)} load />
 				</View>
@@ -52,6 +52,9 @@ const swapEmail = StyleSheet.create({
 		alignSelf: "stretch",
 		margin: 30,
 		fontSize: 15
+	},
+	input: {
+		marginVertical: 10
 	},
 	line: {
 		backgroundColor: theme.primaryBackgroundColor,

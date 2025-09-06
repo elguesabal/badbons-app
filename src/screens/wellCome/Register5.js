@@ -4,7 +4,6 @@ import Button from "../../components/Button.js";
 
 import { createArray, register } from "../../functions/wellcome/register5.js";
 
-import styles from "../../styles/styles.js";
 import { theme } from "../../styles/theme.js";
 
 /**
@@ -16,16 +15,16 @@ export default function Register5({ navigation, route }) {
 	const array = createArray(times);
 
 	return (
-		<View style={styles.containerBetween} >
-			<View style={styles.center} >
+		<View style={register5.container} >
+			<View style={register5.containerHeader} >
 				<Image style={register5.img} source={require("../../../assets/img/athlete2.png")} />
-				<Text style={styles.title} >Confirme Seu Plano</Text>
+				<Text style={register5.title} >Confirme Seu Plano</Text>
 			</View>
 			<View style={register5.containerUnits} >
 				<FlatList data={array} keyExtractor={(item) => item.id} contentContainerStyle={{ justifyContent: "center"  }} showsVerticalScrollIndicator={false}
 					renderItem={({ item }) => (
 						<View key={item.id} style={register5.containerUnit} >
-							<Text style={styles.title} >{item.unit}</Text>
+							<Text style={register5.title} >{item.unit}</Text>
 							{item.times.map((time, i) => (<Text key={i} style={register5.time} >{time.day}: {time.start} - {time.end}</Text>))}
 						</View>
 					)}
@@ -39,9 +38,24 @@ export default function Register5({ navigation, route }) {
 }
 
 const register5 = StyleSheet.create({
+	container: {
+		flex: 1,
+		alignItems: "center",
+		justifyContent: "space-between",
+		paddingBottom: "20%"
+	},
+	containerHeader: {
+		alignItems: "center",
+		justifyContent: "center"
+	},
 	img: {
 		width: 200,
 		height: 200
+	},
+	title: {
+		color: theme.primaryTextColor,
+		fontSize: 25,
+		marginHorizontal: "10%"
 	},
 	containerUnits: {
 		flex: 1,

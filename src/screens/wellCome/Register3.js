@@ -8,7 +8,7 @@ import Button from "../../components/Button.js";
 
 import { trainingLocations, validation } from "../../functions/wellcome/register3.js";
 
-import styles from "../../styles/styles.js";
+import { theme } from "../../styles/theme.js";
 
 /**
  * @author VAMPETA
@@ -29,10 +29,10 @@ export default function Register3({ navigation, route }) {
 	if (load) return (<Load />);
 
 	return (
-		<View style={styles.containerBetween} >
-			<View style={styles.center} >
+		<View style={register3.container} >
+			<View style={register3.containerHeader} >
 				<Image style={register3.img} source={require("../../../assets/img/athlete2.png")} />
-				<Text style={styles.title} >Qual Unidade de Preferencia?</Text>
+				<Text style={register3.title} >Qual Unidade de Preferencia?</Text>
 			</View>
 			<View style={register3.containerGroups} >
 				{locations.map((group, i) => (
@@ -51,6 +51,22 @@ export default function Register3({ navigation, route }) {
 }
 
 const register3 = StyleSheet.create({
+	container: {
+		flex: 1,
+		alignItems: "center",
+		justifyContent: "space-between",
+		paddingBottom: "20%"
+	},
+	containerHeader: {
+		flex: 1,
+		alignItems: "center",
+		justifyContent: "center"
+	},
+	title: {
+		color: theme.primaryTextColor,
+		fontSize: 25,
+		marginHorizontal: "10%"
+	},
 	img: {
 		width: 200,
 		height: 200

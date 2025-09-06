@@ -8,7 +8,6 @@ import Button from "../../components/Button.js";
 
 import { getTimetable, scrollToIndex, findSelected, buttonTime, validation } from "../../functions/wellcome/register4.js";
 
-import styles from "../../styles/styles.js";
 import { theme } from "../../styles/theme.js";
 
 /**
@@ -29,13 +28,13 @@ export default function Register4({ navigation, route }) {
 	if (load) return (<Load />);
 
 	return (
-		<View style={styles.containerBetween} >
-			<View style={styles.center} >
+		<View style={register4.container} >
+			<View style={register4.containerCenter} >
 				<Image style={register4.img} source={require("../../../assets/img/athlete1.png")} />
-				<Text style={styles.title} >Escolha Sua Frequencia de Treinamento por Semana</Text>
+				<Text style={register4.title} >Escolha Sua Frequencia de Treinamento por Semana</Text>
 			</View>
 			<View style={register4.containerFlatListUnit} >
-				<FlatList data={data} horizontal={true} keyExtractor={(item) => item.id} contentContainerStyle={styles.center} showsHorizontalScrollIndicator={false} ref={flatListRef}
+				<FlatList data={data} horizontal={true} keyExtractor={(item) => item.id} contentContainerStyle={register4.containerCenter} showsHorizontalScrollIndicator={false} ref={flatListRef}
 					renderItem={({ item: classItem }) => (
 						<View style={register4.elementFlatListUnit}>
 							<View style={register4.containerAddress} >
@@ -46,9 +45,9 @@ export default function Register4({ navigation, route }) {
 										</TouchableOpacity>
 									) : (null)}
 								</View>
-								<View style={styles.center} >
-									<Text style={styles.title} >{classItem.unit}</Text>
-									<Text style={[styles.text, register4.textAddress]} >{classItem.address}</Text>
+								<View style={register4.containerCenter} >
+									<Text style={register4.title} >{classItem.unit}</Text>
+									<Text style={[register4.text, register4.textAddress]} >{classItem.address}</Text>
 								</View>
 								<View style={register4.containerIcon} >
 									{(classItem.id < data.length) ? (
@@ -62,7 +61,7 @@ export default function Register4({ navigation, route }) {
 								<FlatList data={classItem.classes} keyExtractor={(item) => item.id} contentContainerStyle={{ flexGrow: 1 }} showsVerticalScrollIndicator={false}
 									renderItem={({ item: timeItem }) => (
 										<TouchableOpacity key={timeItem.id} style={[register4.elementFlatListclass, { backgroundColor: ((findSelected(selectedTimes[classItem.unit], timeItem)) ? "#2c6bae" : "transparent") }]} onPress={() => buttonTime(setSelectedTimes, classItem.unit, timeItem)}>
-											<Text style={styles.text} >{timeItem.day} {timeItem.start} As {timeItem.end}</Text>
+											<Text style={register4.text} >{timeItem.day} {timeItem.start} As {timeItem.end}</Text>
 										</TouchableOpacity>
 									)}
 								/>
@@ -79,9 +78,24 @@ export default function Register4({ navigation, route }) {
 }
 
 const register4 = StyleSheet.create({
+	container: {
+		flex: 1,
+		alignItems: "center",
+		justifyContent: "space-between",
+		paddingBottom: "20%"
+	},
+	containerCenter: {
+		alignItems: "center",
+		justifyContent: "center"
+	},
 	img: {
 		width: 200,
 		height: 200
+	},
+	title: {
+		color: theme.primaryTextColor,
+		fontSize: 25,
+		marginHorizontal: "10%"
 	},
 	containerFlatListUnit: {
 		flex: 1
@@ -100,6 +114,10 @@ const register4 = StyleSheet.create({
 	},
 	containerIcon: {
 		width: 40
+	},
+	text: {
+		color: theme.primaryTextColor,
+		fontSize: 15
 	},
 	bottomIcon: {
 		flex: 1,
