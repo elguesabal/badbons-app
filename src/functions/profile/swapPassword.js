@@ -8,26 +8,20 @@ import API_URL from "../../Api.js";
 /**
  * @author VAMPETA
  * @brief VALIDA A TROCA DO EMAIL DO USUARIO
- * @param newEmail NOVO EMAIL
- * @param newEmailConfirmation CONFIRMACAO DO NOVO EMAIL
+ * @param newPassword NOVA SENHA
+ * @param newPasswordConfirmation CONFIRMACAO DO NOVA SENHA
  * @param password SENHA DO USUARIO
 */
-function validation(newEmail, newEmailConfirmation, password) {
-	if (!newEmail || !newEmailConfirmation || !password) {
+function validation(newPassword, newPasswordConfirmation, password) {
+	if (!newPassword || !newPasswordConfirmation || !password) {
 		const err = new Error("Preencha todos os campos!");
-		err.icon = "alternate-email";
+		err.icon = "password";
 		err.button = "Ok";
 		throw (err);
 	}
-	if (newEmail !== newEmailConfirmation) {
-		const err = new Error("Os Emails são diferentes!");
-		err.icon = "alternate-email";
-		err.button = "Ok";
-		throw (err);
-	}
-	if (!/\S+@\S+\.\S+/.test(newEmail)) {
-		const err = new Error("Email inválido!");
-		err.icon = "alternate-email";
+	if (newPassword !== newPasswordConfirmation) {
+		const err = new Error("Para confirmar, sua nova senha precisa ser igual nos dois campos.");
+		err.icon = "password";
 		err.button = "Ok";
 		throw (err);
 	}
@@ -47,21 +41,20 @@ function handleButtonModal(closeModal, navigation) {
 /**
  * @author VAMPETA
  * @brief FAZ A REQUISICAO TROCANDO O EMAIL DO USUARIO
- * @param newEmail NOVO EMAIL
+ * @param newPassword NOVA SENHA
  * @param password SENHA DO USUARIO
  * @param navigation OBJETO QUE COM METODO COM METODOS DE NAVEGACAO ENTRE SCREENS
  * @param openModal FUNCAO QUE ABRE O MODAL
  * @param closeModal FUNCAO QUE FECHA O MODAL
  * @param setIsLogin FUNCAO DE CONTROLE DE LOGIN
 */
-async function requestSwapEmail(newEmail, password, navigation, openModal, closeModal, setIsLogin) {
+async function requestSwapPassword(newPassword, password, navigation, openModal, closeModal, setIsLogin) {
 	try {
-		const res = await axios.post(`${API_URL}/swap-email`, { newEmail: newEmail, password: password }, { headers: { Authorization: `Bearer ${await SecureStore.getItemAsync("token")}` } });
+		const res = await axios.post(`${API_URL}/swap-password`, { newPassword: newPassword, password: password }, { headers: { Authorization: `Bearer ${await SecureStore.getItemAsync("token")}` } });
 		if (res.status !== 200) throw (new Error(`Status ${res.status}`));
-		setTimeout(() => openModal({ icon: "check-circle", text: "Email trocado com sucesso!", button: "ok", handleButton: () => handleButtonModal(closeModal, navigation) }), 100);
-		await AsyncStorage.setItem("email", newEmail);
+		setTimeout(() => openModal({ icon: "check-circle", text: "Senha trocada com sucesso!", button: "ok", handleButton: () => handleButtonModal(closeModal, navigation) }), 100);
 	} catch (error) {
-		if (error.response && error.response.status === 401) {
+		if (error.response && error.response.status === 400) {
 			logout(setIsLogin);
 		} else if (error.response && error.response.status === 403) {
 			setTimeout(() => openModal({ icon: "password", text: "Senha incorreta!", button: "ok", }), 100);
@@ -75,16 +68,16 @@ async function requestSwapEmail(newEmail, password, navigation, openModal, close
 
 /**
  * @author VAMPETA
- * @brief TROCA O EMAIL DO USUARIO
- * @param newEmail NOVO EMAIL
- * @param newEmailConfirmation CONFIRMACAO DO NOVO EMAIL
+ * @brief TROCA A SENHA DO USUARIO
+ * @param newPassword NOVA SENHA
+ * @param newPasswordConfirmation CONFIRMACAO DO NOVA SENHA
  * @param password SENHA DO USUARIO
  * @param navigation OBJETO QUE COM METODO COM METODOS DE NAVEGACAO ENTRE SCREENS
  * @param openModal FUNCAO QUE ABRE O MODAL
  * @param closeModal FUNCAO QUE FECHA O MODAL
  * @param setIsLogin FUNCAO DE CONTROLE DE LOGIN
 */
-export async function handleSwapEmail(newEmail, newEmailConfirmation, password, navigation, openModal, closeModal, setIsLogin) {
-	validation(newEmail, newEmailConfirmation, password);
-	await requestSwapEmail(newEmail, password, navigation, openModal, closeModal, setIsLogin);
+export async function handleSwapPassword(newPassword, newPasswordConfirmation, password, navigation, openModal, closeModal, setIsLogin) {
+	validation(newPassword, newPasswordConfirmation, password);
+	await requestSwapPassword(newPassword, password, navigation, openModal, closeModal, setIsLogin);
 }

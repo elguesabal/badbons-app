@@ -23,17 +23,25 @@ const Tab = createBottomTabNavigator();
 /**
  * @author VAMPETA
  * @brief FUNCAO CRIADA PARA FACILITAR A CONFIGURACAO DO options DO Tab.Screen
- * @param name NOME DA ROTA
- * @param icon NOME DO ICONE QUE VAI APARECER TabBar
+ * @param route OBJETO RECEBIDO QUE FORNECE INFORMACOES DA ROTA ATUAL
 */
-function tabOptions(name, icon) {
-	return (({ route }) => {
-		const routeName = getFocusedRouteNameFromRoute(route) ?? "main";
+function tabOptions({ route }) {
+	const routeName = getFocusedRouteNameFromRoute(route) ?? "main";
+	const icons = {
+		Perfil: "person",
+		Treino: "fitness-center",
+		Home: "home",
+		Torneio: "emoji-events",
+		Desafio: "handshake"
+	};
 
-		return ({
-			tabBarButton: (props) => (<ButtonTabBar {...props} name={name} icon={icon} />),
-			tabBarStyle: { display: (routeName === "main") ? "flex" : "none" }
-		});
+	return ({
+		headerShown: false,
+		tabBarButton: (props) => (<ButtonTabBar {...props} name={route.name} icon={icons[route.name]} />),
+		tabBarStyle: {
+			...sections.tabBar,
+			display: (routeName === "main") ? "flex" : "none"
+		}
 	});
 }
 
@@ -43,12 +51,12 @@ function tabOptions(name, icon) {
 */
 function Sections() {
 	return (
-		<Tab.Navigator initialRouteName="Home" screenOptions={{ headerShown: false, tabBarStyle: sections.tabBar }} >
-			<Tab.Screen name="Perfil" component={Profile} options={tabOptions("Perfil", "person")} />
-			<Tab.Screen name="Treino" component={Training} options={tabOptions("Treino", "fitness-center")} />
-			<Tab.Screen name="Home" component={Home} options={tabOptions("Home", "home")} />
-			<Tab.Screen name="Torneio" component={Tournament} options={tabOptions("Torneio", "emoji-events")} />
-			<Tab.Screen name="Desafio" component={Challenge} options={tabOptions("Desafio", "handshake")} />
+		<Tab.Navigator initialRouteName="Home" screenOptions={tabOptions} >
+			<Tab.Screen name="Perfil" component={Profile} />
+			<Tab.Screen name="Treino" component={Training} />
+			<Tab.Screen name="Home" component={Home} />
+			<Tab.Screen name="Torneio" component={Tournament} />
+			<Tab.Screen name="Desafio" component={Challenge} />
 		</Tab.Navigator>
 	);
 }

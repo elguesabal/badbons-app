@@ -7,7 +7,7 @@ import { useLogin } from "../../app/isLogin.js";
 import Input from "../../components/Input.js";
 import Button from "../../components/Button.js";
 
-// import { handleSwapEmail } from "../../functions/profile/swapEmail.js";
+import { handleSwapPassword } from "../../functions/profile/swapPassword.js";
 
 import { theme } from "../../styles/theme.js";
 
@@ -32,8 +32,7 @@ export default function SwapPassword({ navigation }) {
 					<Input style={swapPassword.input} placeholder="Confirmar Nova Senha" value={newPasswordConfirmation} onChangeText={setNewPasswordConfirmation} />
 					<Input style={swapPassword.input} placeholder="Senha atual" value={password} onChangeText={setPassword} />
 					<View style={swapPassword.line} />
-					{/* <Button text="Trocar Email" onPress={() => handleSwapEmail(newEmail, newEmailConfirmation, password, navigation, openModal, closeModal, setIsLogin)} load /> */}
-					<Button text="Trocar Email" onPress={() => alert("falta configurar")} load />
+					<Button text="Trocar Senha" onPress={() => handleSwapPassword(newPassword, newPasswordConfirmation, password, navigation, openModal, closeModal, setIsLogin)} load />
 				</View>
 			</ScrollView>
 		</KeyboardAvoidingView>
