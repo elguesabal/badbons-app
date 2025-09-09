@@ -20,7 +20,7 @@ export default function SwapPassword({ navigation }) {
 	const [newPassword, setNewPassword] = useState("");
 	const [newPasswordConfirmation, setNewPasswordConfirmation] = useState("");
 	const [password, setPassword] = useState("");
-	const { openModal, closeModal } = useModal();
+	const { openModal } = useModal();
 	const { setIsLogin } = useLogin();
 
 	return (
@@ -32,7 +32,7 @@ export default function SwapPassword({ navigation }) {
 					<Input style={swapPassword.input} placeholder="Confirmar Nova Senha" value={newPasswordConfirmation} onChangeText={setNewPasswordConfirmation} />
 					<Input style={swapPassword.input} placeholder="Senha atual" value={password} onChangeText={setPassword} />
 					<View style={swapPassword.line} />
-					<Button text="Trocar Senha" onPress={() => handleSwapPassword(newPassword, newPasswordConfirmation, password, navigation, openModal, closeModal, setIsLogin)} load />
+					<Button text="Trocar Senha" onPress={() => handleSwapPassword(newPassword, newPasswordConfirmation, password, navigation, openModal, setIsLogin)} load />
 				</View>
 			</ScrollView>
 		</KeyboardAvoidingView>

@@ -51,14 +51,13 @@ function handleButtonModal(closeModal, navigation) {
  * @param password SENHA DO USUARIO
  * @param navigation OBJETO QUE COM METODO COM METODOS DE NAVEGACAO ENTRE SCREENS
  * @param openModal FUNCAO QUE ABRE O MODAL
- * @param closeModal FUNCAO QUE FECHA O MODAL
  * @param setIsLogin FUNCAO DE CONTROLE DE LOGIN
 */
-async function requestSwapEmail(newEmail, password, navigation, openModal, closeModal, setIsLogin) {
+async function requestSwapEmail(newEmail, password, navigation, openModal, setIsLogin) {
 	try {
 		const res = await axios.post(`${API_URL}/swap-email`, { newEmail: newEmail, password: password }, { headers: { Authorization: `Bearer ${await SecureStore.getItemAsync("token")}` } });
 		if (res.status !== 200) throw (new Error(`Status ${res.status}`));
-		setTimeout(() => openModal({ icon: "check-circle", text: "Email trocado com sucesso!", button: "ok", handleButton: () => handleButtonModal(closeModal, navigation) }), 100);
+		setTimeout(() => openModal({ icon: "check-circle", text: "Email trocado com sucesso!", button: "ok", handleButton: (closeModal) => handleButtonModal(closeModal, navigation) }), 100);
 		await AsyncStorage.setItem("email", newEmail);
 	} catch (error) {
 		if (error.response && error.response.status === 401) {
@@ -81,10 +80,9 @@ async function requestSwapEmail(newEmail, password, navigation, openModal, close
  * @param password SENHA DO USUARIO
  * @param navigation OBJETO QUE COM METODO COM METODOS DE NAVEGACAO ENTRE SCREENS
  * @param openModal FUNCAO QUE ABRE O MODAL
- * @param closeModal FUNCAO QUE FECHA O MODAL
  * @param setIsLogin FUNCAO DE CONTROLE DE LOGIN
 */
-export async function handleSwapEmail(newEmail, newEmailConfirmation, password, navigation, openModal, closeModal, setIsLogin) {
+export async function handleSwapEmail(newEmail, newEmailConfirmation, password, navigation, openModal, setIsLogin) {
 	validation(newEmail, newEmailConfirmation, password);
-	await requestSwapEmail(newEmail, password, navigation, openModal, closeModal, setIsLogin);
+	await requestSwapEmail(newEmail, password, navigation, openModal, setIsLogin);
 }

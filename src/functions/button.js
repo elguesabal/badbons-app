@@ -12,7 +12,7 @@ export async function handleButton(openModal, closeModal, onPress, load) {
 	try {
 		Keyboard.dismiss();
 		if (load) openModal({ spinner: true });
-		await onPress();
+		if (onPress) await onPress();
 		if (load) closeModal();
 	} catch (error) {
 		if (error.message === "Network Error") {

@@ -20,7 +20,7 @@ export default function SwapEmail({ navigation }) {
 	const [newEmail, setNewEmail] = useState("");
 	const [newEmailConfirmation, setNewEmailConfirmation] = useState("");
 	const [password, setPassword] = useState("");
-	const { openModal, closeModal } = useModal();
+	const { openModal } = useModal();
 	const { setIsLogin } = useLogin();
 
 	return (
@@ -32,7 +32,7 @@ export default function SwapEmail({ navigation }) {
 					<Input style={swapEmail.input} placeholder="Confirmar Novo Email" value={newEmailConfirmation} onChangeText={setNewEmailConfirmation} />
 					<Input style={swapEmail.input} placeholder="Senha" value={password} onChangeText={setPassword} />
 					<View style={swapEmail.line} />
-					<Button text="Trocar Email" onPress={() => handleSwapEmail(newEmail, newEmailConfirmation, password, navigation, openModal, closeModal, setIsLogin)} load />
+					<Button text="Trocar Email" onPress={() => handleSwapEmail(newEmail, newEmailConfirmation, password, navigation, openModal, setIsLogin)} load />
 				</View>
 			</ScrollView>
 		</KeyboardAvoidingView>

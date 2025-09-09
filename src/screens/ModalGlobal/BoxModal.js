@@ -24,9 +24,19 @@ export default function BoxModal({ data, closeModal }) {
 					{(data.text) ? <Text style={boxModal.text}>{data.text}</Text> : null}
 					{(data.status) ? <Text style={boxModal.status}>Status {data.status}</Text> : null}
 					{(data.button) ? (
-						<TouchableOpacity style={boxModal.button} onPress={(data.handleButton) ? data.handleButton : closeModal} >
+						<TouchableOpacity style={boxModal.button} onPress={(data.handleButton) ? () => data.handleButton(closeModal) : closeModal} >
 							<Text style={boxModal.textButton}>{data.button}</Text>
 						</TouchableOpacity>
+					) : null}
+					{(data.yes && data.no) ? (
+						<View style={boxModal.containerBoolean} >
+							<TouchableOpacity style={boxModal.buttonBoolean} onPress={() => data.yes(closeModal)} >
+								<Text style={boxModal.textButton}>Sim</Text>
+							</TouchableOpacity>
+							<TouchableOpacity style={boxModal.buttonBoolean} onPress={() => data.no(closeModal)} >
+								<Text style={boxModal.textButton}>Não</Text>
+							</TouchableOpacity>
+						</View>
 					) : null}
 				</View>
 			</View>
@@ -67,5 +77,18 @@ const boxModal = StyleSheet.create({
 	textButton: {
 		color: theme.primaryTextColor,
 		fontSize: 15
+	},
+	containerBoolean: {
+		flexDirection: "row",
+		alignSelf: "stretch",
+		justifyContent: "space-evenly"
+	},
+	buttonBoolean: {
+		backgroundColor: theme.primaryBackgroundColor,
+		borderRadius: 20,
+		width: 100,
+		height: 40,
+		alignItems: "center",
+		justifyContent: "center"
 	}
 });
