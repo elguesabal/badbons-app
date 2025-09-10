@@ -32,7 +32,7 @@ export default function MenuProfile({ navigation }) {
 					</View>
 					<Text style={menuProfile.section} >Conta</Text>
 					<View style={menuProfile.containerOptions} >
-						<Pressable style={({ pressed }) => [menuProfile.buttonOption, { backgroundColor: (pressed) ? "rgba(0, 0, 0, 0.5)" : "transparent" }]} onPress={() => alert("leva o usuario para as notificacoes")} >
+						<Pressable style={({ pressed }) => [menuProfile.buttonOption, { backgroundColor: (pressed) ? "rgba(0, 0, 0, 0.5)" : "transparent" }]} onPress={() => { setVisible(false); navigation.navigate("notifications"); }} >
 							<Text style={menuProfile.option}>Notificações</Text>
 						</Pressable>
 						<Pressable style={({ pressed }) => [menuProfile.buttonOption, { backgroundColor: (pressed) ? "rgba(0, 0, 0, 0.5)" : "transparent" }]} onPress={() => alert("os planos de treino e pagamento poderia ficar aki")} >

@@ -1,6 +1,6 @@
 import { StyleSheet, View, Image, Text, FlatList, TouchableOpacity } from "react-native";
 import { useState, useRef, useEffect } from "react";
-import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialIcons } from "@expo/vector-icons";
 
 import Load from "../load/Load.js";
 import Error from "../error/Error.js";
@@ -13,6 +13,8 @@ import { theme } from "../../styles/theme.js";
 /**
  * @author VAMPETA
  * @brief TELA DE CADASTRO
+ * @param navigation FUNCAO QUE CONTROLA A NAVEGACAO ENTRE AS SCREENS
+ * @param route OBJETO COM PARAMETROS DA SCREEN ANTERIOR
 */
 export default function Register4({ navigation, route }) {
 	const { inputName, inputEmail, inputPassword, inputCpf, inputDate, inputPhone, units } = route.params;

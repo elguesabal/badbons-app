@@ -4,6 +4,7 @@ import HeaderStack from "../../components/HeaderStack.js";
 
 import Main from "./Main.js";
 import History from "./History.js";
+import Notifications from "./Notifications.js";
 import SwapEmail from "./SwapEmail.js";
 import SwapPassword from "./SwapPassword.js";
 
@@ -18,6 +19,7 @@ export default function Profile() {
 		<Stack.Navigator screenOptions={{ contentStyle: { backgroundColor: "transparent" }, animation: "slide_from_right", header: (props) => (<HeaderStack text="login" {...props} />) }} >
 			<Stack.Screen name="main" component={Main} options={{ header: () => null }} />
 			<Stack.Screen name="history" component={History} options={{ title: "Histórico de Partidas" }} />
+			<Stack.Screen name="notifications" component={Notifications} options={{ title: "Notificações" }} />
 			<Stack.Screen name="swapEmail" component={SwapEmail} options={{ title: "Trocar Email" }} />
 			<Stack.Screen name="swapPassword" component={SwapPassword} options={{ title: "Trocar Senha" }} />
 		</Stack.Navigator>
