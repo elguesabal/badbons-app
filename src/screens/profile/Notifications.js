@@ -202,13 +202,14 @@ const data = [
 
 /**
  * @author VAMPETA
- * @brief TELA DE TROCA DE NOTIFICACOES
+ * @brief TELA DE NOTIFICACOES
+ * @param navigation OBJETO QUE COM METODO COM METODOS DE NAVEGACAO ENTRE SCREENS
 */
-export default function Notifications() {
+export default function Notifications({ navigation }) {
 	return (
 		<View style={notifications.container} >
 			<FlatList data={data} keyExtractor={(item, i) => i} renderItem={({ item }) => (
-				<TouchableOpacity style={[notifications.notification, (item.viewed) ? { backgroundColor: "rgba(0, 0, 0, 0.2)" } : null]} >
+				<TouchableOpacity style={[notifications.notification, (item.viewed) ? { backgroundColor: "rgba(0, 0, 0, 0.2)" } : null]} onPress={() => navigation.navigate("notification")} >
 					<View style={[notifications.dotNotification, (item.viewed) ? null : { backgroundColor: theme.primaryBackgroundColor }]} />
 					<View style={notifications.containerNotification} >
 						<View style={notifications.headerNotification} >
