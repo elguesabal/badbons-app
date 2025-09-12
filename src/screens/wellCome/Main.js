@@ -1,11 +1,13 @@
 import { StyleSheet, View, Image, Text } from "react-native";
 import { useState, useEffect } from "react";
 
+import { useLogin } from "../../app/isLogin.js";
+import { useModal } from "../ModalGlobal/ModalGlobal.js";
+
 import Load from "../load/Load.js";
 import Error from "../error/Error.js";
 import Button from "../../components/Button.js";
 
-import { useLogin } from "../../app/isLogin.js";
 import { apiConnection } from "../../functions/wellcome/main.js";
 
 import { theme } from "../../styles/theme.js";
@@ -19,11 +21,12 @@ export default function Main({ navigation }) {
 	const [load, setLoad] = useState(true);
 	const [error, setError] = useState(false);
 	const { setIsLogin } = useLogin();
+	const { openModal } = useModal();
 
-	useEffect(() => { apiConnection(setIsLogin, setLoad, setError) }, []);
+	useEffect(() => { apiConnection(setIsLogin, setLoad, setError, openModal) }, []);
 
-	if (error) return (<Error {...error} />);
 	if (load) return (<Load />);
+	if (error) return (<Error {...error} />);
 
 	return (
 		<View style={main.container} >

@@ -2,6 +2,7 @@ import { StyleSheet, View, ScrollView, Text } from "react-native";
 import { useState, useEffect } from "react";
 
 import { useLogin } from "../../app/isLogin.js";
+
 import { requestGameHistory } from "../../functions/profile/history.js";
 
 import Load from "../../screens/load/Load.js";

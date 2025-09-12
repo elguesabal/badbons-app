@@ -62,9 +62,10 @@ const boxModal = StyleSheet.create({
 	},
 	text: {
 		fontSize: 18,
+		textAlign: "center"
 	},
 	status: {
-		fontSize: 16,
+		fontSize: 16
 	},
 	button: {
 		backgroundColor: theme.primaryBackgroundColor,

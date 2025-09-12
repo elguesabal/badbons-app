@@ -1,204 +1,14 @@
 import { StyleSheet, View, FlatList, TouchableOpacity, Text } from "react-native";
+import { useState, useEffect } from "react";
+
+import { useLogin } from "../../app/isLogin.js";
+import { useModal } from "../ModalGlobal/ModalGlobal.js";
+
+import { requestNotifications } from "../../functions/profile/notifications.js";
+
+import Load from "../load/Load.js";
 
 import { theme } from "../../styles/theme.js";
-
-const data = [
-	{
-		viewed: false,
-		title: "NDB NEWS",
-		time: "10 min",
-		message: "Quartas de Final - Vencedor Igor Coelho"
-	},
-	{
-		viewed: false,
-		title: "Torneio Amigo",
-		time: "15min",
-		message: "Final - Vencedor Natan Roldão"
-	},
-	{
-		viewed: false,
-		title: "Loja BadBons",
-		time: "20min",
-		message: "Camisas Novas já estão liberadas, confira!"
-	},
-	{
-		viewed: true,
-		title: "Equipe BadBons",
-		time: "20min",
-		message: "Aula de Reposição para a Tijuca, Dia 10 das 9:00 às 10:00"
-	},
-	{
-		viewed: false,
-		title: "NDB NEWS",
-		time: "10 min",
-		message: "Quartas de Final - Vencedor Igor Coelho"
-	},
-	{
-		viewed: false,
-		title: "Torneio Amigo",
-		time: "15min",
-		message: "Final - Vencedor Natan Roldão"
-	},
-	{
-		viewed: false,
-		title: "Loja BadBons",
-		time: "20min",
-		message: "Camisas Novas já estão liberadas, confira!"
-	},
-	{
-		viewed: true,
-		title: "Equipe BadBons",
-		time: "20min",
-		message: "Aula de Reposição para a Tijuca, Dia 10 das 9:00 às 10:00"
-	},
-
-
-
-	{
-		viewed: false,
-		title: "NDB NEWS",
-		time: "10 min",
-		message: "Quartas de Final - Vencedor Igor Coelho"
-	},
-	{
-		viewed: false,
-		title: "Torneio Amigo",
-		time: "15min",
-		message: "Final - Vencedor Natan Roldão"
-	},
-	{
-		viewed: false,
-		title: "Loja BadBons",
-		time: "20min",
-		message: "Camisas Novas já estão liberadas, confira!"
-	},
-	{
-		viewed: true,
-		title: "Equipe BadBons",
-		time: "20min",
-		message: "Aula de Reposição para a Tijuca, Dia 10 das 9:00 às 10:00"
-	},
-	{
-		viewed: false,
-		title: "NDB NEWS",
-		time: "10 min",
-		message: "Quartas de Final - Vencedor Igor Coelho"
-	},
-	{
-		viewed: false,
-		title: "Torneio Amigo",
-		time: "15min",
-		message: "Final - Vencedor Natan Roldão"
-	},
-	{
-		viewed: false,
-		title: "Loja BadBons",
-		time: "20min",
-		message: "Camisas Novas já estão liberadas, confira!"
-	},
-	{
-		viewed: true,
-		title: "Equipe BadBons",
-		time: "20min",
-		message: "Aula de Reposição para a Tijuca, Dia 10 das 9:00 às 10:00"
-	},
-	{
-		viewed: false,
-		title: "NDB NEWS",
-		time: "10 min",
-		message: "Quartas de Final - Vencedor Igor Coelho"
-	},
-	{
-		viewed: false,
-		title: "Torneio Amigo",
-		time: "15min",
-		message: "Final - Vencedor Natan Roldão"
-	},
-	{
-		viewed: false,
-		title: "Loja BadBons",
-		time: "20min",
-		message: "Camisas Novas já estão liberadas, confira!"
-	},
-	{
-		viewed: true,
-		title: "Equipe BadBons",
-		time: "20min",
-		message: "Aula de Reposição para a Tijuca, Dia 10 das 9:00 às 10:00"
-	},
-	{
-		viewed: false,
-		title: "NDB NEWS",
-		time: "10 min",
-		message: "Quartas de Final - Vencedor Igor Coelho"
-	},
-	{
-		viewed: false,
-		title: "Torneio Amigo",
-		time: "15min",
-		message: "Final - Vencedor Natan Roldão"
-	},
-	{
-		viewed: false,
-		title: "Loja BadBons",
-		time: "20min",
-		message: "Camisas Novas já estão liberadas, confira!"
-	},
-	{
-		viewed: true,
-		title: "Equipe BadBons",
-		time: "20min",
-		message: "Aula de Reposição para a Tijuca, Dia 10 das 9:00 às 10:00"
-	},
-	{
-		viewed: false,
-		title: "NDB NEWS",
-		time: "10 min",
-		message: "Quartas de Final - Vencedor Igor Coelho"
-	},
-	{
-		viewed: false,
-		title: "Torneio Amigo",
-		time: "15min",
-		message: "Final - Vencedor Natan Roldão"
-	},
-	{
-		viewed: false,
-		title: "Loja BadBons",
-		time: "20min",
-		message: "Camisas Novas já estão liberadas, confira!"
-	},
-	{
-		viewed: true,
-		title: "Equipe BadBons",
-		time: "20min",
-		message: "Aula de Reposição para a Tijuca, Dia 10 das 9:00 às 10:00"
-	},
-	{
-		viewed: false,
-		title: "NDB NEWS",
-		time: "10 min",
-		message: "Quartas de Final - Vencedor Igor Coelho"
-	},
-	{
-		viewed: false,
-		title: "Torneio Amigo",
-		time: "15min",
-		message: "Final - Vencedor Natan Roldão"
-	},
-	{
-		viewed: false,
-		title: "Loja BadBons",
-		time: "20min",
-		message: "Camisas Novas já estão liberadas, confira!"
-	},
-	{
-		viewed: true,
-		title: "Equipe BadBons",
-		time: "20min",
-		message: "Aula de Reposição para a Tijuca, Dia 10 das 9:00 às 10:00"
-	}
-];
 
 /**
  * @author VAMPETA
@@ -206,9 +16,25 @@ const data = [
  * @param navigation OBJETO QUE COM METODO COM METODOS DE NAVEGACAO ENTRE SCREENS
 */
 export default function Notifications({ navigation }) {
+	const { setIsLogin } = useLogin();
+	const [load, setLoad] = useState(true);
+	const { openModal } = useModal();
+	const [listNotifications, setListNotifications] = useState({});
+
+	useEffect(() => { requestNotifications(setListNotifications, setLoad, setIsLogin, openModal) }, []);
+
+	if (load) return (<Load />);
+	if (!listNotifications.length) {
+		return (
+			<View style={notifications.containerNoNotifications} >
+				<Text style={notifications.textNoNotifications} >Sem notificações</Text>
+			</View>
+		);
+	}
+
 	return (
 		<View style={notifications.container} >
-			<FlatList data={data} keyExtractor={(item, i) => i} renderItem={({ item }) => (
+			<FlatList data={listNotifications} keyExtractor={(item, i) => i} renderItem={({ item }) => (
 				<TouchableOpacity style={[notifications.notification, (item.viewed) ? { backgroundColor: "rgba(0, 0, 0, 0.2)" } : null]} onPress={() => navigation.navigate("notification")} >
 					<View style={[notifications.dotNotification, (item.viewed) ? null : { backgroundColor: theme.primaryBackgroundColor }]} />
 					<View style={notifications.containerNotification} >
@@ -258,5 +84,14 @@ const notifications = StyleSheet.create({
 	},
 	text: {
 		color: theme.secondaryTextColor
+	},
+	containerNoNotifications: {
+		flex: 1,
+		justifyContent: "center",
+		alignItems: "center"
+	},
+	textNoNotifications: {
+		color: theme.primaryTextColor,
+		fontSize: 25
 	}
 });
