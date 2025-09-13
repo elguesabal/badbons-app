@@ -13,23 +13,29 @@ import API_URL from "../../Api.js";
  * @param setLoad FUNCAO QUE MUDA O STATUS DE LOAD
  * @param setError FUNCAO QUE MUDA O STATUS DE ERROR
  * @param setIsLogin FUNCAO DE CONTROLE DE LOGIN
+ * @param openModal FUNCAO QUE ABRE O MODAL
 */
-export async function requestGameHistory(setEvents, setLoad, setError, setIsLogin) {
+export async function requestGameHistory(setEvents, setLoad, setError, setIsLogin, openModal) {
 	try {
+		setLoad(true);
 		const res = await axios.get(`${API_URL}/game-history`, {
 			headers: {
 				Authorization: `Bearer ${await SecureStore.getItemAsync("token")}`
 			}
 		});
+// throw (new Error(res));
 		if (res.status === 200) {
 			await AsyncStorage.setItem("lastGame", (res.data.length) ? JSON.stringify(res.data[0].games[0]) : "");
 			setEvents(res.data);
 		} else {
-			setError({ message: `Status ${res.status}` });
+			// setError({ message: `Status ${res.status}` });
+			throw (new Error(res));
 		}
 	} catch (error) {
 		if (error.message === "Network Error") {
-			setError({ icon: "wifi-off", message: "Sem conexão com a internet" });
+			// setError({ icon: "wifi-off", message: "Sem conexão com a internet" });
+			openModal({ icon: "wifi-off", text: "Sem conexão com o servidor.\nTentar novamente?", yes: (closeModal) => { closeModal(); requestGameHistory(setEvents, setLoad, setError, setIsLogin, openModal); }, no: (closeModal) => closeModal() });
+			setError({ icon: "wifi-off", message: "Sem conexão com o servidor" });
 		} else if (error.response && error.response.status === 401) {
 			logout(setIsLogin);
 		} else {

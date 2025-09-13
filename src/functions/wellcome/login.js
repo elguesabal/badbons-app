@@ -53,7 +53,6 @@ async function requestLogin(login, password, setIsLogin) {
 		if (error.response && error.response.status === 401) {
 			const err = new Error("Login ou senha errada!");
 			err.icon = "person-off";
-			err.status = error.status;
 			err.button = "Ok";
 			throw (err);
 		} else {

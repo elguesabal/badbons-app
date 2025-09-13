@@ -2,6 +2,7 @@ import { StyleSheet, View, ScrollView, Text } from "react-native";
 import { useState, useEffect } from "react";
 
 import { useLogin } from "../../app/isLogin.js";
+import { useModal } from "../ModalGlobal/ModalGlobal.js";
 
 import { requestGameHistory } from "../../functions/profile/history.js";
 
@@ -20,12 +21,13 @@ export default function History() {
 	const { setIsLogin } = useLogin();
 	const [load, setLoad] = useState(true);
 	const [error, setError] = useState(false);
+	const { openModal } = useModal();
 	const [events, setEvents] = useState({});
 
-	useEffect(() => { requestGameHistory(setEvents, setLoad, setError, setIsLogin) }, []);
+	useEffect(() => { requestGameHistory(setEvents, setLoad, setError, setIsLogin, openModal) }, []);
 
-	if (error) return (<Error {...error} />);
 	if (load) return (<Load />);
+	if (error) return (<Error {...error} />);
 	if (!events.length) {
 		return (
 			<View style={history.containerNoHistory} >
