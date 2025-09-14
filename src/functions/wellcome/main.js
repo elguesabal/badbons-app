@@ -82,7 +82,7 @@ export async function ping() {
 	const version = Constants.expoConfig?.version ?? "";
 
 	try {
-		const res = await axios.get(`${API_URL}/ping`, { params: { version: version } });
+		const res = await axios.get(`${API_URL}/ping?version=${version}`);
 		if (res.status !== 200) throw (new Error(res));
 	} catch (error) {
 		throw (error);

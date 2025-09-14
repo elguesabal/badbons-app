@@ -12,10 +12,10 @@ import { theme } from "../../styles/theme.js";
 export default function BoxModal({ data, closeModal }) {
 	return (
 		<>
-			<Pressable style={StyleSheet.absoluteFill} onPress={closeModal} />
+			<Pressable style={StyleSheet.absoluteFill} onPress={(data.exit) ? null : closeModal} />
 			<View style={boxModal.box}>
 				<View style={boxModal.header} >
-					<TouchableOpacity onPress={closeModal} >
+					<TouchableOpacity onPress={(data.exit) ? () => data.exit(closeModal) : closeModal} >
 						<MaterialIcons name="close" size={30} color={theme.secondaryTextColor} />
 					</TouchableOpacity>
 				</View>

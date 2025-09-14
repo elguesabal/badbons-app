@@ -8,24 +8,30 @@ import API_URL from "../../Api.js";
 /**
  * @author VAMPETA
  * @brief FAZ A REQUISICAO DE HISTORICO DE NOTIFICACOES
- * @param setEvents FUNCAO QUE SALVARA QUE VAI ARMAZENAR O HISTORICO DE NOTIFICAÇOES
+ * @param setListNotifications FUNCAO QUE SALVARA QUE VAI ARMAZENAR O HISTORICO DE NOTIFICAÇOES
  * @param setLoad FUNCAO QUE MUDA O STATUS DE LOAD
  * @param setIsLogin FUNCAO DE CONTROLE DE LOGIN
  * @param openModal FUNCAO QUE ABRE O MODAL
+ * @param loadingMore VARIAVEL QUE INDICA SE UMA REQUISICAO DE MAIS HISTORICO ESTA EM ANDAMENTO
+ * @param setLoadingMore FUNCAO QUE CONTROLA O LOAD DO FLATLIST
+ * @param hasMore VARIAVEL QUE INDICA SE TEM MAIS NOTIFICACOES A SEREM CARREGADAS
+ * @param setHasMore FUNCAO DE CONTROLE DE hasMore
+ * @param page ULTIMO CONJUTO DE NOTIFICACAO REQUERIDO
+ * @param setPage FUNCAO DE CONTROL DE page
 */
-export async function requestNotifications(setListNotifications, setLoad, setIsLogin, openModal) {
+export async function requestNotifications(setListNotifications, setLoad, setIsLogin, openModal, loadingMore, setLoadingMore, hasMore, setHasMore, page = 1, setPage) {
 	try {
-		setLoad(true);
-		const res = await axios.get(`${API_URL}/notifications`, {
+		if (loadingMore || !hasMore) return ;
+		(page === 1) ? setLoad(true) : setLoadingMore(true);
+		const res = await axios.get(`${API_URL}/notifications?page=${page}`, {
 			headers: {
 				Authorization: `Bearer ${await SecureStore.getItemAsync("token")}`
 			}
 		});
-		if (res.status === 200) {
-			setListNotifications(res.data);
-		} else {
-			throw (new Error(res));
-		}
+		if (res.status !== 200) throw (new Error(res));
+		if (!res.data.length) setHasMore(false);
+		(page === 1) ? setListNotifications(res.data) : setListNotifications(prev => [...prev, ...res.data]);
+		setPage(page + 1);
 	} catch (error) {
 		if (error.message === "Network Error") {
 			openModal({ icon: "storage", text: "Não foi possivel consultar o servidor.\nTentar novamente?", yes: (closeModal) => { closeModal(); requestNotifications(setListNotifications, setLoad, setIsLogin, openModal); }, no: (closeModal) => closeModal() });
@@ -36,5 +42,6 @@ export async function requestNotifications(setListNotifications, setLoad, setIsL
 		}
 	} finally {
 		setLoad(false);
+		setLoadingMore(false);
 	}
 }

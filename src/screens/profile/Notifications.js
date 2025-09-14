@@ -1,10 +1,10 @@
-import { StyleSheet, View, FlatList, TouchableOpacity, Text } from "react-native";
+import { StyleSheet, View, FlatList, ActivityIndicator, TouchableOpacity, Text } from "react-native";
 import { useState, useEffect } from "react";
 
 import { useLogin } from "../../app/isLogin.js";
 import { useModal } from "../ModalGlobal/ModalGlobal.js";
 
-import { requestNotifications } from "../../functions/profile/notifications.js";
+import { requestNotifications, handleFlatList } from "../../functions/profile/notifications.js";
 
 import Load from "../load/Load.js";
 
@@ -20,8 +20,11 @@ export default function Notifications({ navigation }) {
 	const [load, setLoad] = useState(true);
 	const { openModal } = useModal();
 	const [listNotifications, setListNotifications] = useState({});
+	const [page, setPage] = useState(1);
+	const [loadingMore, setLoadingMore] = useState(false);
+	const [hasMore, setHasMore] = useState(true);
 
-	useEffect(() => { requestNotifications(setListNotifications, setLoad, setIsLogin, openModal) }, []);
+	useEffect(() => { requestNotifications(setListNotifications, setLoad, setIsLogin, openModal, loadingMore, setLoadingMore, hasMore, setHasMore, page, setPage) }, []);
 
 	if (load) return (<Load />);
 	if (!listNotifications.length) {
@@ -34,25 +37,27 @@ export default function Notifications({ navigation }) {
 
 	return (
 		<View style={notifications.container} >
-			<FlatList data={listNotifications} keyExtractor={(item, i) => i} renderItem={({ item }) => (
-				<TouchableOpacity style={[notifications.notification, (item.viewed) ? { backgroundColor: "rgba(0, 0, 0, 0.2)" } : null]} onPress={() => navigation.navigate("notification")} >
-					<View style={[notifications.dotNotification, (item.viewed) ? null : { backgroundColor: theme.primaryBackgroundColor }]} />
-					<View style={notifications.containerNotification} >
-						<View style={notifications.headerNotification} >
-							<Text style={notifications.title} >{item.title}</Text>
-							<Text style={notifications.time} >{item.time}</Text>
+			<FlatList data={listNotifications} keyExtractor={(item, i) => i} onEndReachedThreshold={0.2} ListFooterComponent={(loadingMore) ? <ActivityIndicator size="large" color="white" /> : null } onEndReached={() => requestNotifications(setListNotifications, setLoad, setIsLogin, openModal, loadingMore, setLoadingMore, hasMore, setHasMore, page, setPage)}
+				renderItem={({ item }) => (
+					<TouchableOpacity style={[notifications.notification, (item.viewed) ? { backgroundColor: "rgba(0, 0, 0, 0.2)" } : null]} onPress={() => navigation.navigate("notification")} >
+						<View style={[notifications.dotNotification, (item.viewed) ? null : { backgroundColor: theme.primaryBackgroundColor }]} />
+						<View style={notifications.containerNotification} >
+							<View style={notifications.headerNotification} >
+								<Text style={notifications.title} >{item.title}</Text>
+								<Text style={notifications.time} >{item.time}</Text>
+							</View>
+							<Text style={notifications.text} >{item.message}</Text>
 						</View>
-						<Text style={notifications.text} >{item.message}</Text>
-					</View>
-				</TouchableOpacity>
-			)} />
+					</TouchableOpacity>
+				)
+			} />
 		</View>
 	);
 }
 
 const notifications = StyleSheet.create({
 	container: {
-
+		paddingBottom: 100
 	},
 	notification: {
 		backgroundColor: "rgba(0, 0, 0, 0.5)",
