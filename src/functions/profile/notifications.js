@@ -20,9 +20,9 @@ import API_URL from "../../Api.js";
  * @param setPage FUNCAO DE CONTROL DE page
 */
 export async function requestNotifications(setListNotifications, setLoad, setIsLogin, openModal, loadingMore, setLoadingMore, hasMore, setHasMore, page = 1, setPage) {
+	if (loadingMore || !hasMore) return ;
+	(page === 1) ? setLoad(true) : setLoadingMore(true);
 	try {
-		if (loadingMore || !hasMore) return ;
-		(page === 1) ? setLoad(true) : setLoadingMore(true);
 		const res = await axios.get(`${API_URL}/notifications?page=${page}`, {
 			headers: {
 				Authorization: `Bearer ${await SecureStore.getItemAsync("token")}`
@@ -41,7 +41,6 @@ export async function requestNotifications(setListNotifications, setLoad, setIsL
 			openModal({ text: error.message });
 		}
 	} finally {
-		setLoad(false);
-		setLoadingMore(false);
+		(page === 1) ? setLoad(false) : setLoadingMore(false);
 	}
 }

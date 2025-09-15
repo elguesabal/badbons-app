@@ -17,7 +17,7 @@ export default function Scoreboard({ style, game }) {
 		<View style={[scoreboard.container, style]} >
 			<View style={scoreboard.containerTitle}>
 				<Text style={scoreboard.title} >{game.title}</Text>
-				<MaterialIcons name="favorite" color={(game.favorite) ? "red" : "blue"} size={24} />
+				<MaterialIcons name="favorite" color={(game.favorite) ? "red" : theme.primaryBackgroundColor} size={24} />
 			</View>
 			<View style={scoreboard.containerScore} >
 				<View style={styles.center} >

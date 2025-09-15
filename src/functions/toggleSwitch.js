@@ -7,7 +7,7 @@
 */
 export async function handleToggleSwitch(openModal, closeModal, onValueChange) {
 	try {
-		openModal({ spinner: true });
+		openModal({ load: true });
 		await onValueChange();
 		closeModal();
 	} catch(error) {

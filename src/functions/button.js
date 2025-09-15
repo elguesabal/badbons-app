@@ -11,7 +11,7 @@ import { Keyboard } from "react-native";
 export async function handleButton(openModal, closeModal, onPress, load) {
 	try {
 		Keyboard.dismiss();
-		if (load) openModal({ spinner: true });
+		if (load) openModal({ load: true });
 		if (onPress) await onPress();
 		if (load) closeModal();
 	} catch (error) {

@@ -19,7 +19,7 @@ export default function Notifications({ navigation }) {
 	const { setIsLogin } = useLogin();
 	const [load, setLoad] = useState(true);
 	const { openModal } = useModal();
-	const [listNotifications, setListNotifications] = useState({});
+	const [listNotifications, setListNotifications] = useState([]);
 	const [page, setPage] = useState(1);
 	const [loadingMore, setLoadingMore] = useState(false);
 	const [hasMore, setHasMore] = useState(true);
@@ -37,7 +37,7 @@ export default function Notifications({ navigation }) {
 
 	return (
 		<View style={notifications.container} >
-			<FlatList data={listNotifications} keyExtractor={(item, i) => i} onEndReachedThreshold={0.2} ListFooterComponent={(loadingMore) ? <ActivityIndicator size="large" color="white" /> : null } onEndReached={() => requestNotifications(setListNotifications, setLoad, setIsLogin, openModal, loadingMore, setLoadingMore, hasMore, setHasMore, page, setPage)}
+			<FlatList data={listNotifications} keyExtractor={(_, i) => i.toString()} onEndReachedThreshold={0.2} ListFooterComponent={(loadingMore) ? <ActivityIndicator size="large" color="white" /> : null } onEndReached={() => requestNotifications(setListNotifications, setLoad, setIsLogin, openModal, loadingMore, setLoadingMore, hasMore, setHasMore, page, setPage)}
 				renderItem={({ item }) => (
 					<TouchableOpacity style={[notifications.notification, (item.viewed) ? { backgroundColor: "rgba(0, 0, 0, 0.2)" } : null]} onPress={() => navigation.navigate("notification")} >
 						<View style={[notifications.dotNotification, (item.viewed) ? null : { backgroundColor: theme.primaryBackgroundColor }]} />
