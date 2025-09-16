@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useLogin } from "../../app/isLogin.js";
 import { useModal } from "../ModalGlobal/ModalGlobal.js";
 
-import { requestNotifications, handleFlatList } from "../../functions/profile/notifications.js";
+import { requestNotifications } from "../../functions/profile/notifications.js";
 
 import Load from "../load/Load.js";
 

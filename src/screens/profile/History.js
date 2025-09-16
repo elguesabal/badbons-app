@@ -7,7 +7,6 @@ import { useModal } from "../ModalGlobal/ModalGlobal.js";
 import { requestGameHistory } from "../../functions/profile/history.js";
 
 import Load from "../../screens/load/Load.js";
-import Error from "../../screens/error/Error.js";
 
 import Scoreboard from "../../components/Scoreboard.js";
 
@@ -16,18 +15,17 @@ import { theme } from "../../styles/theme.js";
 /**
  * @author VAMPETA
  * @brief SCREEN COM HISTORICO DE PARTIDAS
+ * @param navigation OBJETO QUE COM METODO COM METODOS DE NAVEGACAO ENTRE SCREENS
 */
-export default function History() {
+export default function History({ navigation }) {
 	const { setIsLogin } = useLogin();
 	const [load, setLoad] = useState(true);
-	const [error, setError] = useState(false);
 	const { openModal } = useModal();
 	const [events, setEvents] = useState({});
 
-	useEffect(() => { requestGameHistory(setEvents, setLoad, setError, setIsLogin, openModal) }, []);
+	useEffect(() => { requestGameHistory(navigation, setEvents, setLoad, setIsLogin, openModal) }, []);
 
 	if (load) return (<Load />);
-	if (error) return (<Error {...error} />);
 	if (!events.length) {
 		return (
 			<View style={history.containerNoHistory} >

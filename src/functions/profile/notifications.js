@@ -28,17 +28,17 @@ export async function requestNotifications(setListNotifications, setLoad, setIsL
 				Authorization: `Bearer ${await SecureStore.getItemAsync("token")}`
 			}
 		});
-		if (res.status !== 200) throw (new Error(res));
+		if (res.status !== 200) throw (new Error(`${res.status}\n${res.data}`));
 		if (!res.data.length) setHasMore(false);
 		(page === 1) ? setListNotifications(res.data) : setListNotifications(prev => [...prev, ...res.data]);
 		setPage(page + 1);
 	} catch (error) {
 		if (error.message === "Network Error") {
-			openModal({ icon: "storage", text: "Não foi possivel consultar o servidor.\nTentar novamente?", yes: (closeModal) => { closeModal(); requestNotifications(setListNotifications, setLoad, setIsLogin, openModal); }, no: (closeModal) => closeModal() });
+			openModal({ icon: "storage", text: "Não foi possivel consultar o servidor.\nTentar novamente?", yes: (closeModal) => { closeModal(); requestNotifications(setListNotifications, setLoad, setIsLogin, openModal, loadingMore, setLoadingMore, hasMore, setHasMore, page, setPage); }, no: (closeModal) => closeModal() });
 		} else if (error.response && error.response.status === 401) {
 			logout(setIsLogin);
 		} else {
-			openModal({ text: error.message });
+			openModal({ icon: "error-outline", text: error.message, button: "Ok" });
 		}
 	} finally {
 		(page === 1) ? setLoad(false) : setLoadingMore(false);
