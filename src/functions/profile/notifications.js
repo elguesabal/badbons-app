@@ -44,3 +44,16 @@ export async function requestNotifications(setListNotifications, setLoad, setIsL
 		(page === 1) ? setLoad(false) : setLoadingMore(false);
 	}
 }
+
+/**
+ * @author VAMPETA
+ * @brief FUNCAO QUE CONTROLA O CLICK NA NOTIFICACAO
+ * @param navigation OBJETO QUE COM METODO COM METODOS DE NAVEGACAO ENTRE SCREENS
+ * @param listNotifications LISTA DE NOTIFICACOES
+ * @param setListNotifications FUNCAO QUE MODIFICA A LISTA DE NOTIFICACOES
+ * @param index INDICE DO FLATLIST
+*/
+export async function handleNotification(navigation, listNotifications, setListNotifications, index) {
+	setListNotifications((prev) => prev.map((element, i) => i === index ? { ...element, viewed: true } : element));
+	navigation.navigate("notification", { id: listNotifications[index].id });
+}

@@ -50,7 +50,7 @@ async function uploadPhoto(photo, setIsLogin) {
 			name: `user.${photo.assets[0].uri.split(".").pop().toLowerCase()}`,
 			type: `image/${photo.assets[0].uri.split(".").pop().toLowerCase()}`
 		});
-		const res = await axios.post(`${API_URL}/upload-photo-profile`, formData, {
+		const res = await axios.patch(`${API_URL}/upload-photo-profile`, formData, {
 			headers: {
 				"Content-Type": "multipart/form-data",
 				Authorization: `Bearer ${await SecureStore.getItemAsync("token")}`
@@ -66,7 +66,7 @@ async function uploadPhoto(photo, setIsLogin) {
 			const err = new Error("Sem conexão com a internet");
 			err.icon = "wifi-off";
 			throw (err);
-		} else if (error.response && error.response.status === 400) {
+		} else if (error.response && error.response.status === 401) {
 			logout(setIsLogin);
 		} else {
 			const err = new Error(error.message);
@@ -75,6 +75,39 @@ async function uploadPhoto(photo, setIsLogin) {
 		}
 	}
 }
+// async function uploadPhoto(photo, setIsLogin) {
+// 	try {
+// 		const formData = new FormData();
+// 		formData.append("fotoPerfil", {
+// 			uri: photo.assets[0].uri,
+// 			name: `user.${photo.assets[0].uri.split(".").pop().toLowerCase()}`,
+// 			type: `image/${photo.assets[0].uri.split(".").pop().toLowerCase()}`
+// 		});
+// 		const res = await axios.patch(`${API_URL}/user/update-image`, formData, {
+// 			headers: {
+// 				"Content-Type": "multipart/form-data",
+// 				Authorization: `Bearer ${await SecureStore.getItemAsync("token")}`
+// 			}
+// 		});
+// 		if (res.status !== 200) {
+// 			const err = new Error(res.data);
+// 			err.status = res.status;
+// 			throw (err);
+// 		}
+// 	} catch (error) {
+// 		if (error.message === "Network Error") {
+// 			const err = new Error("Sem conexão com a internet");
+// 			err.icon = "wifi-off";
+// 			throw (err);
+// 		} else if (error.response && error.response.status === 401) {
+// 			logout(setIsLogin);
+// 		} else {
+// 			const err = new Error(error.message);
+// 			err.status = error.status;
+// 			throw (err);
+// 		}
+// 	}
+// }
 
 /**
  * @author VAMPETA

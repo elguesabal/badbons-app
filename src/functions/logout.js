@@ -11,6 +11,8 @@ import { compatibleProfilePictures } from "../compatibleImages.js";
 */
 export async function logout(setIsLogin) {
 	await SecureStore.deleteItemAsync("token");
+	await SecureStore.deleteItemAsync("refreshToken");
+	await SecureStore.deleteItemAsync("id");
 	compatibleProfilePictures.map(async (format) => await FileSystem.deleteAsync(`${FileSystem.documentDirectory}user.${format}`, { idempotent: true }));
 	await AsyncStorage.removeItem("name");
 	await AsyncStorage.removeItem("email");

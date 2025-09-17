@@ -29,12 +29,32 @@ async function login(setIsLogin) {
 
 	if (!token) return ;
 	try {
-		const res = await axios.post(`${API_URL}/login-token`, { token: token });
+		const res = await axios.post(`${API_URL}/login-token`, null, {
+			headers: {
+				Authorization: `Bearer ${token}`
+			}
+		});
 		if (res.status === 200) setIsLogin(true);
 	} catch (error) {
 		throw (error);
 	}
 }
+// async function login(setIsLogin) {
+// 	const token = await SecureStore.getItemAsync("refreshToken");
+
+// 	if (!token) return ;
+// 	try {
+// 		const res = await axios.post(`${API_URL}/auth/login-token`, null, {
+// 			headers: {
+// 				Authorization: `Bearer ${token}`
+// 			}
+// 		});
+// 		if (res.status === 200) setIsLogin(true);
+// 	} catch (error) {
+// 		throw (error);
+// 	}
+// }
+
 
 /**
  * @author VAMPETA

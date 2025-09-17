@@ -65,25 +65,25 @@ async function requestLogin(login, password, setIsLogin) {
 // async function requestLogin(login, password, setIsLogin) {
 // 	try {
 // 		const res = await axios.post(`${API_URL}/auth/login`, { email: login, password: password });
-// 		if (res.status === 200) {
-// 			await SecureStore.setItemAsync("token", res.data.accesstoken);
-// 			try {
-// 				const infoDoc = await FileSystem.downloadAsync(res.data.user.foto, `${FileSystem.documentDirectory}user.${res.data.user.foto.split(".").pop().toLowerCase()}`, { headers: { Authorization: `Bearer ${res.data.accesstoken}` }});
-// 				if (infoDoc.status !== 200) await FileSystem.deleteAsync(infoDoc.uri, { idempotent: true });
-// 			} catch (error) {
+// 		if (res.status !== 200) throw (new Error(`${res.status}\n${res.data}`));
+// 		console.log("teste: ", res.data.user)
+// 		await SecureStore.setItemAsync("token", res.data.accesstoken);
+// 		await SecureStore.setItemAsync("refreshToken", res.data.user.activeDevices[1].refreshToken);
+// 		await SecureStore.setItemAsync("id", res.data.user._id);
+// 		try {
+// 			const infoDoc = await FileSystem.downloadAsync(res.data.user.foto, `${FileSystem.documentDirectory}user.${res.data.user.foto.split(".").pop().toLowerCase()}`, { headers: { Authorization: `Bearer ${res.data.accesstoken}` }});
+// 			if (infoDoc.status !== 200) await FileSystem.deleteAsync(infoDoc.uri, { idempotent: true });
+// 		} catch (error) {
 
-// 			}
-// 			await AsyncStorage.setItem("name", res.data.user.nome);
-// 			await AsyncStorage.setItem("email", res.data.user.email);
-// 			// await SecureStore.setItemAsync("cpf", res.data.user.cpf); // undefined
-// 			// await SecureStore.setItemAsync("date", res.data.user.dataNascimento); // undefined
-// 			await SecureStore.setItemAsync("phone", res.data.user.telefone);
-// 			// await AsyncStorage.setItem("units", JSON.stringify(res.data.user.units));
-// 			// await AsyncStorage.setItem("times", JSON.stringify(res.data.user.times));
-// 			setIsLogin(true);
-// 		} else {
-// 			throw (new Error(`Status ${res.status}`));
 // 		}
+// 		await AsyncStorage.setItem("name", res.data.user.nome);
+// 		await AsyncStorage.setItem("email", res.data.user.email);
+// 		await SecureStore.setItemAsync("cpf", res.data.user.cpf);
+// 		await SecureStore.setItemAsync("date", res.data.user.dataNascimento);
+// 		await SecureStore.setItemAsync("phone", res.data.user.telefone);
+// 		// await AsyncStorage.setItem("units", JSON.stringify(res.data.user.units));
+// 		// await AsyncStorage.setItem("times", JSON.stringify(res.data.user.times));
+// 		setIsLogin(true);
 // 	} catch (error) {
 // 		if (error.response && error.response.status === 401) {
 // 			const err = new Error("Login ou senha errada!");

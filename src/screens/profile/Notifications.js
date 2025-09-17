@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useLogin } from "../../app/isLogin.js";
 import { useModal } from "../ModalGlobal/ModalGlobal.js";
 
-import { requestNotifications } from "../../functions/profile/notifications.js";
+import { requestNotifications, handleNotification } from "../../functions/profile/notifications.js";
 
 import Load from "../load/Load.js";
 
@@ -25,7 +25,6 @@ export default function Notifications({ navigation }) {
 	const [hasMore, setHasMore] = useState(true);
 
 	useEffect(() => { requestNotifications(setListNotifications, setLoad, setIsLogin, openModal, loadingMore, setLoadingMore, hasMore, setHasMore, page, setPage) }, []);
-
 	if (load) return (<Load />);
 	if (!listNotifications.length) {
 		return (
@@ -34,16 +33,15 @@ export default function Notifications({ navigation }) {
 			</View>
 		);
 	}
-
 	return (
 		<View style={notifications.container} >
 			<FlatList data={listNotifications} keyExtractor={(_, i) => i.toString()} onEndReachedThreshold={0.2} ListFooterComponent={(loadingMore) ? <ActivityIndicator size="large" color="white" /> : null } onEndReached={() => requestNotifications(setListNotifications, setLoad, setIsLogin, openModal, loadingMore, setLoadingMore, hasMore, setHasMore, page, setPage)}
-				renderItem={({ item }) => (
-					<TouchableOpacity style={[notifications.notification, (item.viewed) ? { backgroundColor: "rgba(0, 0, 0, 0.2)" } : null]} onPress={() => navigation.navigate("notification")} >
+				renderItem={({ item, index }) => (
+					<TouchableOpacity style={[notifications.notification, (item.viewed) ? { backgroundColor: "rgba(0, 0, 0, 0.2)" } : null]} onPress={() => handleNotification(navigation, listNotifications, setListNotifications, index)} >
 						<View style={[notifications.dotNotification, (item.viewed) ? null : { backgroundColor: theme.primaryBackgroundColor }]} />
 						<View style={notifications.containerNotification} >
 							<View style={notifications.headerNotification} >
-								<Text style={notifications.title} >{item.title}</Text>
+								<Text style={notifications.title} >{index + 1} {item.title}</Text>
 								<Text style={notifications.time} >{item.time}</Text>
 							</View>
 							<Text style={notifications.text} >{item.message}</Text>
