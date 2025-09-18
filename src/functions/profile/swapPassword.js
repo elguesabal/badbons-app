@@ -49,7 +49,7 @@ function handleButtonModal(closeModal, navigation) {
 */
 async function requestSwapPassword(newPassword, password, navigation, openModal, setIsLogin) {
 	try {
-		const res = await axios.post(`${API_URL}/swap-password`, { newPassword: newPassword, password: password }, { headers: { Authorization: `Bearer ${await SecureStore.getItemAsync("token")}` } });
+		const res = await axios.post(`${API_URL}/swap-password`, { newPassword: newPassword, password: password }, { headers: { Authorization: `Bearer ${await SecureStore.getItemAsync("refreshToken")}` } });
 		if (res.status !== 200) throw (new Error(`Status ${res.status}`));
 		setTimeout(() => openModal({ icon: "check-circle", text: "Senha trocada com sucesso!", button: "ok", handleButton: (closeModal) => handleButtonModal(closeModal, navigation) }), 100);
 	} catch (error) {

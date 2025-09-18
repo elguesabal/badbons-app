@@ -23,14 +23,12 @@ export default function DaysBottomSheet({ day }) {
 	const [presenceList, setPresenceList] = useState(false);
 
 	useEffect(() => { getPresenceList(day, setPresenceList, setError, setIsLogin, closeSheet) }, []);
-
 	if (error) return (<Error {...error} />);
 	if (!presenceList) return (
 		<View style={daysBottomSheet.load} >
 			<ActivityIndicator size="70" color="white" />
 		</View>
 	);
-
 	return (
 		<View style={daysBottomSheet.container} >
 			<HeaderBottomSheet style={daysBottomSheet.header} />

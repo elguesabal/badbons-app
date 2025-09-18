@@ -16,7 +16,7 @@ import API_URL from "../../Api.js";
 */
 export async function confirmPresence(newPresence, setPresenceList, setIsLogin, closeSheet) {
 	try {
-		const res = await axios.post(`${API_URL}/presence-student`, { presence: newPresence }, { headers: { Authorization: `Bearer ${await SecureStore.getItemAsync("token")}` }});
+		const res = await axios.post(`${API_URL}/presence-student`, { presence: newPresence }, { headers: { Authorization: `Bearer ${await SecureStore.getItemAsync("refreshToken")}` }});
 		if (res.status === 200) {
 			const name = await AsyncStorage.getItem("name");
 			setPresenceList((prev) => ({ ...prev, confirmedPresence: newPresence, confirmedStudents: (newPresence) ? [...prev.confirmedStudents, name] : prev.confirmedStudents.filter((student) => student !== name) }));

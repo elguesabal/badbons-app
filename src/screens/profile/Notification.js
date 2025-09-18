@@ -15,13 +15,13 @@ import { theme } from "../../styles/theme.js";
  * @brief TELA DE NOTIFICACAO
  * @param route OBJETO COM PARAMETROS DA SCREEN ANTERIOR
 */
-export default function Notification({ route }) {
+export default function Notification({ route, navigation }) {
 	const { setIsLogin } = useLogin();
 	const [load, setLoad] = useState(true);
 	const { openModal } = useModal();
 	const [data, setData] = useState({});
 
-	useEffect(() => { requestNotification(route.params.id, setData, setIsLogin, setLoad, openModal) }, []);
+	useEffect(() => { requestNotification(navigation, route.params.id, setData, setIsLogin, setLoad, openModal) }, []);
 	if (load) return (<Load />);
 	return (
 		<ScrollView contentContainerStyle={notification.container} >

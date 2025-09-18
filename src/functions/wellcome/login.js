@@ -27,28 +27,12 @@ function validation(login, password) {
  * @param password SENHA DO USUARIO
  * @param setIsLogin FUNCAO QUE CONTROLA SE O USUARIO ESTA LOGADO OU NAO
 */
-async function requestLogin(login, password, setIsLogin) {
+async function requestLogin(login, password) {
 	try {
-		const res = await axios.post(`${API_URL}/login`, { login: login, password: password });
-		if (res.status === 200) {
-			await SecureStore.setItemAsync("token", res.data.token);
-			try {
-				const infoDoc = await FileSystem.downloadAsync(res.data.photo, `${FileSystem.documentDirectory}user.${res.data.photo.split(".").pop().toLowerCase()}`, { headers: { Authorization: `Bearer ${res.data.token}` }});
-				if (infoDoc.status !== 200) await FileSystem.deleteAsync(infoDoc.uri, { idempotent: true });
-			} catch (error) {
-
-			}
-			await AsyncStorage.setItem("name", res.data.name);
-			await AsyncStorage.setItem("email", res.data.email);
-			await SecureStore.setItemAsync("cpf", res.data.cpf);
-			await SecureStore.setItemAsync("date", res.data.date);
-			await SecureStore.setItemAsync("phone", res.data.phone);
-			await AsyncStorage.setItem("units", JSON.stringify(res.data.units));
-			await AsyncStorage.setItem("times", JSON.stringify(res.data.times));
-			setIsLogin(true);
-		} else {
-			throw (new Error(`Status ${res.status}`));
-		}
+		const res = await axios.post(`${API_URL}/auth/login`, { email: login, password: password });
+		if (res.status !== 200) throw (new Error(`${res.status}\n${res.data}`));
+		await SecureStore.setItemAsync("accessToken", res.data.accesstoken);
+		await SecureStore.setItemAsync("refreshToken", res.data.RefreshToken);
 	} catch (error) {
 		if (error.response && error.response.status === 401) {
 			const err = new Error("Login ou senha errada!");
@@ -62,41 +46,33 @@ async function requestLogin(login, password, setIsLogin) {
 		}
 	}
 }
-// async function requestLogin(login, password, setIsLogin) {
-// 	try {
-// 		const res = await axios.post(`${API_URL}/auth/login`, { email: login, password: password });
-// 		if (res.status !== 200) throw (new Error(`${res.status}\n${res.data}`));
-// 		console.log("teste: ", res.data.user)
-// 		await SecureStore.setItemAsync("token", res.data.accesstoken);
-// 		await SecureStore.setItemAsync("refreshToken", res.data.user.activeDevices[1].refreshToken);
-// 		await SecureStore.setItemAsync("id", res.data.user._id);
-// 		try {
-// 			const infoDoc = await FileSystem.downloadAsync(res.data.user.foto, `${FileSystem.documentDirectory}user.${res.data.user.foto.split(".").pop().toLowerCase()}`, { headers: { Authorization: `Bearer ${res.data.accesstoken}` }});
-// 			if (infoDoc.status !== 200) await FileSystem.deleteAsync(infoDoc.uri, { idempotent: true });
-// 		} catch (error) {
 
-// 		}
-// 		await AsyncStorage.setItem("name", res.data.user.nome);
-// 		await AsyncStorage.setItem("email", res.data.user.email);
-// 		await SecureStore.setItemAsync("cpf", res.data.user.cpf);
-// 		await SecureStore.setItemAsync("date", res.data.user.dataNascimento);
-// 		await SecureStore.setItemAsync("phone", res.data.user.telefone);
-// 		// await AsyncStorage.setItem("units", JSON.stringify(res.data.user.units));
-// 		// await AsyncStorage.setItem("times", JSON.stringify(res.data.user.times));
-// 		setIsLogin(true);
-// 	} catch (error) {
-// 		if (error.response && error.response.status === 401) {
-// 			const err = new Error("Login ou senha errada!");
-// 			err.icon = "person-off";
-// 			err.button = "Ok";
-// 			throw (err);
-// 		} else {
-// 			const err = new Error(error.message);
-// 			err.status = error.status;
-// 			throw (err);
-// 		}
-// 	}
-// }
+/**
+ * @author VAMPETA
+ * @brief FAZ A REQUISICAO PEDINDO AS CREDENCIAIS DO USUARIO
+*/
+async function requestCredentials() {
+	try {
+		const res = await axios.get(`${API_URL}/auth/credentials`, { headers: { Authorization: `Bearer ${await SecureStore.getItemAsync("refreshToken")}` } });
+		if (res.status !== 200) throw (new Error(`${res.status}\n${res.data}`));
+		try { // VER OQ TA ERRADO AKI
+			const infoDoc = await FileSystem.downloadAsync(res.data.foto, `${FileSystem.documentDirectory}user.${res.data.foto.split(".").pop().toLowerCase()}`, { headers: { Authorization: `Bearer ${res.data.accesstoken}` }});
+			if (infoDoc.status !== 200) await FileSystem.deleteAsync(infoDoc.uri, { idempotent: true });
+		} catch (error) {
+
+		}
+		await AsyncStorage.setItem("name", res.data.name);
+		await AsyncStorage.setItem("email", res.data.email);
+		await SecureStore.setItemAsync("cpf", res.data.cpf);
+		await SecureStore.setItemAsync("date", res.data.date);
+		await SecureStore.setItemAsync("phone", res.data.phone);
+		// await AsyncStorage.setItem("units", JSON.stringify(res.data.units));
+		// await AsyncStorage.setItem("times", JSON.stringify(res.data.times));
+	} catch (error) {
+// FALTANDO FAZER AKI
+console.log("deu erro: ", error)
+	}
+}
 
 /**
  * @author VAMPETA
@@ -108,7 +84,10 @@ async function requestLogin(login, password, setIsLogin) {
 export async function hundleLogin(login, password, setIsLogin) {
 	try {
 		validation(login, password);
-		await requestLogin(login, password, setIsLogin);
+		await requestLogin(login, password);
+		await requestCredentials();
+		// await requestTraining();
+		setIsLogin(true);
 	} catch (error) {
 		throw (error);
 	}

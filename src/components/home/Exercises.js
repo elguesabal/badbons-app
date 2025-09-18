@@ -1,4 +1,7 @@
 import { StyleSheet, View, Text, Image } from "react-native";
+import { useState, useEffect } from "react";
+
+import { requestExercises } from "../../functions/home/exercises.js";
 
 import { theme } from "../../styles/theme.js";
 
@@ -8,25 +11,25 @@ import { theme } from "../../styles/theme.js";
  * @param style ESTILIZACAO EXTRA DO COMPONENTE
 */
 export default function Exercises({ style }) {
-	const nExercises = 10;
-	const completed = 3;
+	const [data, setData] = useState({ nExercises: 0, completed: 0 });
 
+	useEffect(() => { requestExercises(setData) }, []);
 	return (
 		<View style={[exercises.container, style]} >
 			<View style={exercises.containerText} >
 				<Text style={exercises.text} >0 Exercícios</Text>
-				<Text style={exercises.text} >{nExercises} Exercícios</Text>
+				<Text style={exercises.text} >{data.nExercises} Exercícios</Text>
 			</View>
 			<View style={exercises.containerProgress} >
 				<View style={exercises.containerLine} >
 					<View style={exercises.circleStart}></View>
-					<View style={[exercises.lineCompleted, { width: `${(completed / nExercises) * 100}%` }]} ></View>
+					<View style={[exercises.lineCompleted, { width: `${(data.completed / data.nExercises) * 100}%` }]} ></View>
 					<Image style={exercises.shuttlecock} source={require("../../../assets/img/shuttlecock.png")} />
 					<View style={exercises.lineIncomplete} ></View>
 					<View style={exercises.circleEnd}></View>
 				</View>
 				<View style={exercises.containerPopup} >
-					<Text style={[exercises.textPopup, { marginLeft: `${(completed / nExercises) * 100 - 15}%` }]} >{completed} Exercícios</Text>
+					<Text style={[exercises.textPopup, { marginLeft: `${(data.completed / data.nExercises) * 100 - 15}%` }]} >{data.completed} Exercícios</Text>
 				</View>
 			</View>
 		</View>

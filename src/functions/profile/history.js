@@ -18,17 +18,10 @@ import API_URL from "../../Api.js";
 export async function requestGameHistory(navigation, setEvents, setLoad, setIsLogin, openModal) {
 	try {
 		setLoad(true);
-		const res = await axios.get(`${API_URL}/game-history`, {
-			headers: {
-				Authorization: `Bearer ${await SecureStore.getItemAsync("token")}`
-			}
-		});
-		if (res.status === 200) {
-			await AsyncStorage.setItem("lastGame", (res.data.length) ? JSON.stringify(res.data[0].games[0]) : "");
-			setEvents(res.data);
-		} else {
-			throw (new Error(`${res.status}\n${res.data}`));
-		}
+		const res = await axios.get(`${API_URL}/game-history`, { headers: { Authorization: `Bearer ${await SecureStore.getItemAsync("refreshToken")}` } });
+		if (res.status !== 200) throw (new Error(`${res.status}\n${res.data}`));
+		await AsyncStorage.setItem("lastGame", (res.data.length) ? JSON.stringify(res.data[0].games[0]) : "");
+		setEvents(res.data);
 	} catch (error) {
 		if (error.message === "Network Error") {
 			openModal({ icon: "wifi-off", text: "Sem conexão com o servidor.\nTentar novamente?", yes: (closeModal) => { closeModal(); requestGameHistory(navigation, setEvents, setLoad, setIsLogin, openModal); }, no: (closeModal) => { closeModal(); navigation.goBack(); }, exit: (closeModal) => { closeModal(); navigation.goBack(); } });

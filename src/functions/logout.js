@@ -10,16 +10,15 @@ import { compatibleProfilePictures } from "../compatibleImages.js";
  * @param setIsLogin FUNCAO DE CONTROLE DE LOGIN
 */
 export async function logout(setIsLogin) {
-	await SecureStore.deleteItemAsync("token");
+	await SecureStore.deleteItemAsync("accessToken");
 	await SecureStore.deleteItemAsync("refreshToken");
-	await SecureStore.deleteItemAsync("id");
 	compatibleProfilePictures.map(async (format) => await FileSystem.deleteAsync(`${FileSystem.documentDirectory}user.${format}`, { idempotent: true }));
 	await AsyncStorage.removeItem("name");
 	await AsyncStorage.removeItem("email");
 	await SecureStore.deleteItemAsync("cpf");
 	await SecureStore.deleteItemAsync("date");
 	await SecureStore.deleteItemAsync("phone");
-	await AsyncStorage.removeItem("units");
-	await AsyncStorage.removeItem("times");
+	// await AsyncStorage.removeItem("units");
+	// await AsyncStorage.removeItem("times");
 	setIsLogin(false);
 }

@@ -16,12 +16,10 @@ import API_URL from "../../Api.js";
 */
 export async function getPresenceList(day, setPresenceList, setError, setIsLogin, closeSheet) {
 	try {
-		const res = await axios.get(`${API_URL}/presence-list`, {
-			headers: {
-				Authorization: `Bearer ${await SecureStore.getItemAsync("token")}`
-			},
-			params: { day: day }
+		const res = await axios.get(`${API_URL}/presence-list`, { headers: { Authorization: `Bearer ${await SecureStore.getItemAsync("refreshToken")}` },
+			params: { day: day } // PADRONIZAR AKI
 		});
+		// if (res.status !== 200) throw (new Error(`${res.status}\n${res.data}`)); // PADRONIZAR AKI
 		if (res.status === 200) {
 			setPresenceList(res.data);
 		} else {
