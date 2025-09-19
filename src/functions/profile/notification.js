@@ -18,10 +18,7 @@ import API_URL from "../../Api.js";
 export async function requestNotification(navigation, id, setData, setIsLogin, setLoad, openModal) {
 	try {
 		setLoad(true);
-		const res = await axios.get(`${API_URL}/notification?id=${id}`, {
-			headers: {
-				Authorization: `Bearer ${await SecureStore.getItemAsync("token")}`
-			}
+		const res = await axios.get(`${API_URL}/notification?id=${id}`, { headers: { Authorization: `Bearer ${await SecureStore.getItemAsync("refreshToken")}` }
 		});
 		if (res.status !== 200) throw (new Error(`${res.status}\n${res.data}`));
 		setData(res.data);

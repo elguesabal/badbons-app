@@ -41,7 +41,8 @@ async function requestLogin(login, password) {
 			throw (err);
 		} else {
 			const err = new Error(error.message);
-			err.status = error.status;
+			err.icon = "error-outline";
+			err.button = "Ok";
 			throw (err);
 		}
 	}
@@ -55,8 +56,8 @@ async function requestCredentials() {
 	try {
 		const res = await axios.get(`${API_URL}/auth/credentials`, { headers: { Authorization: `Bearer ${await SecureStore.getItemAsync("refreshToken")}` } });
 		if (res.status !== 200) throw (new Error(`${res.status}\n${res.data}`));
-		try { // VER OQ TA ERRADO AKI
-			const infoDoc = await FileSystem.downloadAsync(res.data.foto, `${FileSystem.documentDirectory}user.${res.data.foto.split(".").pop().toLowerCase()}`, { headers: { Authorization: `Bearer ${res.data.accesstoken}` }});
+		try {
+			const infoDoc = await FileSystem.downloadAsync(res.data.photo, `${FileSystem.documentDirectory}user.${res.data.photo.split(".").pop().toLowerCase()}`, { headers: { Authorization: `Bearer ${await SecureStore.getItemAsync("refreshToken")}` }});
 			if (infoDoc.status !== 200) await FileSystem.deleteAsync(infoDoc.uri, { idempotent: true });
 		} catch (error) {
 
@@ -69,8 +70,10 @@ async function requestCredentials() {
 		// await AsyncStorage.setItem("units", JSON.stringify(res.data.units));
 		// await AsyncStorage.setItem("times", JSON.stringify(res.data.times));
 	} catch (error) {
-// FALTANDO FAZER AKI
-console.log("deu erro: ", error)
+		const err = new Error(error.message);
+		err.icon = "error-outline";
+		err.button = "Ok";
+		throw (err);
 	}
 }
 
@@ -86,7 +89,7 @@ export async function hundleLogin(login, password, setIsLogin) {
 		validation(login, password);
 		await requestLogin(login, password);
 		await requestCredentials();
-		// await requestTraining();
+		// await requestTraining(); // DEVO ATUALIZAR OS DIAS DE TREINO EM TODO LOGIN?
 		setIsLogin(true);
 	} catch (error) {
 		throw (error);

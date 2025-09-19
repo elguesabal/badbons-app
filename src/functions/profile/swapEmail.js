@@ -67,7 +67,8 @@ async function requestSwapEmail(newEmail, password, navigation, openModal, setIs
 			setTimeout(() => openModal({ icon: "password", text: "Senha incorreta!", button: "ok", }), 100);
 		} else {
 			const err = new Error(error.message);
-			err.status = error.status;
+			err.icon = "error-outline";
+			err.button = "Ok";
 			throw (err);
 		}
 	}

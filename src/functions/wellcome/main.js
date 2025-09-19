@@ -24,31 +24,12 @@ export async function ping() {
  * @brief FUNCAO QUE VERIFICA SE EXISTE UM LOGIN E SENHA SALVO E LOGA AUTOMATICAMENTE
  * @param setIsLogin FUNCAO DE CONTROLE DE LOGIN
 */
-// async function login(setIsLogin) {
-// 	const token = await SecureStore.getItemAsync("token");
-
-// 	if (!token) return ;
-// 	try {
-// 		const res = await axios.post(`${API_URL}/login-token`, null, {
-// 			headers: {
-// 				Authorization: `Bearer ${token}`
-// 			}
-// 		});
-// 		if (res.status === 200) setIsLogin(true);
-// 	} catch (error) {
-// 		throw (error);
-// 	}
-// }
 async function login(setIsLogin) {
 	const token = await SecureStore.getItemAsync("refreshToken");
 
 	if (!token) return ;
 	try {
-		const res = await axios.post(`${API_URL}/auth/login-token`, null, {
-			headers: {
-				Authorization: `Bearer ${token}`
-			}
-		});
+		const res = await axios.post(`${API_URL}/auth/login-token`, null, { headers: { Authorization: `Bearer ${token}` } });
 		if (res.status !== 200) throw (new Error(`${res.status}\n${res.data}`));
 		setIsLogin(true);
 	} catch (error) {

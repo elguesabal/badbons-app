@@ -18,7 +18,7 @@ export async function handleButton(openModal, closeModal, onPress, load) {
 		if (error.message === "Network Error") {
 			openModal({ icon: "wifi-off", text: "Sem conexão com a internet", button: "Ok" });
 		} else {
-			openModal({ icon: error.icon, text: error.message, status: error.status, button: error.button });
+			openModal({ exit: error.exit, icon: error.icon, text: error.message, status: error.status, handleButton: error.handleButton, button: error.button, yes: error.yes, no: error.no  });
 		}
 	}
 }

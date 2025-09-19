@@ -1,7 +1,4 @@
 import { StyleSheet, StatusBar, Platform, ScrollView } from "react-native";
-import { useState, useEffect } from "react";
-
-import { getCredentials } from "../../functions/home/home.js";
 
 import Days from "../../components/home/Days.js";
 import Scoreboard from "../../components/Scoreboard.js";
@@ -12,7 +9,7 @@ import Publicity from "../../components/home/Publicity.js";
 
 const statusBarHeight = Platform.OS === "android" ? StatusBar.currentHeight : 20;
 
-const game = {
+const game = { // REMOVER ISSO DAKI E DEIXAR Q Scoreboard BUSQUE ESSA INFORMACAO SOZINHO
 	title: "Semi-Final",
 	favorite: true,
 	player1: { name: "Grupo 1", points: "17" },
@@ -24,13 +21,9 @@ const game = {
  * @brief TELA HOME
 */
 export default function Main() {
-	const [credentials, setCredentials] = useState({});
-
-	useEffect(() => { getCredentials(setCredentials) }, []);
-
 	return (
 		<ScrollView style={home.container} contentContainerStyle={home.scroll} showsVerticalScrollIndicator={false} >
-			<Days style={home.days} times={credentials.times} />
+			<Days style={home.days} />
 			<Scoreboard style={home.scoreboard} game={game} />
 			<Exercises style={home.exercises} />
 			<Events style={home.events} />
