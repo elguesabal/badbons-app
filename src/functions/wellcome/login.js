@@ -88,7 +88,7 @@ export async function hundleLogin(login, password, setIsLogin) {
 	try {
 		validation(login, password);
 		await requestLogin(login, password);
-		await requestCredentials();
+		await requestCredentials(); // AINDA NAO EXISTE NA API OFICIAL
 		// await requestTraining(); // DEVO ATUALIZAR OS DIAS DE TREINO EM TODO LOGIN?
 		setIsLogin(true);
 	} catch (error) {

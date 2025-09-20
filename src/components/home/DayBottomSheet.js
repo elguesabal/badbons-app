@@ -3,9 +3,9 @@ import { useEffect, useState } from "react";
 
 import { useLogin } from "../../app/isLogin.js";
 import { useBottomSheet } from "../../app/BottomSheetGlobal.js";
-import { getPresenceList } from "../../functions/home/dayBottomSheet.js";
+import { useModal } from "../../screens/ModalGlobal/ModalGlobal.js";
 
-import Error from "../../screens/error/Error.js";
+import { getPresenceList } from "../../functions/home/dayBottomSheet.js";
 
 import HeaderBottomSheet from "./HeaderBottomSheet.js";
 import ClassDetails from "./ClassDetails.js";
@@ -19,11 +19,10 @@ import PresenceList from "./PresenceList.js";
 export default function DaysBottomSheet({ date }) {
 	const { setIsLogin } = useLogin();
 	const { closeSheet } = useBottomSheet();
-	const [error, setError] = useState(false);
+	const { openModal } = useModal();
 	const [presenceList, setPresenceList] = useState(false);
 
-	useEffect(() => { getPresenceList(date, setPresenceList, setError, setIsLogin, closeSheet) }, []);
-	if (error) return (<Error {...error} />);
+	useEffect(() => { getPresenceList(date, setPresenceList, setIsLogin, closeSheet, openModal) }, []);
 	if (!presenceList) return (
 		<View style={daysBottomSheet.load} >
 			<ActivityIndicator size="70" color="white" />
