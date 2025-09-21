@@ -9,7 +9,7 @@ import Publicity from "../../components/home/Publicity.js";
 
 const statusBarHeight = Platform.OS === "android" ? StatusBar.currentHeight : 20;
 
-const game = { // REMOVER ISSO DAKI E DEIXAR Q Scoreboard BUSQUE ESSA INFORMACAO SOZINHO
+const game = { // REMOVER ISSO DAKI E DEIXAR Q Scoreboard BUSQUE ESSA INFORMACAO SOZINHO // OU NAO PQ ISSO VAI SER USADO EM UMA FLATLIST
 	title: "Semi-Final",
 	favorite: true,
 	player1: { name: "Grupo 1", points: "17" },

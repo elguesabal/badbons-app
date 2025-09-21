@@ -17,12 +17,9 @@ export async function getCredentials(setCredentials) {
 		if (photo.exists) break ;
 	}
 	setCredentials({
-		photo: (photo.exists) ? photo.uri : null,
-		name: await AsyncStorage.getItem("name"),
 		email: await AsyncStorage.getItem("email"),
 		cpf: await SecureStore.getItemAsync("cpf"),
 		date: await SecureStore.getItemAsync("date"),
-		phone: await SecureStore.getItemAsync("phone"),
-		units: JSON.parse(await AsyncStorage.getItem("units") || "[]")
+		phone: await SecureStore.getItemAsync("phone")
 	});
 }

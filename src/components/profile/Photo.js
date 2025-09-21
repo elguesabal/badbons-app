@@ -7,25 +7,21 @@ import { useModal } from "../../screens/ModalGlobal/ModalGlobal.js";
 
 import MenuProfile from "./MenuProfile.js";
 
-import { getPhoto } from "../../functions/profile/photo.js";
+import { getCredentials, getPhoto } from "../../functions/profile/photo.js";
 
 import { theme } from "../../styles/theme.js";
 
 /**
  * @author VAMPETA
  * @brief COMPONENTE COM FOTO DE PERFIL DO USUARIO
- * @param urlPhoto LINK DA FOTO DE PERFIL DO USUARIO
- * @param name NOME DO CLIENTE
- * @param units UNIDADES QUE O CLIENTE ESTA INSCRITA
  * @param navigation OBJETO QUE COM METODO COM METODOS DE NAVEGACAO ENTRE SCREENS
 */
-export default function Photo({ urlPhoto, name, units, navigation }) {
+export default function Photo({ navigation }) {
 	const { setIsLogin } = useLogin();
 	const { openModal, closeModal } = useModal();
-	const [img, setImg] = useState(urlPhoto);
+	const [data, setData] = useState({});
 
-	useEffect(() => { setImg(urlPhoto ?? null) }, [urlPhoto]);
-
+	useEffect(() => { getCredentials(setData) }, []);
 	return (
 		<View style={photo.container} >
 			<View style={photo.background} ></View>
@@ -35,14 +31,14 @@ export default function Photo({ urlPhoto, name, units, navigation }) {
 			</View>
 			<View style={photo.containerImg} >
 				<View style={photo.containerPhoto} >
-					{(img) ? <Image source={{ uri: img }} style={photo.photo} /> : <MaterialIcons name="person" size={100} color={theme.secondaryBackgroundColor} />}
+					{(data.photo) ? <Image source={{ uri: data.photo }} style={photo.photo} /> : <MaterialIcons name="person" size={100} color={theme.secondaryBackgroundColor} />}
 				</View>
-				<TouchableOpacity style={photo.ButtonIcon} onPress={() => getPhoto(openModal, closeModal, setImg, setIsLogin)}>
+				<TouchableOpacity style={photo.ButtonIcon} onPress={() => getPhoto(openModal, closeModal, data, setData, setIsLogin)}>
 					<MaterialIcons name="edit" size={32} color={theme.primaryBackgroundColor} />
 				</TouchableOpacity>
 			</View>
-			<Text style={photo.student} >{name}</Text>
-			<Text style={photo.units} >{units?.join(", ")}</Text>
+			<Text style={photo.student} >{data.name}</Text>
+			<Text style={photo.units} >{data.units?.join(", ")}</Text>
 		</View>
 	);
 }

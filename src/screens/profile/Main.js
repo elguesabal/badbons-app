@@ -20,10 +20,9 @@ export default function Main({ navigation }) {
 	const [buttonSelected, setButtonSelected] = useState("Geral");
 
 	useEffect(() => { getCredentials(setCredentials) }, []);
-
 	return (
 		<ScrollView style={profile.container} contentContainerStyle={profile.scroll} showsVerticalScrollIndicator={false} >
-			<Photo urlPhoto={credentials.photo} name={credentials.name} units={credentials.units} navigation={navigation} />
+			<Photo navigation={navigation} />
 			<SelectionButtun style={profile.selectionButtun} buttonSelected={buttonSelected} setButtonSelected={setButtonSelected} buttons={["Geral", "Estatísticas"]} />
 			{buttonSelected === "Geral" && <General style={profile.general} navigation={navigation} date={credentials.date} />}
 			{buttonSelected === "Estatísticas" && <Statistics style={profile.statistics} />}
