@@ -1,7 +1,5 @@
 import { StyleSheet, StatusBar, Platform, ScrollView } from "react-native";
-import { useState, useEffect } from "react";
-
-import { getCredentials } from "../../functions/profile/profile.js";
+import { useState } from "react";
 
 import Photo from "../../components/profile/Photo.js";
 import SelectionButtun from "../../components/SelectionButton.js";
@@ -16,15 +14,13 @@ const statusBarHeight = Platform.OS === "android" ? StatusBar.currentHeight : 20
  * @param navigation OBJETO QUE COM METODO COM METODOS DE NAVEGACAO ENTRE SCREENS
 */
 export default function Main({ navigation }) {
-	const [credentials, setCredentials] = useState({});
 	const [buttonSelected, setButtonSelected] = useState("Geral");
 
-	useEffect(() => { getCredentials(setCredentials) }, []);
 	return (
 		<ScrollView style={profile.container} contentContainerStyle={profile.scroll} showsVerticalScrollIndicator={false} >
 			<Photo navigation={navigation} />
 			<SelectionButtun style={profile.selectionButtun} buttonSelected={buttonSelected} setButtonSelected={setButtonSelected} buttons={["Geral", "Estatísticas"]} />
-			{buttonSelected === "Geral" && <General style={profile.general} navigation={navigation} date={credentials.date} />}
+			{buttonSelected === "Geral" && <General style={profile.general} navigation={navigation} />}
 			{buttonSelected === "Estatísticas" && <Statistics style={profile.statistics} />}
 		</ScrollView>
 	);

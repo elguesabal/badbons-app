@@ -28,7 +28,7 @@ export async function requestGameHistory(navigation, setEvents, setLoad, setIsLo
 		} else if (error.response && error.response.status === 401) {
 			logout(setIsLogin);
 		} else {
-			openModal({ icon: "error-outline", text: error.message, button: "Sair", handleButton: (closeModal) => { closeModal(); navigation.goBack(); }, exit: (closeModal) => { closeModal(); navigation.goBack(); } });
+			openModal({ icon: "error-outline", text: error.message, button: "Ok", handleButton: (closeModal) => { closeModal(); navigation.goBack(); }, exit: (closeModal) => { closeModal(); navigation.goBack(); } });
 		}
 	} finally {
 		setLoad(false);

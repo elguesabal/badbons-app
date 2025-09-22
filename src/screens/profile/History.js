@@ -1,4 +1,4 @@
-import { StyleSheet, View, ScrollView, Text } from "react-native";
+import { StyleSheet, View, ScrollView, FlatList, ActivityIndicator, Text } from "react-native";
 import { useState, useEffect } from "react";
 
 import { useLogin } from "../../app/isLogin.js";
@@ -21,10 +21,12 @@ export default function History({ navigation }) {
 	const { setIsLogin } = useLogin();
 	const [load, setLoad] = useState(true);
 	const { openModal } = useModal();
-	const [events, setEvents] = useState({});
+	const [events, setEvents] = useState([]);
+	const [page, setPage] = useState(1);
+	const [loadingMore, setLoadingMore] = useState(false);
+	const [hasMore, setHasMore] = useState(true);
 
 	useEffect(() => { requestGameHistory(navigation, setEvents, setLoad, setIsLogin, openModal) }, []);
-
 	if (load) return (<Load />);
 	if (!events.length) {
 		return (
@@ -33,16 +35,25 @@ export default function History({ navigation }) {
 			</View>
 		);
 	}
-
+	// return (
+	// 	<ScrollView contentContainerStyle={history.scroll} >
+	// 		{events.map((event, i) => (
+	// 			<View key={i} style={history.containerEvent} >
+	// 				<Text style={history.titleEvent} >{event.event}</Text>
+	// 				{event.games.map((game, j) => (<Scoreboard key={j} style={history.scoreboard} game={game} />))}
+	// 			</View>
+	// 		))}
+	// 	</ScrollView>
+	// );
 	return (
-		<ScrollView contentContainerStyle={history.scroll} >
-			{events.map((event, i) => (
-				<View key={i} style={history.containerEvent} >
-					<Text style={history.titleEvent} >{event.event}</Text>
-					{event.games.map((game, j) => (<Scoreboard key={j} style={history.scoreboard} game={game} />))}
+		<FlatList data={events} keyExtractor={(_, i) => i.toString()} onEndReachedThreshold={0.2} ListFooterComponent={(loadingMore) ? <ActivityIndicator size="large" color="white" /> : null } onEndReached={() => requestGameHistory(navigation, setEvents, setLoad, setIsLogin, openModal)}
+			renderItem={({ item, index }) => (
+				<View key={index} style={history.containerEvent} >
+					<Text style={history.titleEvent} >{item.event}</Text>
+					{item.games.map((game, j) => (<Scoreboard key={j} style={history.scoreboard} game={game} />))}
 				</View>
-			))}
-		</ScrollView>
+			)
+		} />
 	);
 }
 

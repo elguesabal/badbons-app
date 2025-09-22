@@ -1,4 +1,7 @@
 import { StyleSheet, View, Text } from "react-native";
+import { useEffect, useState } from "react";
+
+import { getCredentials } from "../../functions/profile/credentials.js";
 
 import { theme } from "../../styles/theme.js";
 
@@ -6,9 +9,11 @@ import { theme } from "../../styles/theme.js";
  * @author VAMPETA
  * @brief COMPONENTE RESPONSAVEL PELA SECAO DE "Geral" DA ABA PERFIL
  * @param style ESTILIZACAO EXTRA DO COMPONENTE
- * @param date DATA DE NASCIMENTO DO USUARIO
 */
-export default function Credentials({ style, date }) {
+export default function Credentials({ style }) {
+	const [data, setData] = useState({});
+
+	useEffect(() => { getCredentials(setData) },[]);
 	return (
 		<View style={[credentials.container, style]} >
 			<Text style={credentials.title} >Detalhes Pessoais</Text>
@@ -18,11 +23,11 @@ export default function Credentials({ style, date }) {
 			</View>
 			<View style={credentials.line} >
 				<Text style={credentials.textInfo} >Data de Nascimento</Text>
-				<Text style={credentials.textCredentials} >{date}</Text>
+				<Text style={credentials.textCredentials} >{data.date}</Text>
 			</View>
 			<View style={credentials.line} >
 				<Text style={credentials.textInfo} >Idade</Text>
-				<Text style={credentials.textCredentials} >????</Text>
+				<Text style={credentials.textCredentials} >{data.age}</Text>
 			</View>
 			<View style={credentials.line} >
 				<Text style={credentials.textInfo} >Primeira visita ao App</Text>

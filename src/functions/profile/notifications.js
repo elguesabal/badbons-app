@@ -25,8 +25,8 @@ export async function requestNotifications(setListNotifications, setLoad, setIsL
 	try {
 		const res = await axios.get(`${API_URL}/notifications?page=${page}`, { headers: { Authorization: `Bearer ${await SecureStore.getItemAsync("refreshToken")}` } });
 		if (res.status !== 200) throw (new Error(`${res.status}\n${res.data}`));
-		if (!res.data.length) setHasMore(false);
-		(page === 1) ? setListNotifications(res.data) : setListNotifications(prev => [...prev, ...res.data]);
+		if (!res.data.pagination.nextPage) setHasMore(false);
+		(page === 1) ? setListNotifications(res.data.data) : setListNotifications(prev => [...prev, ...res.data.data]);
 		setPage(page + 1);
 	} catch (error) {
 		if (error.message === "Network Error") {

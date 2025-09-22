@@ -34,29 +34,24 @@ export default function Notifications({ navigation }) {
 		);
 	}
 	return (
-		<View style={notifications.container} >
-			<FlatList data={listNotifications} keyExtractor={(_, i) => i.toString()} onEndReachedThreshold={0.2} ListFooterComponent={(loadingMore) ? <ActivityIndicator size="large" color="white" /> : null } onEndReached={() => requestNotifications(setListNotifications, setLoad, setIsLogin, openModal, loadingMore, setLoadingMore, hasMore, setHasMore, page, setPage)}
-				renderItem={({ item, index }) => (
-					<TouchableOpacity style={[notifications.notification, (item.viewed) ? { backgroundColor: "rgba(0, 0, 0, 0.2)" } : null]} onPress={() => handleNotification(navigation, listNotifications, setListNotifications, index)} >
-						<View style={[notifications.dotNotification, (item.viewed) ? null : { backgroundColor: theme.primaryBackgroundColor }]} />
-						<View style={notifications.containerNotification} >
-							<View style={notifications.headerNotification} >
-								<Text style={notifications.title} >{index + 1} {item.title}</Text>
-								<Text style={notifications.time} >{item.time}</Text>
-							</View>
-							<Text style={notifications.text} >{item.message}</Text>
+		<FlatList data={listNotifications} keyExtractor={(_, i) => i.toString()} onEndReachedThreshold={0.2} ListFooterComponent={(loadingMore) ? <ActivityIndicator size="large" color="white" /> : null } onEndReached={() => requestNotifications(setListNotifications, setLoad, setIsLogin, openModal, loadingMore, setLoadingMore, hasMore, setHasMore, page, setPage)}
+			renderItem={({ item, index }) => (
+				<TouchableOpacity style={[notifications.notification, (item.viewed) ? { backgroundColor: "rgba(0, 0, 0, 0.2)" } : null]} onPress={() => handleNotification(navigation, listNotifications, setListNotifications, index)} >
+					<View style={[notifications.dotNotification, (item.viewed) ? null : { backgroundColor: theme.primaryBackgroundColor }]} />
+					<View style={notifications.containerNotification} >
+						<View style={notifications.headerNotification} >
+							<Text style={notifications.title} >{index + 1} {item.title}</Text>
+							<Text style={notifications.time} >{item.time}</Text>
 						</View>
-					</TouchableOpacity>
-				)
-			} />
-		</View>
+						<Text style={notifications.text} >{item.message}</Text>
+					</View>
+				</TouchableOpacity>
+			)
+		} />
 	);
 }
 
 const notifications = StyleSheet.create({
-	container: {
-		paddingBottom: 100
-	},
 	notification: {
 		backgroundColor: "rgba(0, 0, 0, 0.5)",
 		flexDirection: "row",

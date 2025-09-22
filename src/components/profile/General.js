@@ -10,9 +10,8 @@ import { theme } from "../../styles/theme.js";
  * @brief COMPONENTE RESPONSAVEL PELA SECAO DE "Geral" DA ABA PERFIL
  * @param navigation OBJETO QUE COM METODO COM METODOS DE NAVEGACAO ENTRE SCREENS
  * @param style ESTILIZACAO EXTRA DO COMPONENTE
- * @param date DATA DE NASCIMENTO DO USUARIO
 */
-export default function General({ navigation, style, date }) {
+export default function General({ navigation, style }) {
 	return (
 		<View style={[general.container, style]} >
 			<ScrollView contentContainerStyle={general.scrollCard} horizontal={true} showsHorizontalScrollIndicator={false} >
@@ -29,7 +28,7 @@ export default function General({ navigation, style, date }) {
 					<Text style={general.textCard} >Rank</Text>
 				</View>
 			</ScrollView>
-			<Credentials style={general.credentials} date={date} />
+			<Credentials style={general.credentials} />
 			<CardHistory navigation={navigation} style={general.cardHistory} />
 		</View>
 	);
