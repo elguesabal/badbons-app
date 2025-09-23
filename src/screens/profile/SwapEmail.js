@@ -61,5 +61,5 @@ const swapEmail = StyleSheet.create({
 		alignSelf: "stretch",
 		height: 2,
 		marginVertical: 20
-	},
+	}
 });

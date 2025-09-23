@@ -1,4 +1,4 @@
-import { StyleSheet, View, ScrollView, FlatList, ActivityIndicator, Text } from "react-native";
+import { StyleSheet, View, FlatList, ActivityIndicator, Text } from "react-native";
 import { useState, useEffect } from "react";
 
 import { useLogin } from "../../app/isLogin.js";
@@ -26,7 +26,7 @@ export default function History({ navigation }) {
 	const [loadingMore, setLoadingMore] = useState(false);
 	const [hasMore, setHasMore] = useState(true);
 
-	useEffect(() => { requestGameHistory(navigation, setEvents, setLoad, setIsLogin, openModal) }, []);
+	useEffect(() => { requestGameHistory(navigation, setEvents, setLoad, setIsLogin, openModal, loadingMore, setLoadingMore, hasMore, setHasMore, page, setPage) }, []);
 	if (load) return (<Load />);
 	if (!events.length) {
 		return (
@@ -35,18 +35,8 @@ export default function History({ navigation }) {
 			</View>
 		);
 	}
-	// return (
-	// 	<ScrollView contentContainerStyle={history.scroll} >
-	// 		{events.map((event, i) => (
-	// 			<View key={i} style={history.containerEvent} >
-	// 				<Text style={history.titleEvent} >{event.event}</Text>
-	// 				{event.games.map((game, j) => (<Scoreboard key={j} style={history.scoreboard} game={game} />))}
-	// 			</View>
-	// 		))}
-	// 	</ScrollView>
-	// );
 	return (
-		<FlatList data={events} keyExtractor={(_, i) => i.toString()} onEndReachedThreshold={0.2} ListFooterComponent={(loadingMore) ? <ActivityIndicator size="large" color="white" /> : null } onEndReached={() => requestGameHistory(navigation, setEvents, setLoad, setIsLogin, openModal)}
+		<FlatList contentContainerStyle={history.scroll} data={events} keyExtractor={(_, i) => i.toString()} onEndReachedThreshold={0.2} ListFooterComponent={(loadingMore) ? <ActivityIndicator size="large" color="white" /> : null } onEndReached={() => requestGameHistory(navigation, setEvents, setLoad, setIsLogin, openModal, loadingMore, setLoadingMore, hasMore, setHasMore, page, setPage)}
 			renderItem={({ item, index }) => (
 				<View key={index} style={history.containerEvent} >
 					<Text style={history.titleEvent} >{item.event}</Text>
@@ -59,19 +49,21 @@ export default function History({ navigation }) {
 
 const history = StyleSheet.create({
 	scroll: {
-		alignItems: "center",
 		paddingBottom: 25
 	},
 	containerEvent: {
-		width: "80%",
-		marginTop: 30
+		marginTop: 30,
+		alignItems: "center",
+		marginVertical: 5
 	},
 	titleEvent: {
 		color: theme.primaryTextColor,
+		alignSelf: "stretch",
 		fontSize: 15,
-		marginLeft: 10
+		marginLeft: "12%"
 	},
 	scoreboard: {
+		width: "80%",
 		marginTop: 15
 	},
 	containerNoHistory: {

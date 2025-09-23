@@ -15,22 +15,25 @@ import API_URL from "../../Api.js";
  * @param setIsLogin FUNCAO DE CONTROLE DE LOGIN
  * @param openModal FUNCAO QUE ABRE O MODAL
 */
-export async function requestGameHistory(navigation, setEvents, setLoad, setIsLogin, openModal) {
+export async function requestGameHistory(navigation, setEvents, setLoad, setIsLogin, openModal, loadingMore, setLoadingMore, hasMore, setHasMore, page = 1, setPage) {
+	if (loadingMore || !hasMore) return ;
+	(page === 1) ? setLoad(true) : setLoadingMore(true);
 	try {
-		setLoad(true);
-		const res = await axios.get(`${API_URL}/game-history`, { headers: { Authorization: `Bearer ${await SecureStore.getItemAsync("refreshToken")}` } });
+		const res = await axios.get(`${API_URL}/game-history?page=${page}`, { headers: { Authorization: `Bearer ${await SecureStore.getItemAsync("refreshToken")}` } });
 		if (res.status !== 200) throw (new Error(`${res.status}\n${res.data}`));
-		await AsyncStorage.setItem("lastGame", (res.data.length) ? JSON.stringify(res.data[0].games[0]) : "");
-		setEvents(res.data);
+		if (!res.data.pagination.nextPage) setHasMore(false);
+		(page === 1) ? await AsyncStorage.setItem("lastGame", (res.data.data.length) ? JSON.stringify(res.data.data[0].games[0]) : "") : null;
+		(page === 1) ? setEvents(res.data.data) : setEvents((prev) => [...prev, ...res.data.data]);
+		setPage(page + 1);
 	} catch (error) {
 		if (error.message === "Network Error") {
-			openModal({ icon: "wifi-off", text: "Sem conexão com o servidor.\nTentar novamente?", yes: (closeModal) => { closeModal(); requestGameHistory(navigation, setEvents, setLoad, setIsLogin, openModal); }, no: (closeModal) => { closeModal(); navigation.goBack(); }, exit: (closeModal) => { closeModal(); navigation.goBack(); } });
+			openModal({ icon: "wifi-off", text: "Sem conexão com o servidor.\nTentar novamente?", yes: (closeModal) => { closeModal(); requestGameHistory(navigation, setEvents, setLoad, setIsLogin, openModal, loadingMore, setLoadingMore, hasMore, setHasMore, page, setPage); }, no: (closeModal) => { closeModal(); navigation.goBack(); }, exit: (closeModal) => { closeModal(); navigation.goBack(); } });
 		} else if (error.response && error.response.status === 401) {
 			logout(setIsLogin);
 		} else {
 			openModal({ icon: "error-outline", text: error.message, button: "Ok", handleButton: (closeModal) => { closeModal(); navigation.goBack(); }, exit: (closeModal) => { closeModal(); navigation.goBack(); } });
 		}
 	} finally {
-		setLoad(false);
+		(page === 1) ? setLoad(false) : setLoadingMore(false);
 	}
 }

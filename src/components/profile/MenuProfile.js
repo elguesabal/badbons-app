@@ -38,7 +38,7 @@ export default function MenuProfile({ navigation }) {
 						<Pressable style={({ pressed }) => [menuProfile.buttonOption, { backgroundColor: (pressed) ? "rgba(0, 0, 0, 0.5)" : "transparent" }]} onPress={() => alert("os planos de treino e pagamento poderia ficar aki")} >
 							<Text style={menuProfile.option}>Planos BadBons</Text>
 						</Pressable>
-						<Pressable style={({ pressed }) => [menuProfile.buttonOption, { backgroundColor: (pressed) ? "rgba(0, 0, 0, 0.5)" : "transparent" }]} onPress={() => alert("aki poderia levar a uma tela q permita editar informacoes como nome e idade")} >
+						<Pressable style={({ pressed }) => [menuProfile.buttonOption, { backgroundColor: (pressed) ? "rgba(0, 0, 0, 0.5)" : "transparent" }]} onPress={() => { setVisible(false); navigation.navigate("editCredentials"); }} >
 							<Text style={menuProfile.option}>Editar Informações Pessoais</Text>
 						</Pressable>
 						<Pressable style={({ pressed }) => [menuProfile.buttonOption, { backgroundColor: (pressed) ? "rgba(0, 0, 0, 0.5)" : "transparent" }]} onPress={() => { setVisible(false); navigation.navigate("swapEmail"); }} >
@@ -47,6 +47,7 @@ export default function MenuProfile({ navigation }) {
 						<Pressable style={({ pressed }) => [menuProfile.buttonOption, { backgroundColor: (pressed) ? "rgba(0, 0, 0, 0.5)" : "transparent" }]} onPress={() => { setVisible(false); navigation.navigate("swapPassword"); }} >
 							<Text style={menuProfile.option}>Alterar Senha</Text>
 						</Pressable>
+						{/* SUPORTE */}
 					</View>
 					<View style={menuProfile.line} />
 					<Pressable style={({ pressed }) => [menuProfile.buttonOption, { backgroundColor: (pressed) ? "rgba(0, 0, 0, 0.5)" : "transparent" }]} onPress={() => logout(setIsLogin)} >
