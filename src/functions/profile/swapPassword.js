@@ -53,7 +53,7 @@ async function requestSwapPassword(newPassword, password, navigation, openModal,
 		if (res.status !== 200) throw (new Error(`Status ${res.status}`));
 		setTimeout(() => openModal({ icon: "check-circle", text: "Senha trocada com sucesso!", button: "ok", handleButton: (closeModal) => handleButtonModal(closeModal, navigation) }), 100);
 	} catch (error) {
-		if (error.response && error.response.status === 400) {
+		if (error.response && error.response.status === 401) {
 			logout(setIsLogin);
 		} else if (error.response && error.response.status === 403) {
 			setTimeout(() => openModal({ icon: "password", text: "Senha incorreta!", button: "ok", }), 100);

@@ -1,5 +1,5 @@
 import { StyleSheet, KeyboardAvoidingView, Platform, ScrollView, View, Text } from "react-native";
-import { useState, useReducer, useEffect } from "react";
+import { useReducer, useEffect } from "react";
 
 import { useModal } from "../ModalGlobal/ModalGlobal.js";
 import { useLogin } from "../../app/isLogin.js";
@@ -16,7 +16,9 @@ import { theme } from "../../styles/theme.js";
  * @brief EDITA INFORMACOES DO USUARIO
  * @param navigation OBJETO QUE COM METODO COM METODOS DE NAVEGACAO ENTRE SCREENS
 */
-export default function EditCredentials() {
+export default function EditCredentials({ navigation }) {
+	const { openModal } = useModal();
+	const { setIsLogin } = useLogin();
 	const [form, setForm] = useReducer((form, value) => ({ ...form, ...value }), { name: "", phone: "", cpf: "", date: "", nationality: "", sex: "" });
 
 	useEffect(() => { getCredentials(setForm) }, []);
@@ -32,7 +34,7 @@ export default function EditCredentials() {
 					<Input style={editCredentials.input} placeholder="Nacionalidade" value={form.nationality} onChangeText={(nationality) => setForm({ nationality })} />
 					<Input style={editCredentials.input} placeholder="Sexo" value={form.sex} onChangeText={(sex) => setForm({ sex })} />
 					<View style={editCredentials.line} />
-					<Button text="Confirmar Troca" onPress={() => handleEditCredentials(form)} load />
+					<Button text="Confirmar Troca" onPress={() => handleEditCredentials(form, navigation, openModal, setIsLogin)} load />
 				</View>
 			</ScrollView>
 		</KeyboardAvoidingView>

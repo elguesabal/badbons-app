@@ -19,7 +19,7 @@ export default function Credentials({ style }) {
 			<Text style={credentials.title} >Detalhes Pessoais</Text>
 			<View style={credentials.line} >
 				<Text style={credentials.textInfo} >País de Origem</Text>
-				<Text style={credentials.textCredentials} >Japão</Text>
+				<Text style={credentials.textCredentials} >{data.nationality}</Text>
 			</View>
 			<View style={credentials.line} >
 				<Text style={credentials.textInfo} >Data de Nascimento</Text>
@@ -35,7 +35,7 @@ export default function Credentials({ style }) {
 			</View>
 			<View style={credentials.line} >
 				<Text style={credentials.textInfo} >Sexo</Text>
-				<Text style={credentials.textCredentials} >Masculino</Text>
+				<Text style={credentials.textCredentials} >{data.sex}</Text>
 			</View>
 		</View>
 	);
