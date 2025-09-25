@@ -1,5 +1,7 @@
 import { Keyboard } from "react-native";
 
+import { logout } from "./logout";
+
 /**
  * @author VAMPETA
  * @brief GERENCIA A FUNCAO PASSADA PARA O Button
@@ -17,6 +19,9 @@ export async function handleButton(openModal, closeModal, onPress, load) {
 	} catch (error) {
 		if (error.message === "Network Error") {
 			openModal({ icon: "wifi-off", text: "Sem conexão com a internet", button: "Ok" });
+		} if (error.setIsLogin) {
+			logout(error.setIsLogin);
+			closeModal();
 		} else {
 			openModal({ exit: error.exit, icon: error.icon, text: error.message, status: error.status, handleButton: error.handleButton, button: error.button, yes: error.yes, no: error.no  });
 		}

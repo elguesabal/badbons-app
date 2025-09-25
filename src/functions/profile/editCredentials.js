@@ -2,8 +2,6 @@ import axios from "axios";
 import * as SecureStore from "expo-secure-store";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import { logout } from "../logout.js";
-
 import API_URL from "../../Api.js";
 
 /**
@@ -28,14 +26,7 @@ export async function getCredentials(setForm) {
  * @param name NOME DO USUARIO
 */
 function validationName(name) {
-	let err;
-
-	if (!name || name.trim() === "") err = new Error("Informe um nome!");
-	if (err) {
-		err.icon = "edit-document";
-		err.button = "Ok";
-		throw (err);
-	}
+	if (!name || name.trim() === "") throw (Object.assign(new Error("Informe um nome!"), { icon: "edit-document", button: "Ok" }));
 }
 
 /**
@@ -44,15 +35,8 @@ function validationName(name) {
  * @param phone TELEFONE DO USUARIO
 */
 function validationPhone(phone) {
-	let err;
-
-	if (!phone || phone.trim() === "") err = new Error("Informe um telefone!");
-	// if (!err && (!/^\d{11}$/.test(phone))) err = new Error("Número de telefone inválido!");
-	if (err) {
-		err.icon = "phone";
-		err.button = "Ok";
-		throw (err);
-	}
+	if (!phone || phone.trim() === "") throw (Object.assign(new Error("Informe um telefone!"), { icon: "phone", button: "Ok" }));
+	// if (!/^\d{11}$/.test(phone)) throw (Object.assign(new Error("Número de telefone inválido!"), { icon: "phone", button: "Ok" }));
 }
 
 /**
@@ -61,15 +45,8 @@ function validationPhone(phone) {
  * @param cpf CPF DO USUARIO
 */
 function validationCpf(cpf) {
-	let err;
-
-	if (!cpf || cpf.trim() === "") err = new Error("Informe um CPF!");
-	// if (!/^\d{11}$/.test(cpf)) err = new Error("CPF inválido!");
-	if (err) {
-		err.icon = "badge";
-		err.button = "Ok";
-		throw (err);
-	}
+	if (!cpf || cpf.trim() === "") throw (Object.assign(new Error("Informe um CPF!"), { icon: "badge", button: "Ok" }));
+	// if (!/^\d{11}$/.test(cpf)) throw (Object.assign(new Error("CPF inválido!"), { icon: "badge", button: "Ok" }));
 }
 
 /**
@@ -81,17 +58,11 @@ function validationDate(date) {
 	const [day, month, year] = date.split("/").map(Number);
 	const birth = new Date(year, month - 1, day);
 	const today = new Date();
-	let err;
 
-	if (!date || date.trim() === "") err = new Error("Informe sua data de nascimento!");
-	if (!err && (date.split("/").length !== 3)) err = new Error("Formato de data inválido!\nUse DD/MM/AAAA");
-	if (!err && (!(birth.getDate() === day && birth.getMonth() === month - 1 && birth.getFullYear() === year))) err = new Error("Data de nascimento inválida!");
-	if (!err && (birth > today || year < 1950)) err = new Error("Data de nascimento inválida!");
-	if (err) {
-		err.icon = "calendar-month";
-		err.button = "Ok";
-		throw (err);
-	}
+	if (!date || date.trim() === "") throw (Object.assign(new Error("Informe sua data de nascimento!"), { icon: "calendar-month", button: "Ok" }));
+	if (date.split("/").length !== 3) throw (Object.assign(new Error("Formato de data inválido!\nUse DD/MM/AAAA"), { icon: "calendar-month", button: "Ok" }));
+	if (!(birth.getDate() === day && birth.getMonth() === month - 1 && birth.getFullYear() === year)) throw (Object.assign(new Error("Data de nascimento inválida!"), { icon: "calendar-month", button: "Ok" }));
+	if (birth > today || year < 1950) throw (Object.assign(new Error("Data de nascimento inválida!"), { icon: "calendar-month", button: "Ok" }));
 }
 
 /**
@@ -100,15 +71,8 @@ function validationDate(date) {
  * @param nationality NACIONALIDADE DO USUARIO
 */
 function validationNationality(nationality) {
-	let err;
-
-	if (!nationality || nationality.trim() === "") err = new Error("Informe um país de origem!");
-	if (!err && (!/^[A-Za-zÀ-ÖØ-öø-ÿ\s]+$/.test(nationality))) err = new Error("Nacionalidade inválida!");
-	if (err) {
-		err.icon = "public";
-		err.button = "Ok";
-		throw (err);
-	}
+	if (!nationality || nationality.trim() === "") throw (Object.assign(new Error("Informe um país de origem!"), { icon: "public", button: "Ok" }));
+	if (!/^[A-Za-zÀ-ÖØ-öø-ÿ\s]+$/.test(nationality)) throw (Object.assign(new Error("Nacionalidade inválida!"), { icon: "public", button: "Ok" }));
 }
 
 /**
@@ -117,14 +81,7 @@ function validationNationality(nationality) {
  * @param sex SEXO DO USUARIO
 */
 function validationSex(sex) {
-	let err;
-
-	if (!sex || sex.trim() === "") err = new Error("Informe seu gênero!");
-	if (err) {
-		err.icon = "wc";
-		err.button = "Ok";
-		throw (err);
-	}
+	if (!sex || sex.trim() === "") throw (Object.assign(new Error("Informe seu gênero!"), { icon: "wc", button: "Ok" }));
 }
 
 /**
@@ -164,17 +121,11 @@ async function requestEditCredentials(form, navigation, openModal, setIsLogin) {
 	try {
 		const res = await axios.patch(`${API_URL}/swap-credentials`, form, { headers: { Authorization: `Bearer ${await SecureStore.getItemAsync("refreshToken")}` } });
 		if (res.status !== 200) throw (new Error(`Status ${res.status}`));
-		setTimeout(() => openModal({ icon: "check-circle", text: "Credenciais trocadas com sucesso!", button: "ok", handleButton: (closeModal) => handleButtonModal(closeModal, navigation) }), 100);
 		await saveSwap(form);
+		setTimeout(() => openModal({ icon: "check-circle", text: "Credenciais trocadas com sucesso!", button: "ok", handleButton: (closeModal) => handleButtonModal(closeModal, navigation) }), 100);
 	} catch (error) {
-		if (error.response && error.response.status === 401) {
-			logout(setIsLogin);
-		} else {
-			const err = new Error(error.message);
-			err.icon = "error-outline";
-			err.button = "Ok";
-			throw (err);
-		}
+		if (error.response && error.response.status === 401) throw (Object.assign(new Error(), { setIsLogin: setIsLogin }));
+		throw (Object.assign(new Error(error.message), { icon: "error-outline", button: "Ok" }));
 	}
 }
 

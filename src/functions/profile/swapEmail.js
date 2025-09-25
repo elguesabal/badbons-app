@@ -8,27 +8,51 @@ import API_URL from "../../Api.js";
 
 /**
  * @author VAMPETA
- * @brief VALIDA A TROCA DO EMAIL DO USUARIO
+ * @brief VALIDA O NOVO EMAIL
+ * @param newEmail NOVO EMAIL
+*/
+function validationNewEmail(newEmail) {
+	let err;
+
+	if (!newEmail || newEmail.trim() === "") err = new Error("Informe um novo Email!");
+	if (!err && (!/\S+@\S+\.\S+/.test(newEmail))) err = new Error("Novo Email inválido!");
+	if (err) {
+		err.icon = "alternate-email";
+		err.button = "Ok";
+		throw (err);
+	}
+	// if (!name || name.trim() === "") throw (Object.assign(new Error("Informe um nome!"), { icon: "edit-document", button: "Ok" }));
+}
+
+/**
+ * @author VAMPETA
+ * @brief VALIDA A CONFIRMACAO DO EMAIL
  * @param newEmail NOVO EMAIL
  * @param newEmailConfirmation CONFIRMACAO DO NOVO EMAIL
+*/
+function validationNewEmailConfirmation(newEmail, newEmailConfirmation) {
+	let err;
+
+	if (!newEmailConfirmation || newEmailConfirmation.trim() === "") err = new Error("Confirme o Email!");
+	if (!err && (newEmail !== newEmailConfirmation)) err = new Error("Os Emails são diferentes!");
+	if (err) {
+		err.icon = "alternate-email";
+		err.button = "Ok";
+		throw (err);
+	}
+}
+
+/**
+ * @author VAMPETA
+ * @brief VALIDA A SENHA
  * @param password SENHA DO USUARIO
 */
-function validation(newEmail, newEmailConfirmation, password) {
-	if (!newEmail || !newEmailConfirmation || !password) {
-		const err = new Error("Preencha todos os campos!");
-		err.icon = "alternate-email";
-		err.button = "Ok";
-		throw (err);
-	}
-	if (newEmail !== newEmailConfirmation) {
-		const err = new Error("Os Emails são diferentes!");
-		err.icon = "alternate-email";
-		err.button = "Ok";
-		throw (err);
-	}
-	if (!/\S+@\S+\.\S+/.test(newEmail)) {
-		const err = new Error("Email inválido!");
-		err.icon = "alternate-email";
+function validationPassword(password) {
+	let err;
+
+	if (!password) err = new Error("Informe a senha!");
+	if (err) {
+		err.icon = "password";
 		err.button = "Ok";
 		throw (err);
 	}
@@ -85,6 +109,8 @@ async function requestSwapEmail(newEmail, password, navigation, openModal, setIs
  * @param setIsLogin FUNCAO DE CONTROLE DE LOGIN
 */
 export async function handleSwapEmail(newEmail, newEmailConfirmation, password, navigation, openModal, setIsLogin) {
-	validation(newEmail, newEmailConfirmation, password);
+	validationNewEmail(newEmail);
+	validationNewEmailConfirmation(newEmail, newEmailConfirmation);
+	validationPassword(password);
 	await requestSwapEmail(newEmail, password, navigation, openModal, setIsLogin);
 }

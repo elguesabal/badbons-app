@@ -7,20 +7,49 @@ import API_URL from "../../Api.js";
 
 /**
  * @author VAMPETA
- * @brief VALIDA A TROCA DO EMAIL DO USUARIO
+ * @brief VALIDA A NOVA SENHA
  * @param newPassword NOVA SENHA
- * @param newPasswordConfirmation CONFIRMACAO DO NOVA SENHA
- * @param password SENHA DO USUARIO
 */
-function validation(newPassword, newPasswordConfirmation, password) {
-	if (!newPassword || !newPasswordConfirmation || !password) {
-		const err = new Error("Preencha todos os campos!");
+function validationNewPassword(newPassword) {
+	let err;
+
+	if (!newPassword || newPassword.trim() === "") err = new Error("Informe uma nova senha!");
+	if (!err && (newPassword.length < 5)) err = new Error("Senha muito curta!");
+	if (err) {
 		err.icon = "password";
 		err.button = "Ok";
 		throw (err);
 	}
-	if (newPassword !== newPasswordConfirmation) {
-		const err = new Error("Para confirmar, sua nova senha precisa ser igual nos dois campos.");
+}
+
+/**
+ * @author VAMPETA
+ * @brief VALIDA A CONFIRMACAO DA NOVA SENHA
+ * @param newPassword NOVA SENHA
+ * @param newPasswordConfirmation CONFIRMACAO DA NOVA SENHA
+*/
+function validationNewPasswordConfirmation(newPassword, newPasswordConfirmation) {
+	let err;
+
+	if (!newPasswordConfirmation || newPasswordConfirmation.trim() === "") err = new Error("Confirme a senha!");
+	if (!err && (newPassword !== newPasswordConfirmation)) err = new Error("As senhas são diferentes!");
+	if (err) {
+		err.icon = "password";
+		err.button = "Ok";
+		throw (err);
+	}
+}
+
+/**
+ * @author VAMPETA
+ * @brief VALIDA A SENHA
+ * @param password SENHA DO USUARIO
+*/
+function validationPassword(password) {
+	let err;
+
+	if (!password) err = new Error("Informe a senha antiga!");
+	if (err) {
 		err.icon = "password";
 		err.button = "Ok";
 		throw (err);
@@ -77,6 +106,8 @@ async function requestSwapPassword(newPassword, password, navigation, openModal,
  * @param setIsLogin FUNCAO DE CONTROLE DE LOGIN
 */
 export async function handleSwapPassword(newPassword, newPasswordConfirmation, password, navigation, openModal, setIsLogin) {
-	validation(newPassword, newPasswordConfirmation, password);
+	validationNewPassword(newPassword);
+	validationNewPasswordConfirmation(newPassword, newPasswordConfirmation);
+	validationPassword(password);
 	await requestSwapPassword(newPassword, password, navigation, openModal, setIsLogin);
 }

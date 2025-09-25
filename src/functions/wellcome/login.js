@@ -7,17 +7,20 @@ import API_URL from "../../Api.js";
 
 /**
  * @author VAMPETA
- * @brief FUNCAO QUE FAZ A VALIDACAO DOS CAMPOS LOGIN E SENHA
- * @login LOGIN REVIDO PELO INPUT
- * @password SENHA RECEBIDO NO INPUT
+ * @brief VALIDA O LOGIN
+ * @param login LOGIN DO USUARIO
 */
-function validation(login, password) {
-	if (!login || !password) {
-		const err = new Error("Preencha todos os campos!");
-		err.icon = "edit-document";
-		err.button = "Ok";
-		throw (err);
-	}
+function validationLogin(login) {
+	if (!login || login.trim() === "") throw (Object.assign(new Error("Informe o login!"), { icon: "person", button: "Ok" }));
+}
+
+/**
+ * @author VAMPETA
+ * @brief VALIDA A SENHA
+ * @param password SENHA DO USUARIO
+*/
+function validationPassword(password) {
+	if (!password) throw (Object.assign(new Error("Informe a senha!"), { icon: "password", button: "Ok" }));
 }
 
 /**
@@ -34,17 +37,8 @@ async function requestLogin(login, password) {
 		await SecureStore.setItemAsync("accessToken", res.data.accesstoken);
 		await SecureStore.setItemAsync("refreshToken", res.data.RefreshToken);
 	} catch (error) {
-		if (error.response && error.response.status === 401) {
-			const err = new Error("Login ou senha errada!");
-			err.icon = "person-off";
-			err.button = "Ok";
-			throw (err);
-		} else {
-			const err = new Error(error.message);
-			err.icon = "error-outline";
-			err.button = "Ok";
-			throw (err);
-		}
+		if (error.response && error.response.status === 401) throw (Object.assign(new Error("Login ou senha errada!"), { icon: "person-off", button: "Ok" }));
+		throw (Object.assign(new Error(error.message), { icon: "error-outline", button: "Ok" }));
 	}
 }
 
@@ -70,10 +64,7 @@ async function requestCredentials() {
 		// await AsyncStorage.setItem("units", JSON.stringify(res.data.units));
 		// await AsyncStorage.setItem("times", JSON.stringify(res.data.times));
 	} catch (error) {
-		const err = new Error(error.message);
-		err.icon = "error-outline";
-		err.button = "Ok";
-		throw (err);
+		throw (Object.assign(new Error(error.message), { icon: "error-outline", button: "Ok" }));
 	}
 }
 
@@ -86,7 +77,8 @@ async function requestCredentials() {
 */
 export async function hundleLogin(login, password, setIsLogin) {
 	try {
-		validation(login, password);
+		validationLogin(login);
+		validationPassword(password);
 		await requestLogin(login, password);
 		await requestCredentials(); // AINDA NAO EXISTE NA API OFICIAL
 		// await requestTraining(); // DEVO ATUALIZAR OS DIAS DE TREINO EM TODO LOGIN?
