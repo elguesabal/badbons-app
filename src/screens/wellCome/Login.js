@@ -1,21 +1,20 @@
 import { StyleSheet, KeyboardAvoidingView, ScrollView, Platform, View, Image } from "react-native";
-import { useState } from "react";
+import { useReducer } from "react";
 
 import { useLogin } from "../../app/isLogin.js";
 
 import Input from "../../components/Input.js";
 import Button from "../../components/Button.js";
 
-import { hundleLogin } from "../../functions/wellcome/login.js";
+import { handleLogin } from "../../functions/wellcome/login.js";
 
 /**
  * @author VAMPETA
  * @brief TELA DE LOGIN
 */
 export default function Login() {
-	const [inputLogin, setInputLogin] = useState("");
-	const [inputPassword, setInputPassword] = useState("");
 	const { setIsLogin } = useLogin();
+	const [form, setForm] = useReducer((form, value) => ({ ...form, ...value }), { login: "", password: "" });
 
 	return (
 		<KeyboardAvoidingView style={login.background} behavior={Platform.OS === "ios" ? "padding" : "height"} keyboardVerticalOffset={Platform.OS === "ios" ? 60 : 0} >
@@ -23,11 +22,11 @@ export default function Login() {
 				<View style={login.container} >
 					<Image source={require("../../../assets/img/athlete2.png")} style={login.img} />
 					<View style={login.containerInputs} >
-						<Input style={login.input} placeholder="Login" value={inputLogin} onChangeText={setInputLogin} />
-						<Input style={login.input} placeholder="Senha" value={inputPassword} onChangeText={setInputPassword} secureTextEntry />
+						<Input style={login.input} placeholder="Login" value={form.login} onChangeText={(login) => setForm({ login })} />
+						<Input style={login.input} placeholder="Senha" value={form.password} onChangeText={(password) => setForm({ password })} secureTextEntry />
 					</View>
 					<View style={login.containerButton} >
-						<Button text="proximo" onPress={() => hundleLogin(inputLogin, inputPassword, setIsLogin)} load={true} />
+						<Button text="proximo" onPress={() => handleLogin(form, setIsLogin)} load={true} />
 					</View>
 				</View>
 			</ScrollView>

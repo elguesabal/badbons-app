@@ -18,8 +18,8 @@ export async function handleButton(openModal, closeModal, onPress, load) {
 		if (load) closeModal();
 	} catch (error) {
 		if (error.message === "Network Error") {
-			openModal({ icon: "wifi-off", text: "Sem conexão com a internet", button: "Ok" });
-		} if (error.setIsLogin) {
+			openModal({ icon: "wifi-off", text: "Sem conexão com o servidor.\nTentar novamente?", yes: () => handleButton(openModal, closeModal, onPress, load), no: (closeModal) => closeModal(), exit: (closeModal) => closeModal() });
+		} else if (error.setIsLogin) {
 			logout(error.setIsLogin);
 			closeModal();
 		} else {

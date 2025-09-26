@@ -2,8 +2,6 @@ import axios from "axios";
 import * as SecureStore from "expo-secure-store";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import { logout } from "../logout.js";
-
 import API_URL from "../../Api.js";
 
 /**
@@ -12,16 +10,8 @@ import API_URL from "../../Api.js";
  * @param newEmail NOVO EMAIL
 */
 function validationNewEmail(newEmail) {
-	let err;
-
-	if (!newEmail || newEmail.trim() === "") err = new Error("Informe um novo Email!");
-	if (!err && (!/\S+@\S+\.\S+/.test(newEmail))) err = new Error("Novo Email inválido!");
-	if (err) {
-		err.icon = "alternate-email";
-		err.button = "Ok";
-		throw (err);
-	}
-	// if (!name || name.trim() === "") throw (Object.assign(new Error("Informe um nome!"), { icon: "edit-document", button: "Ok" }));
+	if (!newEmail || newEmail.trim() === "") throw (Object.assign(new Error("Informe um novo Email!"), { icon: "alternate-email", button: "Ok" }));
+	if (!/\S+@\S+\.\S+/.test(newEmail)) throw (Object.assign(new Error("Novo Email inválido!"), { icon: "alternate-email", button: "Ok" }));
 }
 
 /**
@@ -31,15 +21,8 @@ function validationNewEmail(newEmail) {
  * @param newEmailConfirmation CONFIRMACAO DO NOVO EMAIL
 */
 function validationNewEmailConfirmation(newEmail, newEmailConfirmation) {
-	let err;
-
-	if (!newEmailConfirmation || newEmailConfirmation.trim() === "") err = new Error("Confirme o Email!");
-	if (!err && (newEmail !== newEmailConfirmation)) err = new Error("Os Emails são diferentes!");
-	if (err) {
-		err.icon = "alternate-email";
-		err.button = "Ok";
-		throw (err);
-	}
+	if (!newEmailConfirmation || newEmailConfirmation.trim() === "") throw (Object.assign(new Error("Confirme o Email!"), { icon: "alternate-email", button: "Ok" }));
+	if (newEmail !== newEmailConfirmation) throw (Object.assign(new Error("Os Emails são diferentes!"), { icon: "alternate-email", button: "Ok" }));
 }
 
 /**
@@ -48,14 +31,7 @@ function validationNewEmailConfirmation(newEmail, newEmailConfirmation) {
  * @param password SENHA DO USUARIO
 */
 function validationPassword(password) {
-	let err;
-
-	if (!password) err = new Error("Informe a senha!");
-	if (err) {
-		err.icon = "password";
-		err.button = "Ok";
-		throw (err);
-	}
+	if (!password) throw (Object.assign(new Error("Informe a senha!"), { icon: "password", button: "Ok" }));
 }
 
 /**
@@ -81,20 +57,13 @@ function handleButtonModal(closeModal, navigation) {
 async function requestSwapEmail(newEmail, password, navigation, openModal, setIsLogin) {
 	try {
 		const res = await axios.post(`${API_URL}/swap-email`, { newEmail: newEmail, password: password }, { headers: { Authorization: `Bearer ${await SecureStore.getItemAsync("refreshToken")}` } });
-		if (res.status !== 200) throw (new Error(`Status ${res.status}`));
-		setTimeout(() => openModal({ icon: "check-circle", text: "Email trocado com sucesso!", button: "ok", handleButton: (closeModal) => handleButtonModal(closeModal, navigation) }), 100);
+		if (res.status !== 200) throw (new Error(`${res.status}\n${res.data}`));
 		await AsyncStorage.setItem("email", newEmail);
+		setTimeout(() => openModal({ icon: "check-circle", text: "Email trocado com sucesso!", button: "ok", handleButton: (closeModal) => handleButtonModal(closeModal, navigation) }), 100);
 	} catch (error) {
-		if (error.response && error.response.status === 401) {
-			logout(setIsLogin);
-		} else if (error.response && error.response.status === 403) {
-			setTimeout(() => openModal({ icon: "password", text: "Senha incorreta!", button: "ok", }), 100);
-		} else {
-			const err = new Error(error.message);
-			err.icon = "error-outline";
-			err.button = "Ok";
-			throw (err);
-		}
+		if (error.response && error.response.status === 401) throw (Object.assign(new Error(), { setIsLogin: setIsLogin }));
+		if (error.response && error.response.status === 403) throw (Object.assign(new Error("Senha incorreta!"), { icon: "password", button: "ok", }));
+		throw (Object.assign(new Error(error.message), { icon: "error-outline", button: "Ok" }));
 	}
 }
 

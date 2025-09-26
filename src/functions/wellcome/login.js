@@ -33,7 +33,7 @@ function validationPassword(password) {
 async function requestLogin(login, password) {
 	try {
 		const res = await axios.post(`${API_URL}/auth/login`, { email: login, password: password });
-		if (res.status !== 200) throw (new Error(`${res.status}\n${res.data}`));
+		if (res.status !== 200) throw (new Error(`Status ${res.status}`));
 		await SecureStore.setItemAsync("accessToken", res.data.accesstoken);
 		await SecureStore.setItemAsync("refreshToken", res.data.RefreshToken);
 	} catch (error) {
@@ -70,20 +70,15 @@ async function requestCredentials() {
 
 /**
  * @author VAMPETA
- * @brief FUNCAO QUE CONTROLA O HEADER, TELA DE LOAD E ERRO FAZENDO REQUISICAO NA API
- * @param login LOGIN REVIDO PELO INPUT
- * @param password SENHA RECEBIDO NO INPUT
+ * @brief FAZ LOGIN E BUSCA ALGUMAS INFORMACOES DO USUARIO NO SERVIDOR
+ * @param form CONTEM LOGIN E SENHA INSERIDO PELO USUARIO
  * @param setIsLogin FUNCAO QUE CONTROLA SE O USUARIO ESTA LOGADO OU NAO
 */
-export async function hundleLogin(login, password, setIsLogin) {
-	try {
-		validationLogin(login);
-		validationPassword(password);
-		await requestLogin(login, password);
-		await requestCredentials(); // AINDA NAO EXISTE NA API OFICIAL
-		// await requestTraining(); // DEVO ATUALIZAR OS DIAS DE TREINO EM TODO LOGIN?
-		setIsLogin(true);
-	} catch (error) {
-		throw (error);
-	}
+export async function handleLogin(form, setIsLogin) {
+	validationLogin(form.login);
+	validationPassword(form.password);
+	await requestLogin(form.login, form.password);
+	await requestCredentials(); // AINDA NAO EXISTE NA API OFICIAL
+	// await requestTraining(); // DEVO ATUALIZAR OS DIAS DE TREINO EM TODO LOGIN?
+	setIsLogin(true);
 }

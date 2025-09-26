@@ -1,5 +1,5 @@
 import { KeyboardAvoidingView, ScrollView, Platform, StyleSheet, View, Image } from "react-native";
-import { useState } from "react";
+import { useReducer } from "react";
 
 import Input from "../../components/Input.js";
 import Button from "../../components/Button.js";
@@ -12,9 +12,7 @@ import { validation } from "../../functions/wellcome/register1.js";
  * @param navigation FUNCAO QUE CONTROLA A NAVEGACAO ENTRE AS SCREENS
 */
 export default function Register1({ navigation }) {
-	const [inputName, setInputNome] = useState("");
-	const [inputEmail, setInputEmail] = useState("");
-	const [inputPassword, setInputPassword] = useState("");
+	const [form, setForm] = useReducer((form, value) => ({ ...form, ...value }), { name: "", email: "", password: "" });
 
 	return (
 		<KeyboardAvoidingView style={register1.background} behavior={Platform.OS === "ios" ? "padding" : "height"} keyboardVerticalOffset={Platform.OS === "ios" ? 60 : 0} >
@@ -22,12 +20,12 @@ export default function Register1({ navigation }) {
 				<View style={register1.container} >
 					<Image style={register1.img} source={require("../../../assets/img/athlete2.png")} />
 					<View style={register1.containerInputs} >
-						<Input style={register1.input} placeholder="Nome" value={inputName} onChangeText={setInputNome} />
-						<Input style={register1.input} placeholder="Email" value={inputEmail} onChangeText={setInputEmail} />
-						<Input style={register1.input} placeholder="Senha" value={inputPassword} onChangeText={setInputPassword} secureTextEntry />
+						<Input style={register1.input} placeholder="Nome" value={form.name} onChangeText={(name) => setForm({ name })} />
+						<Input style={register1.input} placeholder="Email" value={form.email} onChangeText={(email) => setForm({ email })} />
+						<Input style={register1.input} placeholder="Senha" value={form.password} onChangeText={(password) => setForm({ password })} secureTextEntry />
 					</View>
 					<View style={register1.containerButton} >
-						<Button text="Próximo" onPress={() => validation(navigation, inputName, inputEmail, inputPassword)} />
+						<Button text="Próximo" onPress={() => validation(navigation, form)} />
 					</View>
 				</View>
 			</ScrollView>

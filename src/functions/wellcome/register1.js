@@ -4,14 +4,7 @@
  * @param name NOME DO USUARIO
 */
 function validationName(name) {
-	let err;
-
-	if (!name || name.trim() === "") err = new Error("Informe um nome!");
-	if (err) {
-		err.icon = "edit-document";
-		err.button = "Ok";
-		throw (err);
-	}
+	if (!name || name.trim() === "") throw (Object.assign(new Error("Informe um nome!"), { icon: "edit-document", button: "Ok" }));
 }
 
 /**
@@ -20,15 +13,8 @@ function validationName(name) {
  * @param email EMAIL DO USUARIO
 */
 function validationEmail(email) {
-	let err;
-
-	if (!email || email.trim() === "") err = new Error("Informe um Email!");
-	// if (!err && (!/\S+@\S+\.\S+/.test(email))) err = new Error("Email inválido!");
-	if (err) {
-		err.icon = "alternate-email";
-		err.button = "Ok";
-		throw (err);
-	}
+	if (!email || email.trim() === "") throw (Object.assign(new Error("Informe um Email!"), { icon: "alternate-email", button: "Ok" }));
+	if (!/\S+@\S+\.\S+/.test(email)) throw (Object.assign(new Error("Email inválido!"), { icon: "alternate-email", button: "Ok" }));
 }
 
 /**
@@ -37,15 +23,8 @@ function validationEmail(email) {
  * @param password SENHA DO USUARIO
 */
 function validationPassword(password) {
-	let err;
-
-	if (!password || password.trim() === "") err = new Error("Informe uma senha!");
-	if (!err && (password.length < 5)) err = new Error("Senha muito curta!");
-	if (err) {
-		err.icon = "password";
-		err.button = "Ok";
-		throw (err);
-	}
+	if (!password || password.trim() === "") throw (Object.assign(new Error("Informe uma senha!"), { icon: "password", button: "Ok" }));
+	if (password.length < 5) throw (Object.assign(new Error("Senha muito curta!"), { icon: "password", button: "Ok" }));
 }
 
 /**
@@ -56,13 +35,13 @@ function validationPassword(password) {
  * @param email EMAIL RECEBIDO NO INPUT
  * @param password SENHA RECEBIDO NO INPUT
 */
-export function validation(navigation, name, email, password) {
-	validationName(name);
-	validationEmail(email);
-	validationPassword(password);
+export function validation(navigation, form) {
+	validationName(form.name);
+	validationEmail(form.email);
+	validationPassword(form.password);
 	navigation.navigate("register2", {
-		inputNome: name,
-		inputEmail: email,
-		inputPassword: password
+		inputNome: form.name,
+		inputEmail: form.email,
+		inputPassword: form.password
 	});
 }

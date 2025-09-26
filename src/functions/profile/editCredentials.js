@@ -120,7 +120,7 @@ async function saveSwap(form) {
 async function requestEditCredentials(form, navigation, openModal, setIsLogin) {
 	try {
 		const res = await axios.patch(`${API_URL}/swap-credentials`, form, { headers: { Authorization: `Bearer ${await SecureStore.getItemAsync("refreshToken")}` } });
-		if (res.status !== 200) throw (new Error(`Status ${res.status}`));
+		if (res.status !== 200) throw (new Error(`${res.status}\n${res.data}`));
 		await saveSwap(form);
 		setTimeout(() => openModal({ icon: "check-circle", text: "Credenciais trocadas com sucesso!", button: "ok", handleButton: (closeModal) => handleButtonModal(closeModal, navigation) }), 100);
 	} catch (error) {

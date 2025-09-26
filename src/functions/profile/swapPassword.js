@@ -1,8 +1,6 @@
 import axios from "axios";
 import * as SecureStore from "expo-secure-store";
 
-import { logout } from "../logout.js";
-
 import API_URL from "../../Api.js";
 
 /**
@@ -11,15 +9,8 @@ import API_URL from "../../Api.js";
  * @param newPassword NOVA SENHA
 */
 function validationNewPassword(newPassword) {
-	let err;
-
-	if (!newPassword || newPassword.trim() === "") err = new Error("Informe uma nova senha!");
-	if (!err && (newPassword.length < 5)) err = new Error("Senha muito curta!");
-	if (err) {
-		err.icon = "password";
-		err.button = "Ok";
-		throw (err);
-	}
+	if (!newPassword || newPassword.trim() === "") throw (Object.assign(new Error("Informe uma nova senha!"), { icon: "password", button: "Ok" }));
+	if (newPassword.length < 5) throw (Object.assign(new Error("Nova senha muito curta!"), { icon: "password", button: "Ok" }));
 }
 
 /**
@@ -29,15 +20,8 @@ function validationNewPassword(newPassword) {
  * @param newPasswordConfirmation CONFIRMACAO DA NOVA SENHA
 */
 function validationNewPasswordConfirmation(newPassword, newPasswordConfirmation) {
-	let err;
-
-	if (!newPasswordConfirmation || newPasswordConfirmation.trim() === "") err = new Error("Confirme a senha!");
-	if (!err && (newPassword !== newPasswordConfirmation)) err = new Error("As senhas são diferentes!");
-	if (err) {
-		err.icon = "password";
-		err.button = "Ok";
-		throw (err);
-	}
+	if (!newPasswordConfirmation || newPasswordConfirmation.trim() === "") throw (Object.assign(new Error("Confirme a senha!"), { icon: "password", button: "Ok" }));
+	if (newPassword !== newPasswordConfirmation) throw (Object.assign(new Error("As senhas são diferentes!"), { icon: "password", button: "Ok" }));
 }
 
 /**
@@ -46,14 +30,7 @@ function validationNewPasswordConfirmation(newPassword, newPasswordConfirmation)
  * @param password SENHA DO USUARIO
 */
 function validationPassword(password) {
-	let err;
-
-	if (!password) err = new Error("Informe a senha antiga!");
-	if (err) {
-		err.icon = "password";
-		err.button = "Ok";
-		throw (err);
-	}
+	if (!password) throw (Object.assign(new Error("Informe a senha antiga!"), { icon: "password", button: "Ok" }));
 }
 
 /**
@@ -79,19 +56,12 @@ function handleButtonModal(closeModal, navigation) {
 async function requestSwapPassword(newPassword, password, navigation, openModal, setIsLogin) {
 	try {
 		const res = await axios.post(`${API_URL}/swap-password`, { newPassword: newPassword, password: password }, { headers: { Authorization: `Bearer ${await SecureStore.getItemAsync("refreshToken")}` } });
-		if (res.status !== 200) throw (new Error(`Status ${res.status}`));
+		if (res.status !== 200) throw (new Error(`${res.status}\n${res.data}`));
 		setTimeout(() => openModal({ icon: "check-circle", text: "Senha trocada com sucesso!", button: "ok", handleButton: (closeModal) => handleButtonModal(closeModal, navigation) }), 100);
 	} catch (error) {
-		if (error.response && error.response.status === 401) {
-			logout(setIsLogin);
-		} else if (error.response && error.response.status === 403) {
-			setTimeout(() => openModal({ icon: "password", text: "Senha incorreta!", button: "ok", }), 100);
-		} else {
-			const err = new Error(error.message);
-			err.icon = "error-outline";
-			err.button = "Ok";
-			throw (err);
-		}
+		if (error.response && error.response.status === 401) throw (Object.assign(new Error(), { setIsLogin: setIsLogin }));
+		if (error.response && error.response.status === 403) throw (Object.assign(new Error("Senha incorreta!"), { icon: "password", button: "ok", }));
+		throw (Object.assign(new Error(error.message), { icon: "error-outline", button: "Ok" }));
 	}
 }
 
