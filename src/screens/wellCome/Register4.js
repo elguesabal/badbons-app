@@ -17,14 +17,13 @@ import { theme } from "../../styles/theme.js";
  * @param route OBJETO COM PARAMETROS DA SCREEN ANTERIOR
 */
 export default function Register4({ navigation, route }) {
-	const { inputName, inputEmail, inputPassword, inputCpf, inputDate, inputPhone, units } = route.params;
 	const [load, setLoad] = useState(true);
 	const [error, setError] = useState(false);
 	const [data, setData] = useState([]);
 	const flatListRef = useRef(null);
 	const [selectedTimes, setSelectedTimes] = useState({});
 
-	useEffect(() => { getTimetable(units, setSelectedTimes, setData, setLoad, setError) }, []);
+	useEffect(() => { getTimetable(route.params.units, setSelectedTimes, setData, setLoad, setError) }, []);
 
 	if (error) return (<Error {...error} />);
 	if (load) return (<Load />);
@@ -73,7 +72,7 @@ export default function Register4({ navigation, route }) {
 				/>
 			</View>
 			<View style={register4.containerButton} >
-				<Button text="Próximo" onPress={() => validation(navigation, inputName, inputEmail, inputPassword, inputCpf, inputDate, inputPhone, selectedTimes)} />
+				<Button text="Próximo" onPress={() => validation(navigation, route.params, selectedTimes)} />
 			</View>
 		</View>
 	);

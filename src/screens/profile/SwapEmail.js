@@ -1,5 +1,5 @@
 import { StyleSheet, KeyboardAvoidingView, Platform, ScrollView, View, Text } from "react-native";
-import { useState } from "react";
+import { useReducer } from "react";
 
 import { useModal } from "../ModalGlobal/ModalGlobal.js";
 import { useLogin } from "../../app/isLogin.js";
@@ -17,22 +17,20 @@ import { theme } from "../../styles/theme.js";
  * @param navigation OBJETO QUE COM METODO COM METODOS DE NAVEGACAO ENTRE SCREENS
 */
 export default function SwapEmail({ navigation }) {
-	const [newEmail, setNewEmail] = useState("");
-	const [newEmailConfirmation, setNewEmailConfirmation] = useState("");
-	const [password, setPassword] = useState("");
 	const { openModal } = useModal();
 	const { setIsLogin } = useLogin();
+	const [form, setForm] = useReducer((form, value) => ({ ...form, ...value }), { newEmail: "", newEmailConfirmation: "", password: "" })
 
 	return (
 		<KeyboardAvoidingView style={swapEmail.backgorund} behavior={Platform.OS === "ios" ? "padding" : "height"} keyboardVerticalOffset={Platform.OS === "ios" ? 60 : 0} >
 			<ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps="handled">
 				<View style={swapEmail.container} >
 					<Text style={swapEmail.section} >Conta</Text>
-					<Input style={swapEmail.input} placeholder="Novo Email" value={newEmail} onChangeText={setNewEmail} />
-					<Input style={swapEmail.input} placeholder="Confirmar Novo Email" value={newEmailConfirmation} onChangeText={setNewEmailConfirmation} />
-					<Input style={swapEmail.input} placeholder="Senha" value={password} onChangeText={setPassword} />
+					<Input style={swapEmail.input} placeholder="Novo Email" value={form.newEmail} onChangeText={(newEmail) => setForm({ newEmail })} />
+					<Input style={swapEmail.input} placeholder="Confirmar Novo Email" value={form.newEmailConfirmation} onChangeText={(newEmailConfirmation) => setForm({ newEmailConfirmation })} />
+					<Input style={swapEmail.input} placeholder="Senha" value={form.password} onChangeText={(password) => setForm({ password })} />
 					<View style={swapEmail.line} />
-					<Button text="Trocar Email" onPress={() => handleSwapEmail(newEmail, newEmailConfirmation, password, navigation, openModal, setIsLogin)} load />
+					<Button text="Trocar Email" onPress={() => handleSwapEmail(form, navigation, openModal, setIsLogin)} load />
 				</View>
 			</ScrollView>
 		</KeyboardAvoidingView>

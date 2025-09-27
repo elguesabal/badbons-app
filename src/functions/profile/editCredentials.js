@@ -26,7 +26,7 @@ export async function getCredentials(setForm) {
  * @param name NOME DO USUARIO
 */
 function validationName(name) {
-	if (!name || name.trim() === "") throw (Object.assign(new Error("Informe um nome!"), { icon: "edit-document", button: "Ok" }));
+	if (!name || name.trim() === "") throw (Object.assign(new Error("Informe um nome!"), { icon: "edit-document" }));
 }
 
 /**
@@ -35,8 +35,8 @@ function validationName(name) {
  * @param phone TELEFONE DO USUARIO
 */
 function validationPhone(phone) {
-	if (!phone || phone.trim() === "") throw (Object.assign(new Error("Informe um telefone!"), { icon: "phone", button: "Ok" }));
-	// if (!/^\d{11}$/.test(phone)) throw (Object.assign(new Error("Número de telefone inválido!"), { icon: "phone", button: "Ok" }));
+	if (!phone || phone.trim() === "") throw (Object.assign(new Error("Informe um telefone!"), { icon: "phone" }));
+	// if (!/^\d{11}$/.test(phone)) throw (Object.assign(new Error("Número de telefone inválido!"), { icon: "phone" }));
 }
 
 /**
@@ -45,8 +45,8 @@ function validationPhone(phone) {
  * @param cpf CPF DO USUARIO
 */
 function validationCpf(cpf) {
-	if (!cpf || cpf.trim() === "") throw (Object.assign(new Error("Informe um CPF!"), { icon: "badge", button: "Ok" }));
-	// if (!/^\d{11}$/.test(cpf)) throw (Object.assign(new Error("CPF inválido!"), { icon: "badge", button: "Ok" }));
+	if (!cpf || cpf.trim() === "") throw (Object.assign(new Error("Informe um CPF!"), { icon: "badge" }));
+	// if (!/^\d{11}$/.test(cpf)) throw (Object.assign(new Error("CPF inválido!"), { icon: "badge", }));
 }
 
 /**
@@ -59,10 +59,10 @@ function validationDate(date) {
 	const birth = new Date(year, month - 1, day);
 	const today = new Date();
 
-	if (!date || date.trim() === "") throw (Object.assign(new Error("Informe sua data de nascimento!"), { icon: "calendar-month", button: "Ok" }));
-	if (date.split("/").length !== 3) throw (Object.assign(new Error("Formato de data inválido!\nUse DD/MM/AAAA"), { icon: "calendar-month", button: "Ok" }));
-	if (!(birth.getDate() === day && birth.getMonth() === month - 1 && birth.getFullYear() === year)) throw (Object.assign(new Error("Data de nascimento inválida!"), { icon: "calendar-month", button: "Ok" }));
-	if (birth > today || year < 1950) throw (Object.assign(new Error("Data de nascimento inválida!"), { icon: "calendar-month", button: "Ok" }));
+	if (!date || date.trim() === "") throw (Object.assign(new Error("Informe sua data de nascimento!"), { icon: "calendar-month" }));
+	if (date.split("/").length !== 3) throw (Object.assign(new Error("Formato de data inválido!\nUse DD/MM/AAAA"), { icon: "calendar-month" }));
+	if (!(birth.getDate() === day && birth.getMonth() === month - 1 && birth.getFullYear() === year)) throw (Object.assign(new Error("Data de nascimento inválida!"), { icon: "calendar-month" }));
+	if (birth > today || year < 1950) throw (Object.assign(new Error("Data de nascimento inválida!"), { icon: "calendar-month" }));
 }
 
 /**
@@ -71,8 +71,8 @@ function validationDate(date) {
  * @param nationality NACIONALIDADE DO USUARIO
 */
 function validationNationality(nationality) {
-	if (!nationality || nationality.trim() === "") throw (Object.assign(new Error("Informe um país de origem!"), { icon: "public", button: "Ok" }));
-	if (!/^[A-Za-zÀ-ÖØ-öø-ÿ\s]+$/.test(nationality)) throw (Object.assign(new Error("Nacionalidade inválida!"), { icon: "public", button: "Ok" }));
+	if (!nationality || nationality.trim() === "") throw (Object.assign(new Error("Informe um país de origem!"), { icon: "public" }));
+	if (!/^[A-Za-zÀ-ÖØ-öø-ÿ\s]+$/.test(nationality)) throw (Object.assign(new Error("Nacionalidade inválida!"), { icon: "public" }));
 }
 
 /**
@@ -81,7 +81,7 @@ function validationNationality(nationality) {
  * @param sex SEXO DO USUARIO
 */
 function validationSex(sex) {
-	if (!sex || sex.trim() === "") throw (Object.assign(new Error("Informe seu gênero!"), { icon: "wc", button: "Ok" }));
+	if (!sex || sex.trim() === "") throw (Object.assign(new Error("Informe seu gênero!"), { icon: "wc" }));
 }
 
 /**
@@ -122,10 +122,10 @@ async function requestEditCredentials(form, navigation, openModal, setIsLogin) {
 		const res = await axios.patch(`${API_URL}/swap-credentials`, form, { headers: { Authorization: `Bearer ${await SecureStore.getItemAsync("refreshToken")}` } });
 		if (res.status !== 200) throw (new Error(`${res.status}\n${res.data}`));
 		await saveSwap(form);
-		setTimeout(() => openModal({ icon: "check-circle", text: "Credenciais trocadas com sucesso!", button: "ok", handleButton: (closeModal) => handleButtonModal(closeModal, navigation) }), 100);
+		setTimeout(() => openModal({ icon: "check-circle", text: "Credenciais trocadas com sucesso!", handleButton: (closeModal) => handleButtonModal(closeModal, navigation) }), 100);
 	} catch (error) {
 		if (error.response && error.response.status === 401) throw (Object.assign(new Error(), { setIsLogin: setIsLogin }));
-		throw (Object.assign(new Error(error.message), { icon: "error-outline", button: "Ok" }));
+		throw (Object.assign(new Error(error.message), { icon: "error-outline" }));
 	}
 }
 

@@ -1,5 +1,5 @@
 import { StyleSheet, KeyboardAvoidingView, Platform, ScrollView, View, Text } from "react-native";
-import { useState } from "react";
+import { useReducer } from "react";
 
 import { useModal } from "../ModalGlobal/ModalGlobal.js";
 import { useLogin } from "../../app/isLogin.js";
@@ -17,22 +17,20 @@ import { theme } from "../../styles/theme.js";
  * @param navigation OBJETO QUE COM METODO COM METODOS DE NAVEGACAO ENTRE SCREENS
 */
 export default function SwapPassword({ navigation }) {
-	const [newPassword, setNewPassword] = useState("");
-	const [newPasswordConfirmation, setNewPasswordConfirmation] = useState("");
-	const [password, setPassword] = useState("");
 	const { openModal } = useModal();
 	const { setIsLogin } = useLogin();
+	const [form, setForm] = useReducer((form, value) => ({ ...form, ...value }), { newPassword: "", newPasswordConfirmation: "", password: "" });
 
 	return (
 		<KeyboardAvoidingView style={swapPassword.backgorund} behavior={Platform.OS === "ios" ? "padding" : "height"} keyboardVerticalOffset={Platform.OS === "ios" ? 60 : 0} >
 			<ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps="handled">
 				<View style={swapPassword.container} >
 					<Text style={swapPassword.section} >Conta</Text>
-					<Input style={swapPassword.input} placeholder="Nova Senha" value={newPassword} onChangeText={setNewPassword} />
-					<Input style={swapPassword.input} placeholder="Confirmar Nova Senha" value={newPasswordConfirmation} onChangeText={setNewPasswordConfirmation} />
-					<Input style={swapPassword.input} placeholder="Senha atual" value={password} onChangeText={setPassword} />
+					<Input style={swapPassword.input} placeholder="Nova Senha" value={form.newPassword} onChangeText={(newPassword) => setForm({ newPassword })} />
+					<Input style={swapPassword.input} placeholder="Confirmar Nova Senha" value={form.newPasswordConfirmation} onChangeText={(newPasswordConfirmation) => setForm({ newPasswordConfirmation })} />
+					<Input style={swapPassword.input} placeholder="Senha atual" value={form.password} onChangeText={(password) => setForm({ password })} />
 					<View style={swapPassword.line} />
-					<Button text="Trocar Senha" onPress={() => handleSwapPassword(newPassword, newPasswordConfirmation, password, navigation, openModal, setIsLogin)} load />
+					<Button text="Trocar Senha" onPress={() => handleSwapPassword(form, navigation, openModal, setIsLogin)} load />
 				</View>
 			</ScrollView>
 		</KeyboardAvoidingView>

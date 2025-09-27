@@ -1,5 +1,5 @@
 import { KeyboardAvoidingView, ScrollView, Platform, StyleSheet, View, Image } from "react-native";
-import { useState } from "react";
+import { useReducer } from "react";
 
 import Input from "../../components/Input.js";
 import Button from "../../components/Button.js";
@@ -13,10 +13,7 @@ import { validation } from "../../functions/wellcome/register2.js";
  * @param route OBJETO COM PARAMETROS DA SCREEN ANTERIOR
 */
 export default function Cadastrar2({ navigation, route }) {
-	const { inputName, inputEmail, inputPassword } = route.params;
-	const [inputCpf, setInputCpf] = useState("");
-	const [inputDate, setInputDate] = useState("");
-	const [inputPhone, setInputPhone] = useState("");
+	const [form, setForm] = useReducer((form, value) => ({ ...form, ...value }), { ...route.params, cpf: "", date: "", phone: "" });
 
 	return (
 		<KeyboardAvoidingView style={register2.background} behavior={Platform.OS === "ios" ? "padding" : "height"} keyboardVerticalOffset={Platform.OS === "ios" ? 60 : 0} >
@@ -24,12 +21,12 @@ export default function Cadastrar2({ navigation, route }) {
 				<View style={register2.container} >
 					<Image style={register2.img} source={require("../../../assets/img/athlete1.png")} />
 					<View style={register2.containerInputs} >
-						<Input style={register2.input} placeholder="CPF" value={inputCpf} onChangeText={setInputCpf} />
-						<Input style={register2.input} placeholder="Data de nascimento" value={inputDate} onChangeText={setInputDate} />
-						<Input style={register2.input} placeholder="Celular" value={inputPhone} onChangeText={setInputPhone} />
+						<Input style={register2.input} placeholder="CPF" value={form.cpf} onChangeText={(cpf) => setForm({ cpf })} />
+						<Input style={register2.input} placeholder="Data de nascimento" value={form.date} onChangeText={(date) => setForm({ date })} />
+						<Input style={register2.input} placeholder="Celular" value={form.phone} onChangeText={(phone) => setForm({ phone })} />
 					</View>
 					<View style={register2.containerButton} >
-						<Button text="Próximo" onPress={() => validation(navigation, inputName, inputEmail, inputPassword, inputCpf, inputDate, inputPhone)} />
+						<Button text="Próximo" onPress={() => validation(navigation, form)} />
 					</View>
 				</View>
 			</ScrollView>

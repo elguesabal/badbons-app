@@ -19,7 +19,7 @@ import API_URL from "../../Api.js";
  * @param page ULTIMO CONJUTO DE NOTIFICACAO REQUERIDO
  * @param setPage FUNCAO DE CONTROL DE page
 */
-export async function requestNotifications(setListNotifications, setLoad, setIsLogin, openModal, loadingMore, setLoadingMore, hasMore, setHasMore, page = 1, setPage) {
+export async function requestNotifications(setListNotifications, setLoad, setIsLogin, openModal, loadingMore, setLoadingMore, hasMore, setHasMore, page, setPage) {
 	if (loadingMore || !hasMore) return ;
 	(page === 1) ? setLoad(true) : setLoadingMore(true);
 	try {

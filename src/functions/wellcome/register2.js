@@ -1,65 +1,48 @@
+/**
+ * @author VAMPETA
+ * @brief VALIDA O CAMPO DE CPF
+ * @param cpf CPF DO USUARIO
+*/
 function validationCpf(cpf) {
-	let err;
-
-	if (!cpf || cpf.trim() === "") err = new Error("Informe um CPF!");
-	// if (!/^\d{11}$/.test(cpf)) err = new Error("CPF inválido!");
-	if (err) {
-		err.icon = "badge";
-		err.button = "Ok";
-		throw (err);
-	}
+	if (!cpf || cpf.trim() === "") throw (Object.assign(new Error("Informe um CPF!"), { icon: "badge" }));
+	// if (!/^\d{11}$/.test(cpf)) throw (Object.assign(new Error("CPF inválido!"), { icon: "badge" }));
 }
 
+/**
+ * @author VAMPETA
+ * @brief VALIDA O CAMPO DE DATA DE NASCIMENTO
+ * @param date DATA DE NASCIMENTO DO USUARIO
+*/
 function validationDate(date) {
 	const [day, month, year] = date.split("/").map(Number);
 	const birth = new Date(year, month - 1, day);
 	const today = new Date();
-	let err;
 
-	if (!date || date.trim() === "") err = new Error("Informe sua data de nascimento!");
-	if (!err && (date.split("/").length !== 3)) err = new Error("Formato de data inválido!\nUse DD/MM/AAAA");
-	if (!err && (!(birth.getDate() === day && birth.getMonth() === month - 1 && birth.getFullYear() === year))) err = new Error("Data de nascimento inválida!");
-	if (!err && (birth > today || year < 1950)) err = new Error("Data de nascimento inválida!");
-	if (err) {
-		err.icon = "calendar-month";
-		err.button = "Ok";
-		throw (err);
-	}
+	if (!date || date.trim() === "") throw (Object.assign(new Error("Informe sua data de nascimento!"), { icon: "calendar-month" }));
+	// if (date.split("/").length !== 3) throw (Object.assign(new Error("Formato de data inválido!\nUse DD/MM/AAAA"), { icon: "calendar-month" }));
+	// if (!(birth.getDate() === day && birth.getMonth() === month - 1 && birth.getFullYear() === year)) throw (Object.assign(new Error("Data de nascimento inválida!"), { icon: "calendar-month" }));
+	// if (birth > today || year < 1950) throw (Object.assign(new Error("Data de nascimento inválida!"), { icon: "calendar-month" }));
 }
 
+/**
+ * @author VAMPETA
+ * @brief VALIDA O CAMPO DE TELEFONE
+ * @param phone NUMERO DE TELEFONE DO USUARIO
+*/
 function validationPhone(phone) {
-	let err;
-
-	if (!phone || phone.trim() === "") err = new Error("Informe um telefone!");
-	// if (!err && (!/^\d{11}$/.test(phone))) err = new Error("Número de telefone inválido!");
-	if (err) {
-		err.icon = "phone";
-		err.button = "Ok";
-		throw (err);
-	}
+	if (!phone || phone.trim() === "") throw (Object.assign(new Error("Informe um telefone!"), { icon: "phone" }));
+	// if (!/^\d{11}$/.test(phone)) throw (Object.assign(new Error("Número de telefone inválido!"), { icon: "phone" }));
 }
 
 /**
  * @author VAMPETA
  * @brief FUNCAO RESPONSAVEL POR VALIDAR INFORMACOES E PASSAR ELAS PARA A Register3
  * @param navigation OBJETO QUE COM METODO COM METODOS DE NAVEGACAO ENTRE SCREENS
- * @param name NOME RECEBIDO NO INPUT
- * @param email EMAIL RECEBIDO NO INPUT
- * @param password SENHA RECEBIDO NO INPUT
- * @param cpf CPF RECEBIDO NO INPUT
- * @param date DATA DE NASCIMENTO RECEBIDO NO INPUT
- * @param phone NUMERO DE TELEFONE RECEBIDO NO INPUT
+ * @param form INFORMACOES DE CADASTRO DO USUARIO
 */
-export function validation(navigation, name, email, password, cpf, date, phone) {
-	validationCpf(cpf);
-	validationDate(date);
-	validationPhone(phone);
-	navigation.navigate("register3", {
-		inputNome: name,
-		inputEmail: email,
-		inputPassword: password,
-		inputCpf: cpf,
-		inputDate: date,
-		inputPhone: phone
-	});
+export function validation(navigation, form) {
+	validationCpf(form.cpf);
+	validationDate(form.date);
+	validationPhone(form.phone);
+	navigation.navigate("register3", form);
 }

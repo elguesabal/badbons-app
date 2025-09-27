@@ -11,7 +11,7 @@ import API_URL from "../../Api.js";
  * @param login LOGIN DO USUARIO
 */
 function validationLogin(login) {
-	if (!login || login.trim() === "") throw (Object.assign(new Error("Informe o login!"), { icon: "person", button: "Ok" }));
+	if (!login || login.trim() === "") throw (Object.assign(new Error("Informe o login!"), { icon: "person" }));
 }
 
 /**
@@ -20,7 +20,7 @@ function validationLogin(login) {
  * @param password SENHA DO USUARIO
 */
 function validationPassword(password) {
-	if (!password) throw (Object.assign(new Error("Informe a senha!"), { icon: "password", button: "Ok" }));
+	if (!password) throw (Object.assign(new Error("Informe a senha!"), { icon: "password" }));
 }
 
 /**
@@ -33,12 +33,12 @@ function validationPassword(password) {
 async function requestLogin(login, password) {
 	try {
 		const res = await axios.post(`${API_URL}/auth/login`, { email: login, password: password });
-		if (res.status !== 200) throw (new Error(`Status ${res.status}`));
+		if (res.status !== 200) throw (new Error(`${res.status}\n${res.data}`));
 		await SecureStore.setItemAsync("accessToken", res.data.accesstoken);
 		await SecureStore.setItemAsync("refreshToken", res.data.RefreshToken);
 	} catch (error) {
-		if (error.response && error.response.status === 401) throw (Object.assign(new Error("Login ou senha errada!"), { icon: "person-off", button: "Ok" }));
-		throw (Object.assign(new Error(error.message), { icon: "error-outline", button: "Ok" }));
+		if (error.response && error.response.status === 401) throw (Object.assign(new Error("Login ou senha errada!"), { icon: "person-off" }));
+		throw (Object.assign(new Error(error.message), { icon: "error-outline" }));
 	}
 }
 
@@ -64,7 +64,7 @@ async function requestCredentials() {
 		// await AsyncStorage.setItem("units", JSON.stringify(res.data.units));
 		// await AsyncStorage.setItem("times", JSON.stringify(res.data.times));
 	} catch (error) {
-		throw (Object.assign(new Error(error.message), { icon: "error-outline", button: "Ok" }));
+		throw (Object.assign(new Error(error.message), { icon: "error-outline" }));
 	}
 }
 

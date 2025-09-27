@@ -1,5 +1,5 @@
 import { StyleSheet, View, FlatList, ActivityIndicator, Text } from "react-native";
-import { useState, useEffect } from "react";
+import { useState, useReducer, useEffect } from "react";
 
 import { useLogin } from "../../app/isLogin.js";
 import { useModal } from "../ModalGlobal/ModalGlobal.js";
@@ -21,12 +21,15 @@ export default function History({ navigation }) {
 	const { setIsLogin } = useLogin();
 	const [load, setLoad] = useState(true);
 	const { openModal } = useModal();
+
 	const [events, setEvents] = useState([]);
 	const [page, setPage] = useState(1);
 	const [loadingMore, setLoadingMore] = useState(false);
 	const [hasMore, setHasMore] = useState(true);
+	// const [scroll, setScroll] = useReducer((scroll, value) => ({ ...scroll, value }), { events: [], page: 1, loadingMore: false, hasMore: true });
 
 	useEffect(() => { requestGameHistory(navigation, setEvents, setLoad, setIsLogin, openModal, loadingMore, setLoadingMore, hasMore, setHasMore, page, setPage) }, []);
+	// useEffect(() => { requestGameHistory(navigation, setLoad, setIsLogin, openModal, scroll, setScroll) }, []);
 	if (load) return (<Load />);
 	if (!events.length) {
 		return (

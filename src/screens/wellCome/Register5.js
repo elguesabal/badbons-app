@@ -11,9 +11,7 @@ import { theme } from "../../styles/theme.js";
  * @brief TELA DE CADASTRO
 */
 export default function Register5({ navigation, route }) {
-	const { inputName, inputEmail, inputPassword, inputCpf, inputDate, inputPhone, times } = route.params;
-	const array = createArray(times);
-
+	const array = createArray(route.params.times);
 	return (
 		<View style={register5.container} >
 			<View style={register5.containerHeader} >
@@ -31,7 +29,7 @@ export default function Register5({ navigation, route }) {
 				/>
 			</View>
 			<View style={register5.containerButton} >
-				<Button text="Próximo" onPress={() => register(navigation, inputName, inputEmail, inputPassword, inputCpf, inputDate, inputPhone, times)} load />
+				<Button text="Próximo" onPress={() => register(navigation, route.params)} load />
 			</View>
 		</View>
 	);

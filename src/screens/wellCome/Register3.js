@@ -17,7 +17,6 @@ import { theme } from "../../styles/theme.js";
  * @param route OBJETO COM PARAMETROS DA SCREEN ANTERIOR
 */
 export default function Register3({ navigation, route }) {
-	const { inputName, inputEmail, inputPassword, inputCpf, inputDate, inputPhone } = route.params;
 	const [load, setLoad] = useState(true);
 	const [error, setError] = useState(false);
 	const [selected, setSelected] = useState({});
@@ -44,7 +43,7 @@ export default function Register3({ navigation, route }) {
 				))}
 			</View>
 			<View style={register3.containerButton} >
-				<Button text="Próximo" onPress={() => validation(navigation, inputName, inputEmail, inputPassword, inputCpf, inputDate, inputPhone, selected)} />
+				<Button text="Próximo" onPress={() => validation(navigation, route.params, selected)} />
 			</View>
 		</View>
 	);
