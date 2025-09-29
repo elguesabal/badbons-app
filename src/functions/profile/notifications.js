@@ -19,25 +19,62 @@ import API_URL from "../../Api.js";
  * @param page ULTIMO CONJUTO DE NOTIFICACAO REQUERIDO
  * @param setPage FUNCAO DE CONTROL DE page
 */
-export async function requestNotifications(setListNotifications, setLoad, setIsLogin, openModal, loadingMore, setLoadingMore, hasMore, setHasMore, page, setPage) {
+// export async function requestNotifications(setListNotifications, setLoad, setIsLogin, openModal, loadingMore, setLoadingMore, hasMore, setHasMore, page, setPage) {
+// 	if (loadingMore || !hasMore) return ;
+// 	(page === 1) ? setLoad(true) : setLoadingMore(true);
+// 	try {
+// 		const res = await axios.get(`${API_URL}/notifications?page=${page}`, { headers: { Authorization: `Bearer ${await SecureStore.getItemAsync("refreshToken")}` } });
+// 		if (res.status !== 200) throw (new Error(`${res.status}\n${res.data}`));
+// 		if (!res.data.pagination.nextPage) setHasMore(false);
+// 		(page === 1) ? setListNotifications(res.data.data) : setListNotifications((prev) => [...prev, ...res.data.data]);
+// 		setPage(page + 1);
+// 	} catch (error) {
+// 		if (error.message === "Network Error") {
+// 			openModal({ icon: "storage", text: "Não foi possivel consultar o servidor.\nTentar novamente?", yes: (closeModal) => { closeModal(); requestNotifications(setListNotifications, setLoad, setIsLogin, openModal, loadingMore, setLoadingMore, hasMore, setHasMore, page, setPage); }, no: (closeModal) => closeModal() });
+// 		} else if (error.response && error.response.status === 401) {
+// 			logout(setIsLogin);
+// 		} else {
+// 			openModal({ icon: "error-outline", text: error.message, button: "Ok" });
+// 		}
+// 	} finally {
+// 		(page === 1) ? setLoad(false) : setLoadingMore(false);
+// 	}
+// }
+/**
+ * @author VAMPETA
+ * @brief FAZ A REQUISICAO DE HISTORICO DE NOTIFICACOES
+ * @param setLoad FUNCAO QUE MUDA O STATUS DE LOAD
+ * @param setIsLogin FUNCAO DE CONTROLE DE LOGIN
+ * @param openModal FUNCAO QUE ABRE O MODAL
+ * @param scroll INFORMACOES DA PAGINA ATUAL (CONTEM DADOS EXIBIDOS EM TELA E INFORMACOES DE PAGINACAO COMO ESTADO DE LOAD)
+ * @param setScroll FUNCAO QUE SALVA ALTERACOES NAS INFORMACOES DA PAGINA ATUAL
+*/
+export async function requestNotifications(setLoad, setIsLogin, openModal, scroll, setScroll) {
+	const { notifications, loadingMore, hasMore, page } = scroll;
+
 	if (loadingMore || !hasMore) return ;
-	(page === 1) ? setLoad(true) : setLoadingMore(true);
+	// (page === 1) ? setLoad(true) : setLoadingMore(true);
+	(page === 1) ? setLoad(true) : setScroll({ loadingMore: true });
 	try {
 		const res = await axios.get(`${API_URL}/notifications?page=${page}`, { headers: { Authorization: `Bearer ${await SecureStore.getItemAsync("refreshToken")}` } });
 		if (res.status !== 200) throw (new Error(`${res.status}\n${res.data}`));
-		if (!res.data.pagination.nextPage) setHasMore(false);
-		(page === 1) ? setListNotifications(res.data.data) : setListNotifications((prev) => [...prev, ...res.data.data]);
-		setPage(page + 1);
+		// if (!res.data.pagination.nextPage) setHasMore(false);
+		if (!res.data.pagination.nextPage) setScroll({ hasMore: false });
+		// (page === 1) ? setListNotifications(res.data.data) : setListNotifications((prev) => [...prev, ...res.data.data]);
+		(page === 1) ? setScroll({ notifications: res.data.data }) : setScroll({ notifications: [...notifications, ...res.data.data] });
+		// setPage(page + 1);
+		setScroll({ page: page + 1 });
 	} catch (error) {
 		if (error.message === "Network Error") {
-			openModal({ icon: "storage", text: "Não foi possivel consultar o servidor.\nTentar novamente?", yes: (closeModal) => { closeModal(); requestNotifications(setListNotifications, setLoad, setIsLogin, openModal, loadingMore, setLoadingMore, hasMore, setHasMore, page, setPage); }, no: (closeModal) => closeModal() });
+			openModal({ icon: "storage", text: "Não foi possivel consultar o servidor.\nTentar novamente?", yes: (closeModal) => { closeModal(); requestNotifications(setLoad, setIsLogin, openModal, scroll, setScroll); }, no: (closeModal) => closeModal() });
 		} else if (error.response && error.response.status === 401) {
 			logout(setIsLogin);
 		} else {
-			openModal({ icon: "error-outline", text: error.message, button: "Ok" });
+			openModal({ icon: "error-outline", text: error.message });
 		}
 	} finally {
-		(page === 1) ? setLoad(false) : setLoadingMore(false);
+		// (page === 1) ? setLoad(false) : setLoadingMore(false);
+		(page === 1) ? setLoad(false) : setScroll({ loadingMore: false });
 	}
 }
 
@@ -49,7 +86,13 @@ export async function requestNotifications(setListNotifications, setLoad, setIsL
  * @param setListNotifications FUNCAO QUE MODIFICA A LISTA DE NOTIFICACOES
  * @param index INDICE DO FLATLIST
 */
-export async function handleNotification(navigation, listNotifications, setListNotifications, index) {
-	setListNotifications((prev) => prev.map((element, i) => i === index ? { ...element, viewed: true } : element));
-	navigation.navigate("notification", { id: listNotifications[index].id });
+// export async function handleNotification(navigation, listNotifications, setListNotifications, index) {
+// 	setListNotifications((prev) => prev.map((element, i) => i === index ? { ...element, viewed: true } : element));
+// 	navigation.navigate("notification", { id: listNotifications[index].id });
+// }
+export async function handleNotification(navigation, scroll, setScroll, index) {
+// 	setListNotifications((prev) => prev.map((element, i) => i === index ? { ...element, viewed: true } : element));
+	setScroll({ notifications: scroll.notifications.map((element, i) => i === index ? { ...element, viewed: true } : element) });
+// 	navigation.navigate("notification", { id: listNotifications[index].id });
+	navigation.navigate("notification", { id: scroll.notifications[index].id });
 }

@@ -1,5 +1,5 @@
 import { StyleSheet, View, FlatList, ActivityIndicator, TouchableOpacity, Text } from "react-native";
-import { useState, useEffect } from "react";
+import { useState, useReducer, useEffect } from "react";
 
 import { useLogin } from "../../app/isLogin.js";
 import { useModal } from "../ModalGlobal/ModalGlobal.js";
@@ -15,18 +15,55 @@ import { theme } from "../../styles/theme.js";
  * @brief TELA DE NOTIFICACOES
  * @param navigation OBJETO QUE COM METODO COM METODOS DE NAVEGACAO ENTRE SCREENS
 */
+// export default function Notifications({ navigation }) {
+// 	const { setIsLogin } = useLogin();
+// 	const [load, setLoad] = useState(true);
+// 	const { openModal } = useModal();
+// 	const [listNotifications, setListNotifications] = useState([]);
+// 	const [page, setPage] = useState(1);
+// 	const [loadingMore, setLoadingMore] = useState(false);
+// 	const [hasMore, setHasMore] = useState(true);
+
+// 	useEffect(() => { requestNotifications(setListNotifications, setLoad, setIsLogin, openModal, loadingMore, setLoadingMore, hasMore, setHasMore, page, setPage) }, []);
+// 	if (load) return (<Load />);
+// 	if (!listNotifications.length) {
+// 		return (
+// 			<View style={notifications.containerNoNotifications} >
+// 				<Text style={notifications.textNoNotifications} >Sem notificações</Text>
+// 			</View>
+// 		);
+// 	}
+// 	return (
+// 		<FlatList data={listNotifications} keyExtractor={(_, i) => i.toString()} onEndReachedThreshold={0.2} ListFooterComponent={(loadingMore) ? <ActivityIndicator size="large" color="white" /> : null } onEndReached={() => requestNotifications(setListNotifications, setLoad, setIsLogin, openModal, loadingMore, setLoadingMore, hasMore, setHasMore, page, setPage)}
+// 			renderItem={({ item, index }) => (
+// 				<TouchableOpacity style={[notifications.notification, (item.viewed) ? { backgroundColor: "rgba(0, 0, 0, 0.2)" } : null]} onPress={() => handleNotification(navigation, listNotifications, setListNotifications, index)} >
+// 					<View style={[notifications.dotNotification, (item.viewed) ? null : { backgroundColor: theme.primaryBackgroundColor }]} />
+// 					<View style={notifications.containerNotification} >
+// 						<View style={notifications.headerNotification} >
+// 							<Text style={notifications.title} >{index + 1} {item.title}</Text>
+// 							<Text style={notifications.time} >{item.time}</Text>
+// 						</View>
+// 						<Text style={notifications.text} >{item.message}</Text>
+// 					</View>
+// 				</TouchableOpacity>
+// 			)
+// 		} />
+// 	);
+// }
 export default function Notifications({ navigation }) {
 	const { setIsLogin } = useLogin();
 	const [load, setLoad] = useState(true);
 	const { openModal } = useModal();
-	const [listNotifications, setListNotifications] = useState([]);
-	const [page, setPage] = useState(1);
-	const [loadingMore, setLoadingMore] = useState(false);
-	const [hasMore, setHasMore] = useState(true);
+	// const [listNotifications, setListNotifications] = useState([]);
+	// const [page, setPage] = useState(1);
+	// const [loadingMore, setLoadingMore] = useState(false);
+	// const [hasMore, setHasMore] = useState(true);
+	const [scroll, setScroll] = useReducer((scroll, value) => ({ ...scroll, ...value }), { notifications: [], page: 1, loadingMore: false, hasMore: true });
 
-	useEffect(() => { requestNotifications(setListNotifications, setLoad, setIsLogin, openModal, loadingMore, setLoadingMore, hasMore, setHasMore, page, setPage) }, []);
+	// useEffect(() => { requestNotifications(setListNotifications, setLoad, setIsLogin, openModal, loadingMore, setLoadingMore, hasMore, setHasMore, page, setPage) }, []);
+	useEffect(() => { requestNotifications(setLoad, setIsLogin, openModal, scroll, setScroll) }, []);
 	if (load) return (<Load />);
-	if (!listNotifications.length) {
+	if (!scroll.notifications.length) {
 		return (
 			<View style={notifications.containerNoNotifications} >
 				<Text style={notifications.textNoNotifications} >Sem notificações</Text>
@@ -34,9 +71,9 @@ export default function Notifications({ navigation }) {
 		);
 	}
 	return (
-		<FlatList data={listNotifications} keyExtractor={(_, i) => i.toString()} onEndReachedThreshold={0.2} ListFooterComponent={(loadingMore) ? <ActivityIndicator size="large" color="white" /> : null } onEndReached={() => requestNotifications(setListNotifications, setLoad, setIsLogin, openModal, loadingMore, setLoadingMore, hasMore, setHasMore, page, setPage)}
+		<FlatList data={scroll.notifications} keyExtractor={(_, i) => i.toString()} onEndReachedThreshold={0.2} ListFooterComponent={(scroll.loadingMore) ? <ActivityIndicator size="large" color="white" /> : null } onEndReached={() => requestNotifications(setLoad, setIsLogin, openModal, scroll, setScroll)}
 			renderItem={({ item, index }) => (
-				<TouchableOpacity style={[notifications.notification, (item.viewed) ? { backgroundColor: "rgba(0, 0, 0, 0.2)" } : null]} onPress={() => handleNotification(navigation, listNotifications, setListNotifications, index)} >
+				<TouchableOpacity style={[notifications.notification, (item.viewed) ? { backgroundColor: "rgba(0, 0, 0, 0.2)" } : null]} onPress={() => handleNotification(navigation, scroll, setScroll, index)} >
 					<View style={[notifications.dotNotification, (item.viewed) ? null : { backgroundColor: theme.primaryBackgroundColor }]} />
 					<View style={notifications.containerNotification} >
 						<View style={notifications.headerNotification} >
@@ -50,6 +87,7 @@ export default function Notifications({ navigation }) {
 		} />
 	);
 }
+
 
 const notifications = StyleSheet.create({
 	notification: {
