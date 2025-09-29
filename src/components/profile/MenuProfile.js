@@ -1,6 +1,6 @@
-import { StyleSheet, TouchableOpacity, View, Image, Pressable, Text } from "react-native";
-import { MaterialIcons } from "@expo/vector-icons";
+import { StyleSheet, TouchableOpacity, View, Image, Pressable, Text, Linking } from "react-native";
 import { useState } from "react";
+import { MaterialIcons } from "@expo/vector-icons";
 import Modal from "react-native-modal";
 
 import { useLogin } from "../../app/isLogin.js";
@@ -50,6 +50,22 @@ export default function MenuProfile({ navigation }) {
 						{/* SUPORTE */}
 					</View>
 					<View style={menuProfile.line} />
+					<View style={menuProfile.socialMedia} >
+						<TouchableOpacity onPress={async () => {
+							if (await Linking.canOpenURL("https://www.google.com")) {
+								await Linking.openURL("https://www.google.com");
+							}
+						}} >
+							<MaterialIcons name="egg" size={40} color={theme.primaryTextColor} />
+						</TouchableOpacity>
+						<TouchableOpacity onPress={async () => {
+							if (await Linking.canOpenURL("https://www.google.com")) {
+								await Linking.openURL("https://www.google.com");
+							}
+						}} >
+							<MaterialIcons name="egg-alt" size={40} color={theme.primaryTextColor} />
+						</TouchableOpacity>
+					</View>
 					<Pressable style={({ pressed }) => [menuProfile.buttonOption, { backgroundColor: (pressed) ? "rgba(0, 0, 0, 0.5)" : "transparent" }]} onPress={() => logout(setIsLogin)} >
 						<Text style={menuProfile.exit}>Sair da Minha conta</Text>
 					</Pressable>
@@ -99,6 +115,10 @@ const menuProfile = StyleSheet.create({
 		alignSelf: "stretch",
 		height: 2,
 		marginVertical: 20
+	},
+	socialMedia: {
+		flexDirection: "row",
+		justifyContent: "space-evenly"
 	},
 	exit: {
 		color: "red",
