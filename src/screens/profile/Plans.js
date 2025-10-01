@@ -1,6 +1,8 @@
 import { StyleSheet, View, Text } from "react-native";
+import { useState } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 
+import Checkbox from "../../components/Checkbox.js";
 import Button from "../../components/Button.js";
 
 import { theme } from "../../styles/theme.js";
@@ -10,17 +12,27 @@ import { theme } from "../../styles/theme.js";
  * @brief 
 */
 export default function Plans() {
+	const [payment, setPayment] = useState(null);
+
 	return (
 		<View style={plans.container} >
 			<View style={plans.box} >
 				<View style={plans.header} >
 					<MaterialIcons name="star" size={50} color={theme.tertiaryBackgroundColor} />
-					<Text>Plano BadBons</Text>
+					<Text style={plans.titleHeader} >Plano BadBons</Text>
 				</View>
 				<View style={plans.body} >
-					<Text>Escolha a Forma de Pagamento</Text>
-					<Text>PIX</Text>
-					<Text>Cartão de Crédito</Text>
+					<Text style={plans.titleBody} >Escolha a Forma de Pagamento</Text>
+					<View style={plans.containerOptionsBody} >
+						<View style={plans.paymentMethod} >
+							<Checkbox setCheckbox={setPayment} inputCheckbox={payment} circle />
+							<Text style={plans.text} >PIX</Text>
+						</View>
+						<View style={plans.paymentMethod} >
+							<Checkbox setCheckbox={setPayment} inputCheckbox={payment} circle />
+							<Text style={plans.text} >Cartão de Crédito</Text>
+						</View>
+					</View>
 				</View>
 				<View style={plans.footer} >
 					<Button text="Assinar Plano Premium" style={plans.button} />
@@ -41,19 +53,49 @@ const plans = StyleSheet.create({
 		backgroundColor: theme.primaryBackgroundColor,
 		width: "80%",
 		height: "70%",
+		borderRadius: 20
 	},
 	header: {
-		flex: 1,
-		// justifyContent: "center",
+		// backgroundColor: "red",
+		height: "30%",
+		justifyContent: "center",
 		alignItems: "center",
-		paddingBottom: 30
+	},
+	titleHeader: {
+		color: "white",
+		fontSize: 25
 	},
 	body: {
+		// backgroundColor: "green",
+		height: "50%",
+		borderTopWidth: 2,
+		borderBottomWidth: 2,
+		borderColor: theme.tertiaryBackgroundColor
+	},
+	titleBody: {
+		// backgroundColor: "blue",
+		color: "white",
+		height: "20%",
+		textAlign: "center",
+		textAlignVertical: "center"
+	},
+	containerOptionsBody: {
+		// backgroundColor: "red",
 		flex: 1,
-		alignItems: "center",
+		justifyContent: "space-evenly",
+		marginHorizontal: "25%",
+		marginBottom: 50
+	},
+	paymentMethod: {
+		// backgroundColor: "red",
+		// alignSelf: "stretch",
+		flexDirection: "row",
+		// justifyContent: "center"
 	},
 	footer: {
-		flex: 1,
+		// backgroundColor: "blue",
+		height: "20%",
+		justifyContent: "center",
 		alignItems: "center",
 		padding: 20
 	},
@@ -61,5 +103,9 @@ const plans = StyleSheet.create({
 		backgroundColor: "black",
 		width: "100%",
 		opacity: 0.6
+	},
+
+	text: {
+		color: "white"
 	}
 });
