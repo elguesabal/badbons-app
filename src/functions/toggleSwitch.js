@@ -1,3 +1,5 @@
+import { logout } from "./logout";
+
 /**
  * @author VAMPETA
  * @brief GERENCIA A FUNCAO PASSADA PARA O ToggleSwitch
@@ -12,9 +14,12 @@ export async function handleToggleSwitch(openModal, closeModal, onValueChange) {
 		closeModal();
 	} catch(error) {
 		if (error.message === "Network Error") {
-			openModal({ icon: "wifi-off", text: "Sem conexão com a internet", button: "Ok" });
+			openModal({ icon: "wifi-off", text: "Sem conexão com o servidor.\nTentar novamente?", yes: () => handleToggleSwitch(openModal, closeModal, onValueChange), no: (closeModal) => closeModal(), exit: (closeModal) => closeModal() });
+		} else if (error.setIsLogin) {
+			logout(error.setIsLogin);
+			closeModal();
 		} else {
-			openModal({ text: error.message, status: error.status });
+			openModal({ exit: error.exit, icon: error.icon, text: error.message, status: error.status, handleButton: error.handleButton, button: error.button, yes: error.yes, no: error.no  });
 		}
 	}
 }

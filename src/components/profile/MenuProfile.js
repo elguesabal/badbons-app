@@ -1,4 +1,4 @@
-import { StyleSheet, TouchableOpacity, View, Image, Pressable, Text, Linking } from "react-native";
+import { StyleSheet, TouchableOpacity, View, Image, ScrollView, Pressable, Text, Linking } from "react-native";
 import { useState } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 import Modal from "react-native-modal";
@@ -30,45 +30,65 @@ export default function MenuProfile({ navigation }) {
 						</TouchableOpacity>
 						<Image source={require("../../../assets/img/logo-badbons.png")} style={menuProfile.logo} />
 					</View>
-					<Text style={menuProfile.section} >Conta</Text>
-					<View style={menuProfile.containerOptions} >
-						<Pressable style={({ pressed }) => [menuProfile.buttonOption, { backgroundColor: (pressed) ? "rgba(0, 0, 0, 0.5)" : "transparent" }]} onPress={() => { setVisible(false); navigation.navigate("notifications"); }} >
-							<Text style={menuProfile.option}>Notificações</Text>
+					<ScrollView>
+						<Text style={menuProfile.section} >Conta</Text>
+						<View style={menuProfile.containerOptions} >
+							<Pressable style={({ pressed }) => [menuProfile.buttonOption, { backgroundColor: (pressed) ? "rgba(0, 0, 0, 0.5)" : "transparent" }]} onPress={() => { setVisible(false); navigation.navigate("notifications"); }} >
+								<Text style={menuProfile.option}>Notificações</Text>
+							</Pressable>
+							<Pressable style={({ pressed }) => [menuProfile.buttonOption, { backgroundColor: (pressed) ? "rgba(0, 0, 0, 0.5)" : "transparent" }]} onPress={() => { setVisible(false); navigation.navigate("plans"); }} >
+								<Text style={menuProfile.option}>Planos BadBons</Text>
+							</Pressable>
+							<Pressable style={({ pressed }) => [menuProfile.buttonOption, { backgroundColor: (pressed) ? "rgba(0, 0, 0, 0.5)" : "transparent" }]} onPress={() => { setVisible(false); navigation.navigate("editCredentials"); }} >
+								<Text style={menuProfile.option}>Editar Informações Pessoais</Text>
+							</Pressable>
+							<Pressable style={({ pressed }) => [menuProfile.buttonOption, { backgroundColor: (pressed) ? "rgba(0, 0, 0, 0.5)" : "transparent" }]} onPress={() => { setVisible(false); navigation.navigate("swapEmail"); }} >
+								<Text style={menuProfile.option}>Alterar Email</Text>
+							</Pressable>
+							<Pressable style={({ pressed }) => [menuProfile.buttonOption, { backgroundColor: (pressed) ? "rgba(0, 0, 0, 0.5)" : "transparent" }]} onPress={() => { setVisible(false); navigation.navigate("swapPassword"); }} >
+								<Text style={menuProfile.option}>Alterar Senha</Text>
+							</Pressable>
+						</View>
+						<Text style={menuProfile.section} >Informações</Text>
+						<View style={menuProfile.containerOptions} >
+							<Pressable style={({ pressed }) => [menuProfile.buttonOption, { backgroundColor: (pressed) ? "rgba(0, 0, 0, 0.5)" : "transparent" }]} onPress={() => { setVisible(false); navigation.navigate("support"); }} >
+								<Text style={menuProfile.option}>Suporte</Text>
+							</Pressable>
+							<Pressable style={({ pressed }) => [menuProfile.buttonOption, { backgroundColor: (pressed) ? "rgba(0, 0, 0, 0.5)" : "transparent" }]} onPress={() => { setVisible(false); navigation.navigate("about"); }} >
+								<Text style={menuProfile.option}>Sobre nós</Text>
+							</Pressable>
+							<Pressable style={({ pressed }) => [menuProfile.buttonOption, { backgroundColor: (pressed) ? "rgba(0, 0, 0, 0.5)" : "transparent" }]} onPress={() => { setVisible(false); navigation.navigate("about"); }} >
+								<Text style={menuProfile.option}>Sobre nós</Text>
+							</Pressable>
+							<Pressable style={({ pressed }) => [menuProfile.buttonOption, { backgroundColor: (pressed) ? "rgba(0, 0, 0, 0.5)" : "transparent" }]} onPress={() => { setVisible(false); navigation.navigate("about"); }} >
+								<Text style={menuProfile.option}>Sobre nós</Text>
+							</Pressable>
+							<Pressable style={({ pressed }) => [menuProfile.buttonOption, { backgroundColor: (pressed) ? "rgba(0, 0, 0, 0.5)" : "transparent" }]} onPress={() => { setVisible(false); navigation.navigate("about"); }} >
+								<Text style={menuProfile.option}>Sobre nós</Text>
+							</Pressable>
+							<Pressable style={({ pressed }) => [menuProfile.buttonOption, { backgroundColor: (pressed) ? "rgba(0, 0, 0, 0.5)" : "transparent" }]} onPress={() => { setVisible(false); navigation.navigate("about"); }} >
+								<Text style={menuProfile.option}>Sobre nós</Text>
+							</Pressable>
+							<Pressable style={({ pressed }) => [menuProfile.buttonOption, { backgroundColor: (pressed) ? "rgba(0, 0, 0, 0.5)" : "transparent" }]} onPress={() => { setVisible(false); navigation.navigate("about"); }} >
+								<Text style={menuProfile.option}>Sobre nós</Text>
+							</Pressable>
+							<Pressable style={({ pressed }) => [menuProfile.buttonOption, { backgroundColor: (pressed) ? "rgba(0, 0, 0, 0.5)" : "transparent" }]} onPress={() => { setVisible(false); navigation.navigate("about"); }} >
+								<Text style={menuProfile.option}>Sobre nós</Text>
+							</Pressable>
+						</View>
+						<View style={menuProfile.line} />
+						<View style={menuProfile.socialMedia} >
+							<TouchableOpacity onPress={async () => { if (await Linking.canOpenURL("https://www.google.com")) await Linking.openURL("https://www.google.com") }} >
+								<MaterialIcons name="egg" size={40} color={theme.primaryTextColor} />
+							</TouchableOpacity>
+							<TouchableOpacity onPress={async () => { if (await Linking.canOpenURL("https://www.google.com")) await Linking.openURL("https://www.google.com") }} >
+								<MaterialIcons name="egg-alt" size={40} color={theme.primaryTextColor} />
+							</TouchableOpacity>
+						</View>
+						<Pressable style={({ pressed }) => [menuProfile.buttonOption, { backgroundColor: (pressed) ? "rgba(0, 0, 0, 0.5)" : "transparent" }]} onPress={() => logout(setIsLogin)} >
+							<Text style={menuProfile.exit}>Sair da Minha conta</Text>
 						</Pressable>
-						<Pressable style={({ pressed }) => [menuProfile.buttonOption, { backgroundColor: (pressed) ? "rgba(0, 0, 0, 0.5)" : "transparent" }]} onPress={() => alert("os planos de treino e pagamento poderia ficar aki")} >
-							<Text style={menuProfile.option}>Planos BadBons</Text>
-						</Pressable>
-						<Pressable style={({ pressed }) => [menuProfile.buttonOption, { backgroundColor: (pressed) ? "rgba(0, 0, 0, 0.5)" : "transparent" }]} onPress={() => { setVisible(false); navigation.navigate("editCredentials"); }} >
-							<Text style={menuProfile.option}>Editar Informações Pessoais</Text>
-						</Pressable>
-						<Pressable style={({ pressed }) => [menuProfile.buttonOption, { backgroundColor: (pressed) ? "rgba(0, 0, 0, 0.5)" : "transparent" }]} onPress={() => { setVisible(false); navigation.navigate("swapEmail"); }} >
-							<Text style={menuProfile.option}>Alterar Email</Text>
-						</Pressable>
-						<Pressable style={({ pressed }) => [menuProfile.buttonOption, { backgroundColor: (pressed) ? "rgba(0, 0, 0, 0.5)" : "transparent" }]} onPress={() => { setVisible(false); navigation.navigate("swapPassword"); }} >
-							<Text style={menuProfile.option}>Alterar Senha</Text>
-						</Pressable>
-						{/* SUPORTE */}
-					</View>
-					<View style={menuProfile.line} />
-					<View style={menuProfile.socialMedia} >
-						<TouchableOpacity onPress={async () => {
-							if (await Linking.canOpenURL("https://www.google.com")) {
-								await Linking.openURL("https://www.google.com");
-							}
-						}} >
-							<MaterialIcons name="egg" size={40} color={theme.primaryTextColor} />
-						</TouchableOpacity>
-						<TouchableOpacity onPress={async () => {
-							if (await Linking.canOpenURL("https://www.google.com")) {
-								await Linking.openURL("https://www.google.com");
-							}
-						}} >
-							<MaterialIcons name="egg-alt" size={40} color={theme.primaryTextColor} />
-						</TouchableOpacity>
-					</View>
-					<Pressable style={({ pressed }) => [menuProfile.buttonOption, { backgroundColor: (pressed) ? "rgba(0, 0, 0, 0.5)" : "transparent" }]} onPress={() => logout(setIsLogin)} >
-						<Text style={menuProfile.exit}>Sair da Minha conta</Text>
-					</Pressable>
+					</ScrollView>
 				</View>
 			</Modal>
 		</>
@@ -100,7 +120,7 @@ const menuProfile = StyleSheet.create({
 		fontSize: 15
 	},
 	containerOptions: {
-
+		marginBottom: 15
 	},
 	buttonOption: {
 		marginVertical: 5

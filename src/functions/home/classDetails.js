@@ -2,8 +2,6 @@ import axios from "axios";
 import * as SecureStore from "expo-secure-store";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import { logout } from "../logout.js";
-
 import API_URL from "../../Api.js";
 
 /**
@@ -17,20 +15,14 @@ import API_URL from "../../Api.js";
 export async function confirmPresence(newPresence, setPresenceList, setIsLogin, closeSheet) {
 	try {
 		const res = await axios.post(`${API_URL}/presence-student`, { presence: newPresence }, { headers: { Authorization: `Bearer ${await SecureStore.getItemAsync("refreshToken")}` }});
-		if (res.status === 200) {
-			const name = await AsyncStorage.getItem("name");
-			setPresenceList((prev) => ({ ...prev, confirmedPresence: newPresence, confirmedStudents: (newPresence) ? [...prev.confirmedStudents, name] : prev.confirmedStudents.filter((student) => student !== name) }));
-		} else {
-			throw (new Error(`Status ${res.status}`));
-		}
+		if (res.status !== 200) throw (new Error(`${res.status}\n${res.data}`));
+		const name = await AsyncStorage.getItem("name");
+		setPresenceList((prev) => ({ ...prev, confirmedPresence: newPresence, confirmedStudents: (newPresence) ? [...prev.confirmedStudents, name] : prev.confirmedStudents.filter((student) => student !== name) }));
 	} catch (error) {
 		if (error.response && error.response.status === 401) {
 			closeSheet();
-			logout(setIsLogin);
-		} else {
-			const err = new Error(error.message);
-			err.status = error.status;
-			throw (err);
+			throw (Object.assign(new Error(), { setIsLogin: setIsLogin }));
 		}
+		throw (Object.assign(new Error(error.message), { icon: "error-outline" }));
 	}
 }
