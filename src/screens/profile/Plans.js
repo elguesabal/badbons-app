@@ -1,5 +1,5 @@
 import { StyleSheet, View, Text } from "react-native";
-import { useState } from "react";
+import { useReducer } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 
 import Checkbox from "../../components/Checkbox.js";
@@ -9,10 +9,10 @@ import { theme } from "../../styles/theme.js";
 
 /**
  * @author VAMPETA
- * @brief 
+ * @brief SCREEN DE ESCOLHA DE FORMA DE PAGAMENTO
 */
 export default function Plans() {
-	const [payment, setPayment] = useState(null);
+	const [payment, setPayment] = useReducer((_, newPayment) => (newPayment), { pix: null, creditCard: null });
 
 	return (
 		<View style={plans.container} >
@@ -25,17 +25,25 @@ export default function Plans() {
 					<Text style={plans.titleBody} >Escolha a Forma de Pagamento</Text>
 					<View style={plans.containerOptionsBody} >
 						<View style={plans.paymentMethod} >
-							<Checkbox setCheckbox={setPayment} inputCheckbox={payment} circle />
-							<Text style={plans.text} >PIX</Text>
+							<Checkbox setCheckbox={() => setPayment({ pix: true })} inputCheckbox={payment.pix} circle />
+							<Text style={plans.textPayment} >PIX</Text>
 						</View>
 						<View style={plans.paymentMethod} >
-							<Checkbox setCheckbox={setPayment} inputCheckbox={payment} circle />
-							<Text style={plans.text} >Cartão de Crédito</Text>
+							<Checkbox setCheckbox={() => setPayment({ creditCard: true })} inputCheckbox={payment.creditCard} circle />
+							<Text style={plans.textPayment} >Cartão de Crédito</Text>
 						</View>
 					</View>
 				</View>
 				<View style={plans.footer} >
-					<Button text="Assinar Plano Premium" style={plans.button} />
+					<Button text="Assinar Plano Premium" style={plans.button} onPress={() => {
+						if (payment.pix) {
+							alert("Pagamento via PIX");
+						} else if (payment.creditCard) {
+							alert("Pagamento via cartão de crédito");
+						} else {
+							alert("Escolha uma forma de pagamento!");
+						}
+					}} />
 				</View>
 			</View>
 		</View>
@@ -44,7 +52,6 @@ export default function Plans() {
 
 const plans = StyleSheet.create({
 	container: {
-		// backgroundColor: "blue",
 		flex: 1,
 		justifyContent: "center",
 		alignItems: "center"
@@ -56,7 +63,6 @@ const plans = StyleSheet.create({
 		borderRadius: 20
 	},
 	header: {
-		// backgroundColor: "red",
 		height: "30%",
 		justifyContent: "center",
 		alignItems: "center",
@@ -66,34 +72,32 @@ const plans = StyleSheet.create({
 		fontSize: 25
 	},
 	body: {
-		// backgroundColor: "green",
 		height: "50%",
 		borderTopWidth: 2,
 		borderBottomWidth: 2,
 		borderColor: theme.tertiaryBackgroundColor
 	},
 	titleBody: {
-		// backgroundColor: "blue",
 		color: "white",
 		height: "20%",
+		fontSize: 15,
 		textAlign: "center",
 		textAlignVertical: "center"
 	},
 	containerOptionsBody: {
-		// backgroundColor: "red",
 		flex: 1,
 		justifyContent: "space-evenly",
 		marginHorizontal: "25%",
 		marginBottom: 50
 	},
 	paymentMethod: {
-		// backgroundColor: "red",
-		// alignSelf: "stretch",
 		flexDirection: "row",
-		// justifyContent: "center"
+		alignItems: "center"
+	},
+	textPayment: {
+		color: "white"
 	},
 	footer: {
-		// backgroundColor: "blue",
 		height: "20%",
 		justifyContent: "center",
 		alignItems: "center",
@@ -103,9 +107,5 @@ const plans = StyleSheet.create({
 		backgroundColor: "black",
 		width: "100%",
 		opacity: 0.6
-	},
-
-	text: {
-		color: "white"
 	}
 });
