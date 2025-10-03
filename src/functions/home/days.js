@@ -26,15 +26,6 @@ export function nextSevenDays() {
  * @param setTrainingDays FUNCAO QUE SALVA AS INFORMACOES DE TREINO
 */
 export async function requestTrainingDays(setTrainingDays) {
-	// const request = JSON.parse(await AsyncStorage.getItem("times"));
-	const request = { // SIMULANDO Q EU PEGUEI ESSA INFORMACAO DO DISPOSITIVO DO CLIENTE
-		Madureira: [
-			{ day: "Quinta", start: "18:00", end: "19:30" },
-			{ day: "Sabado", start: "9:00", end: "10:30" }
-		],
-		Bonsucesso: [
-			{ day: "Quarta", start: "18:00", end: "20:00" }
-		]
-	};
-	setTrainingDays(Object.values(request).flatMap((arr) => arr.map((item) => item.day.substring(0, 3))));
+	const days = JSON.parse(await AsyncStorage.getItem("times"));
+	setTrainingDays(Object.values(days).flatMap((arr) => arr.map((item) => item.day.substring(0, 3))));
 }

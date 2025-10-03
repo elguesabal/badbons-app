@@ -19,7 +19,7 @@ export async function logout(setIsLogin) {
 	await SecureStore.deleteItemAsync("date");
 	await SecureStore.deleteItemAsync("phone");
 	// await AsyncStorage.removeItem("units");
-	// await AsyncStorage.removeItem("times");
+	await AsyncStorage.removeItem("times");
 	await AsyncStorage.removeItem("exercises");
 	setIsLogin(false);
 }

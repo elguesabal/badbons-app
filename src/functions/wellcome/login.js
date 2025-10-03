@@ -3,6 +3,8 @@ import * as SecureStore from "expo-secure-store";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as FileSystem from "expo-file-system";
 
+import { scheduleNotification } from "../notifications.js";
+
 import API_URL from "../../Api.js";
 
 /**
@@ -51,7 +53,7 @@ async function requestCredentials() {
 		const res = await axios.get(`${API_URL}/auth/credentials`, { headers: { Authorization: `Bearer ${await SecureStore.getItemAsync("refreshToken")}` } });
 		if (res.status !== 200) throw (new Error(`${res.status}\n${res.data}`));
 		try {
-			const infoDoc = await FileSystem.downloadAsync(res.data.photo, `${FileSystem.documentDirectory}user.${res.data.photo.split(".").pop().toLowerCase()}`, { headers: { Authorization: `Bearer ${await SecureStore.getItemAsync("refreshToken")}` }});
+			const infoDoc = await FileSystem.downloadAsync(res.data.photo, `${FileSystem.documentDirectory}user.${res.data.photo.split(".").pop().toLowerCase()}`, { headers: { Authorization: `Bearer ${await SecureStore.getItemAsync("refreshToken")}` } });
 			if (infoDoc.status !== 200) await FileSystem.deleteAsync(infoDoc.uri, { idempotent: true });
 		} catch (error) {
 
@@ -62,9 +64,38 @@ async function requestCredentials() {
 		await SecureStore.setItemAsync("date", res.data.date);
 		await SecureStore.setItemAsync("phone", res.data.phone);
 		// await AsyncStorage.setItem("units", JSON.stringify(res.data.units));
-		// await AsyncStorage.setItem("times", JSON.stringify(res.data.times));
+		await AsyncStorage.setItem("times", JSON.stringify(res.data.times));
 	} catch (error) {
 		throw (Object.assign(new Error(error.message), { icon: "error-outline" }));
+	}
+}
+
+/**
+ * @author VAMPETA
+ * @brief CRIA AS NOTIFICACOES SEMANAIS DE TREINO NO DISPOSITIVO DO USUARIO
+*/
+async function setNotifications() {
+	const weekMap = { "Domingo": 1, "Segunda": 2, "Terça": 3, "Quarta": 4, "Quinta": 5, "Sexta": 6, "Sabado": 7 };
+	const days = JSON.parse(await AsyncStorage.getItem("times"));
+
+	for (const location in days) {
+		const sessions = days[location];
+
+		sessions.forEach((session)=> {
+			const weekday = weekMap[session.day];
+			const [hourStr, minuteStr] = session.start.split(":");
+			let hour = parseInt(hourStr, 10) - 5;
+			let minute = parseInt(minuteStr, 10);
+
+			scheduleNotification({
+				title: `Treino em ${location}`,
+				body: `Treino começa às ${session.start}, confirme o treino`,
+				weekday: weekday,
+				hour: hour,
+				minute: minute,
+				repeats: true
+			});
+		});
 	}
 }
 
@@ -80,5 +111,6 @@ export async function handleLogin(form, setIsLogin) {
 	await requestLogin(form.login, form.password);
 	await requestCredentials(); // AINDA NAO EXISTE NA API OFICIAL
 	// await requestTraining(); // DEVO ATUALIZAR OS DIAS DE TREINO EM TODO LOGIN?
+	await setNotifications();
 	setIsLogin(true);
 }

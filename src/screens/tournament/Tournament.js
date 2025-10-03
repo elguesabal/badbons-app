@@ -1,45 +1,12 @@
-import { StyleSheet, Platform, View, Text } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
 import { useEffect } from "react";
-import * as Notifications from "expo-notifications";
-import * as Device from "expo-device"
 
 import Button from "../../components/Button.js";
 
 import { useBottomSheet } from "../../app/BottomSheetGlobal.js";
 import { useModal } from "../ModalGlobal/ModalGlobal.js";
 
-Notifications.setNotificationHandler({
-	handleNotification: async () => ({
-		shouldShowAlert: true,
-		shouldPlaySound: true,
-		shouldSetBadge: true
-	})
-});
-
-async function scheduleNotification() {
-	await Notifications.scheduleNotificationAsync({
-		content: {
-			title: "BadBons teste",
-			body: "testando notificacaoooooo"
-		},
-		trigger: {
-			seconds: 5
-		}
-	});
-}
-
-async function requestPermission() {
-	if (Device.isDevice) {
-		const { status: existingStatus } = await Notifications.getPermissionsAsync();
-		let finalStatus = existingStatus;
-		if (existingStatus !== "granted") {
-			const { status } = await Notifications.requestPermissionsAsync();
-			finalStatus = status;
-		}
-		if (finalStatus !== "granted") alert("permissao negada");
-		if (finalStatus === "granted") alert("permissao concedida");
-	}
-}
+import { scheduleNotification, requestPermission } from "../../functions/notifications.js";
 
 /**
  * @author VAMPETA
@@ -49,10 +16,7 @@ export default function Tournament() {
 	const { openSheet } = useBottomSheet();
 	const { openModal } = useModal();
 
-	useEffect(() => {
-		requestPermission();
-	}, []);
-
+	useEffect(() => { requestPermission(); }, []);
 	return (
 		<View style={tournament.container}>
 			<Button text="Abrir BottomSheet" onPress={() => openSheet(
@@ -63,7 +27,8 @@ export default function Tournament() {
 			<Button text="Abrir load" onPress={() => openModal({ load: true })} />
 			<Button text="Abrir Modal" onPress={() => openModal({ icon: "android", text: "Aviso: Você foi avisado", button: "ok", handleButton: () => alert("avisado") })} />
 			<Button text="Abrir Modal Boolean" onPress={() => openModal({ icon: "android", text: "Aviso: Você foi avisado", yes: (closeModal) => { alert("vc clicou sim"); closeModal(); }, no: () => alert("vc clicou nao") })} />
-			<Button text="Notificacao" onPress={scheduleNotification} />
+			<Button text="Notificacao 1" onPress={() => scheduleNotification({ title: "teste 1", body: "teste 1", seconds: 1 })} />
+			<Button text="Notificacao 2" onPress={() => scheduleNotification({ title: "teste 2", body: "teste 2", seconds: 5 })} />
 		</View>
 	);
 }
