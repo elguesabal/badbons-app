@@ -6,7 +6,6 @@ import { enableScreens } from "react-native-screens";
 import { StyleSheet, StatusBar, ImageBackground } from "react-native";
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 
-import { useLogin } from "./isLogin.js";
 import ButtonTabBar from "../components/ButtonTabBar.js";
 import Wellcome from "../screens/wellcome/Wellcome.js";
 import Profile from "../screens/profile/Profile.js";
@@ -14,6 +13,10 @@ import Training from "../screens/training/Training.js";
 import Home from "../screens/home/Home.js";
 import Tournament from "../screens/tournament/Tournament.js";
 import Challenge from "../screens/challenge/Challenge.js";
+
+import { useLogin } from "./isLogin.js";
+
+import { requestPermissionNotification } from "../functions/notifications.js";
 
 import styles from "../styles/styles.js";
 
@@ -71,6 +74,7 @@ export function MainApp() {
 	useEffect(() => {
 		NavigationBar.setButtonStyleAsync("light");
 		NavigationBar.setVisibilityAsync("immersive");
+		requestPermissionNotification(); // TESTANDO PEDIDO DE PERMISSAO PARA NOTIFICACAO
 	}, []);
 
 	return (

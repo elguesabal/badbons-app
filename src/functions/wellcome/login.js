@@ -82,14 +82,19 @@ async function setNotifications() {
 		const sessions = days[location];
 
 		sessions.forEach((session)=> {
-			const weekday = weekMap[session.day];
+			let weekday = weekMap[session.day];
 			const [hourStr, minuteStr] = session.start.split(":");
-			let hour = parseInt(hourStr, 10) - 5;
+			let hour = parseInt(hourStr, 10) - 3;
 			let minute = parseInt(minuteStr, 10);
 
+			if (hour < 0) {
+				hour += 24;
+				weekday = (weekday !== 0) ? weekday - 1 : 7;
+			}
 			scheduleNotification({
 				title: `Treino em ${location}`,
 				body: `Treino começa às ${session.start}, confirme o treino`,
+				type: "CALENDAR", // O TIPO CALENDAR NAO FUNCIONA EM ANDROID
 				weekday: weekday,
 				hour: hour,
 				minute: minute,

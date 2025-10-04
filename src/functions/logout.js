@@ -1,6 +1,7 @@
 import * as SecureStore from "expo-secure-store";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as FileSystem from "expo-file-system";
+import * as Notifications from "expo-notifications";
 
 import { compatibleProfilePictures } from "../compatibleImages.js";
 
@@ -21,5 +22,6 @@ export async function logout(setIsLogin) {
 	// await AsyncStorage.removeItem("units");
 	await AsyncStorage.removeItem("times");
 	await AsyncStorage.removeItem("exercises");
+	await Notifications.cancelAllScheduledNotificationsAsync();
 	setIsLogin(false);
 }

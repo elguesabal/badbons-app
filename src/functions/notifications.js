@@ -3,25 +3,35 @@ import * as Device from "expo-device"
 
 Notifications.setNotificationHandler({
 	handleNotification: async () => ({
-		shouldShowAlert: true,
+		// shouldShowAlert: true,
+		shouldShowBanner: true,
+		// shouldShowList: true,
 		shouldPlaySound: true,
 		shouldSetBadge: true
 	})
 });
 
-// Notifications.addNotificationResponseReceivedListener((res) => { // FUNCAO Q E EXECUTACA AO CLICAR NO ICONE DA NOTIFICACAO
-// 	const data = res.notification.request.content.data;
-
-// });
+/**
+ * @author VAMPETA
+ * @brief VERIFICA E PEDE PERMISSAO PARA ENVIAR NOTIFICACOES
+*/
+export async function requestPermissionNotification() {
+	if (!Device.isDevice) return ;
+	const settings = await Notifications.getPermissionsAsync();
+	if (!settings.granted && settings.ios?.status !== Notifications.IosAuthorizationStatus.PROVISIONAL) await Notifications.requestPermissionsAsync();
+}
 
 /**
  * @author VAMPETA
- * @brief CONFIGURA A NOTIFICACAO
+ * @brief CONFIGURA E AGENDA A NOTIFICACAO
  * @param title 
  * @param body 
  * @param seconds 
 */
-export async function scheduleNotification({ title = "BadBons", body, data, seconds, weekday, hour, minute, repeats }) {
+export async function scheduleNotification({ title = "BadBons", body, data, type, seconds, weekday, hour, minute, repeats }) {
+// try {
+// console.log("tentou agendar notificacao")
+	// const teste = await Notifications.scheduleNotificationAsync({
 	await Notifications.scheduleNotificationAsync({
 		content: {
 			title: title,
@@ -29,6 +39,7 @@ export async function scheduleNotification({ title = "BadBons", body, data, seco
 			data: data
 		},
 		trigger: {
+			type: Notifications.SchedulableTriggerInputTypes[type],
 			seconds: seconds,
 			weekday: weekday,
 			hour: hour,
@@ -36,14 +47,14 @@ export async function scheduleNotification({ title = "BadBons", body, data, seco
 			repeats: repeats
 		}
 	});
+// console.log("conseguiu agendar notificacao")
+// 	console.log(teste)
+// } catch (error) {
+// 	console.log("deu erro: ", error)
+// }
 }
 
-/**
- * @author VAMPETA
- * @brief ACIONA O AGENDAMENTO DA NOTIFICACAO
-*/
-export async function requestPermission() {
-	if (!Device.isDevice) return ;
-	const { status } = await Notifications.getPermissionsAsync();
-	if (status !== "granted") await Notifications.requestPermissionsAsync();
-}
+// Notifications.addNotificationResponseReceivedListener((res) => { // FUNCAO Q E EXECUTACA AO CLICAR NO ICONE DA NOTIFICACAO
+// 	const data = res.notification.request.content.data;
+
+// });

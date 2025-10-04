@@ -1,12 +1,12 @@
 import { StyleSheet, View, Text } from "react-native";
-import { useEffect } from "react";
+import * as Notifications from "expo-notifications";
 
 import Button from "../../components/Button.js";
 
 import { useBottomSheet } from "../../app/BottomSheetGlobal.js";
 import { useModal } from "../ModalGlobal/ModalGlobal.js";
 
-import { scheduleNotification, requestPermission } from "../../functions/notifications.js";
+import { scheduleNotification } from "../../functions/notifications.js";
 
 /**
  * @author VAMPETA
@@ -16,7 +16,6 @@ export default function Tournament() {
 	const { openSheet } = useBottomSheet();
 	const { openModal } = useModal();
 
-	useEffect(() => { requestPermission(); }, []);
 	return (
 		<View style={tournament.container}>
 			<Button text="Abrir BottomSheet" onPress={() => openSheet(
@@ -27,8 +26,9 @@ export default function Tournament() {
 			<Button text="Abrir load" onPress={() => openModal({ load: true })} />
 			<Button text="Abrir Modal" onPress={() => openModal({ icon: "android", text: "Aviso: Você foi avisado", button: "ok", handleButton: () => alert("avisado") })} />
 			<Button text="Abrir Modal Boolean" onPress={() => openModal({ icon: "android", text: "Aviso: Você foi avisado", yes: (closeModal) => { alert("vc clicou sim"); closeModal(); }, no: () => alert("vc clicou nao") })} />
-			<Button text="Notificacao 1" onPress={() => scheduleNotification({ title: "teste 1", body: "teste 1", seconds: 1 })} />
-			<Button text="Notificacao 2" onPress={() => scheduleNotification({ title: "teste 2", body: "teste 2", seconds: 5 })} />
+			<Button text="Notificacao 1" onPress={() => scheduleNotification({ title: "teste 1", body: "teste 1", type: "TIME_INTERVAL", seconds: 1, repeats: true })} />
+			<Button text="Notificacao 2" onPress={() => scheduleNotification({ title: "teste 2", body: "teste 2", type: "TIME_INTERVAL", seconds: 5 })} />
+			<Button text="notificacoes agendadas" onPress={async () => console.log(await Notifications.getAllScheduledNotificationsAsync())} />
 		</View>
 	);
 }
