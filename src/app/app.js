@@ -74,7 +74,7 @@ export function MainApp() {
 	useEffect(() => {
 		NavigationBar.setButtonStyleAsync("light");
 		NavigationBar.setVisibilityAsync("immersive");
-		requestPermissionNotification(); // TESTANDO PEDIDO DE PERMISSAO PARA NOTIFICACAO
+		requestPermissionNotification();
 	}, []);
 
 	return (

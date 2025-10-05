@@ -2,6 +2,7 @@ import axios from "axios";
 import * as SecureStore from "expo-secure-store";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as FileSystem from "expo-file-system";
+import * as Notifications from "expo-notifications";
 
 import { scheduleNotification } from "../notifications.js";
 
@@ -78,10 +79,35 @@ async function setNotifications() {
 	const weekMap = { "Domingo": 1, "Segunda": 2, "Terça": 3, "Quarta": 4, "Quinta": 5, "Sexta": 6, "Sabado": 7 };
 	const days = JSON.parse(await AsyncStorage.getItem("times"));
 
+	if (!days) return;
+	// for (const location in days) {
+	// 	const sessions = days[location];
+
+	// 	sessions.forEach((session)=> {
+	// 		let weekday = weekMap[session.day];
+	// 		const [hourStr, minuteStr] = session.start.split(":");
+	// 		let hour = parseInt(hourStr, 10) - 3;
+	// 		let minute = parseInt(minuteStr, 10);
+
+	// 		if (hour < 0) {
+	// 			hour += 24;
+	// 			weekday = (weekday !== 0) ? weekday - 1 : 7;
+	// 		}
+	// 		scheduleNotification({
+	// 			title: `Treino em ${location}`,
+	// 			body: `Treino começa às ${session.start}, confirme o treino`,
+	// 			type: "CALENDAR", // O TIPO CALENDAR NAO FUNCIONA EM ANDROID
+	// 			weekday: weekday,
+	// 			hour: hour,
+	// 			minute: minute,
+	// 			repeats: true
+	// 		});
+	// 	});
+	// }
 	for (const location in days) {
 		const sessions = days[location];
 
-		sessions.forEach((session)=> {
+		for (const session of sessions) {
 			let weekday = weekMap[session.day];
 			const [hourStr, minuteStr] = session.start.split(":");
 			let hour = parseInt(hourStr, 10) - 3;
@@ -89,18 +115,23 @@ async function setNotifications() {
 
 			if (hour < 0) {
 				hour += 24;
-				weekday = (weekday !== 0) ? weekday - 1 : 7;
+				weekday = weekday === 1 ? 7 : weekday - 1;
 			}
-			scheduleNotification({
-				title: `Treino em ${location}`,
-				body: `Treino começa às ${session.start}, confirme o treino`,
-				type: "CALENDAR", // O TIPO CALENDAR NAO FUNCIONA EM ANDROID
-				weekday: weekday,
-				hour: hour,
-				minute: minute,
-				repeats: true
+			await Notifications.scheduleNotificationAsync({
+				content: {
+					title: `Treino em ${location}`,
+					body: `Treino começa às ${session.start}, confirme o treino.`,
+					sound: true,
+					priority: Notifications.AndroidNotificationPriority.HIGH,
+				},
+				trigger: {
+					weekday,
+					hour,
+					minute,
+					repeats: true,
+				},
 			});
-		});
+		}
 	}
 }
 

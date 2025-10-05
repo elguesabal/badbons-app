@@ -16,9 +16,10 @@ Notifications.setNotificationHandler({
  * @brief VERIFICA E PEDE PERMISSAO PARA ENVIAR NOTIFICACOES
 */
 export async function requestPermissionNotification() {
-	if (!Device.isDevice) return ;
-	const settings = await Notifications.getPermissionsAsync();
-	if (!settings.granted && settings.ios?.status !== Notifications.IosAuthorizationStatus.PROVISIONAL) await Notifications.requestPermissionsAsync();
+	if (!Device.isDevice) return (false);
+	let settings = await Notifications.getPermissionsAsync();
+	if (!settings.granted && settings.ios?.status !== Notifications.IosAuthorizationStatus.PROVISIONAL) settings = await Notifications.requestPermissionsAsync();
+	return (settings.granted || settings.ios?.status === Notifications.IosAuthorizationStatus.PROVISIONAL);
 }
 
 /**
@@ -29,6 +30,7 @@ export async function requestPermissionNotification() {
  * @param seconds 
 */
 export async function scheduleNotification({ title = "BadBons", body, data, type, seconds, weekday, hour, minute, repeats }) {
+	if (!requestPermissionNotification()) return ;
 // try {
 // console.log("tentou agendar notificacao")
 	// const teste = await Notifications.scheduleNotificationAsync({
