@@ -16,7 +16,7 @@ import Challenge from "../screens/challenge/Challenge.js";
 
 import { useLogin } from "./isLogin.js";
 
-import { requestPermissionNotification } from "../functions/notifications.js";
+import { requestPermissionNotification, requestPushNotifications } from "../functions/notifications.js";
 
 import styles from "../styles/styles.js";
 
@@ -75,6 +75,7 @@ export function MainApp() {
 		NavigationBar.setButtonStyleAsync("light");
 		NavigationBar.setVisibilityAsync("immersive");
 		requestPermissionNotification();
+		requestPushNotifications();
 	}, []);
 
 	return (

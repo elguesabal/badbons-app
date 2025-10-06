@@ -1,9 +1,10 @@
 import * as Notifications from "expo-notifications";
-import * as Device from "expo-device"
+import * as Device from "expo-device";
+import Constants from "expo-constants";
 
 Notifications.setNotificationHandler({
 	handleNotification: async () => ({
-		// shouldShowAlert: true,
+		// shouldShowAlert: true, // OBSOLETO
 		shouldShowBanner: true,
 		// shouldShowList: true,
 		shouldPlaySound: true,
@@ -25,15 +26,18 @@ export async function requestPermissionNotification() {
 /**
  * @author VAMPETA
  * @brief CONFIGURA E AGENDA A NOTIFICACAO
- * @param title 
- * @param body 
- * @param seconds 
+ * @param title TITULO DA NOTIFICACAO
+ * @param body MENSAGEM PRINCIPAL DA NOTIFICACAO
+ * @param data INFORMACOES EXTRAS
+ * @param type TIPO DE NOTIFICACAO
+ * @param weekday DIA DA SEMANA A SER NOTIFICADA
+ * @param hour HORA A SER NOTIFICADO
+ * @param minute MINUTO A SER NOTIFICADO
+ * @param seconds TEMPO EM SEGUNDO DE ATRASO OU INTERVALO DE REPETICAO
+ * @param repeats BOOLEANO INFORMANDO SE QUER Q REPITA A NOTIFICACAO
 */
-export async function scheduleNotification({ title = "BadBons", body, data, type, seconds, weekday, hour, minute, repeats }) {
-	if (!requestPermissionNotification()) return ;
-// try {
-// console.log("tentou agendar notificacao")
-	// const teste = await Notifications.scheduleNotificationAsync({
+export async function scheduleNotification({ title = "BadBons", body, data, type, weekday, hour, minute, seconds, repeats }) {
+	if (!requestPermissionNotification()) return;
 	await Notifications.scheduleNotificationAsync({
 		content: {
 			title: title,
@@ -42,21 +46,24 @@ export async function scheduleNotification({ title = "BadBons", body, data, type
 		},
 		trigger: {
 			type: Notifications.SchedulableTriggerInputTypes[type],
-			seconds: seconds,
 			weekday: weekday,
 			hour: hour,
 			minute: minute,
+			seconds: seconds,
 			repeats: repeats
 		}
 	});
-// console.log("conseguiu agendar notificacao")
-// 	console.log(teste)
-// } catch (error) {
-// 	console.log("deu erro: ", error)
-// }
 }
 
 // Notifications.addNotificationResponseReceivedListener((res) => { // FUNCAO Q E EXECUTACA AO CLICAR NO ICONE DA NOTIFICACAO
 // 	const data = res.notification.request.content.data;
 
 // });
+
+export async function requestPushNotifications() {
+	if (!Constants.isDevice) {
+		alert("nao ta buildado nem instalado");
+		return (null);
+	}
+	return ((await Notifications.getExpoPushTokenAsync()).data);
+}

@@ -26,8 +26,8 @@ export default function Tournament() {
 			<Button text="Abrir load" onPress={() => openModal({ load: true })} />
 			<Button text="Abrir Modal" onPress={() => openModal({ icon: "android", text: "Aviso: Você foi avisado", button: "ok", handleButton: () => alert("avisado") })} />
 			<Button text="Abrir Modal Boolean" onPress={() => openModal({ icon: "android", text: "Aviso: Você foi avisado", yes: (closeModal) => { alert("vc clicou sim"); closeModal(); }, no: () => alert("vc clicou nao") })} />
-			<Button text="Notificacao 1" onPress={() => scheduleNotification({ title: "teste 1", body: "teste 1", type: "TIME_INTERVAL", seconds: 1, repeats: true })} />
-			<Button text="Notificacao 2" onPress={() => scheduleNotification({ title: "teste 2", body: "teste 2", type: "TIME_INTERVAL", seconds: 5 })} />
+			<Button text="Notificacao 1" onPress={() => scheduleNotification({ body: "teste 1", type: "TIME_INTERVAL", seconds: 1, repeats: true })} />
+			<Button text="Notificacao 2" onPress={() => scheduleNotification({ body: "teste 2" })} />
 			<Button text="notificacoes agendadas" onPress={async () => console.log(await Notifications.getAllScheduledNotificationsAsync())} />
 		</View>
 	);
