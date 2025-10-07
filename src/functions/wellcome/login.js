@@ -3,7 +3,7 @@ import * as SecureStore from "expo-secure-store";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as FileSystem from "expo-file-system";
 
-import { scheduleNotification } from "../notifications.js";
+import { getTokenNotifications, scheduleNotification } from "../notifications.js";
 
 import API_URL from "../../Api.js";
 
@@ -31,10 +31,11 @@ function validationPassword(password) {
  * @param login LOGIN DO USUARIO
  * @param password SENHA DO USUARIO
  * @param setIsLogin FUNCAO QUE CONTROLA SE O USUARIO ESTA LOGADO OU NAO
+ * @param tokenNotifications TOKEN USADO PARA ENVIAR NOTIFICACAO REMOTAMENTE AO APP
 */
-async function requestLogin(login, password) {
+async function requestLogin(login, password, tokenNotifications) {
 	try {
-		const res = await axios.post(`${API_URL}/auth/login`, { email: login, password: password });
+		const res = await axios.post(`${API_URL}/auth/login`, { email: login, password: password, tokenNotifications: tokenNotifications });
 		if (res.status !== 200) throw (new Error(`${res.status}\n${res.data}`));
 		await SecureStore.setItemAsync("accessToken", res.data.accesstoken);
 		await SecureStore.setItemAsync("refreshToken", res.data.RefreshToken);
@@ -113,7 +114,7 @@ async function setNotifications() {
 export async function handleLogin(form, setIsLogin) {
 	validationLogin(form.login);
 	validationPassword(form.password);
-	await requestLogin(form.login, form.password);
+	await requestLogin(form.login, form.password, await getTokenNotifications());
 	await requestCredentials(); // AINDA NAO EXISTE NA API OFICIAL
 	// await requestTraining(); // DEVO ATUALIZAR OS DIAS DE TREINO EM TODO LOGIN?
 	await setNotifications();

@@ -23,11 +23,6 @@ export default function BoxModal({ data, closeModal }) {
 					{(data.icon) ? <MaterialIcons name={data.icon} size={100} color={theme.secondaryTextColor} /> : null}
 					{(data.text) ? <Text style={boxModal.text}>{data.text}</Text> : null}
 					{(data.status) ? <Text style={boxModal.status}>Status {data.status}</Text> : null}
-					{/* {(data.button) ? (
-						<TouchableOpacity style={boxModal.button} onPress={(data.handleButton) ? () => data.handleButton(closeModal) : closeModal} >
-							<Text style={boxModal.textButton}>{data.button}</Text>
-						</TouchableOpacity>
-					) : null} */}
 					{(data.yes && data.no) ? (
 						<View style={boxModal.containerBoolean} >
 							<TouchableOpacity style={boxModal.buttonBoolean} onPress={() => data.yes(closeModal)} >

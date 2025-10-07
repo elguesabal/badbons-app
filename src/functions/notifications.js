@@ -25,6 +25,18 @@ export async function requestPermissionNotification() {
 
 /**
  * @author VAMPETA
+ * @brief PEGA O TOKEN DE NOTIFICAO SE TIVER PERMISSAO
+*/
+export async function getTokenNotifications() {
+	if (!Device.isDevice) return (false);
+	// if (!Constants.isDevice) return (null); // AKI VERIFICA SE ESTOU USANDO EXPO
+	const settings = await Notifications.getPermissionsAsync();
+	if (!settings.granted && settings.ios?.status !== Notifications.IosAuthorizationStatus.PROVISIONAL) return (null);
+	return ((await Notifications.getExpoPushTokenAsync()).data);
+}
+
+/**
+ * @author VAMPETA
  * @brief CONFIGURA E AGENDA A NOTIFICACAO
  * @param title TITULO DA NOTIFICACAO
  * @param body MENSAGEM PRINCIPAL DA NOTIFICACAO
@@ -59,11 +71,3 @@ export async function scheduleNotification({ title = "BadBons", body, data, type
 // 	const data = res.notification.request.content.data;
 
 // });
-
-export async function requestPushNotifications() {
-	if (!Constants.isDevice) {
-		alert("nao ta buildado nem instalado");
-		return (null);
-	}
-	return ((await Notifications.getExpoPushTokenAsync()).data);
-}
