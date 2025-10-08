@@ -1,6 +1,6 @@
 import * as SecureStore from "expo-secure-store";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import * as FileSystem from "expo-file-system";
+import * as FileSystem from "expo-file-system/legacy";
 import * as Notifications from "expo-notifications";
 
 import { compatibleProfilePictures } from "../compatibleImages.js";
