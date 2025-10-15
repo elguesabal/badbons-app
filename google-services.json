@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "256510898833",
+    "project_id": "badbons-f9d57",
+    "storage_bucket": "badbons-f9d57.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:256510898833:android:1b3277227dab6deabdc530",
+        "android_client_info": {
+          "package_name": "com.badbons.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNwQMUJPjB9vE1uVGRZpcA37hg0QAhMfo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

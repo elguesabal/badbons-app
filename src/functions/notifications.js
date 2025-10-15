@@ -32,7 +32,8 @@ export async function getTokenNotifications() {
 	// if (!Constants.isDevice) return (null); // AKI VERIFICA SE ESTOU USANDO EXPO
 	const settings = await Notifications.getPermissionsAsync();
 	if (!settings.granted && settings.ios?.status !== Notifications.IosAuthorizationStatus.PROVISIONAL) return (null);
-	return ((await Notifications.getExpoPushTokenAsync()).data);
+	const projectId = Constants.expoConfig.extra.eas.projectId;
+	return ((await Notifications.getExpoPushTokenAsync({ projectId })).data);
 }
 
 /**

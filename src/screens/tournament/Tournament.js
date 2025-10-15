@@ -36,7 +36,9 @@ export default function Tournament() {
 			<Button text="Abrir Modal Boolean" onPress={() => openModal({ icon: "android", text: "Aviso: Você foi avisado", yes: (closeModal) => { alert("vc clicou sim"); closeModal(); }, no: () => alert("vc clicou nao") })} />
 			<Button text="Notificacao 1" onPress={() => scheduleNotification({ body: "teste 1", type: "TIME_INTERVAL", seconds: 1, repeats: true })} />
 			<Button text="notificacoes agendadas" onPress={async () => console.log(await Notifications.getAllScheduledNotificationsAsync())} />
-			<Text selectable={true} style={{ color: "white", marginTop: 20 }} >{token}</Text>
+			<Text style={{ color: "white", marginTop: 20 }} >-------------------</Text>
+			<Text selectable style={{ color: "white", marginTop: 20 }} >{token}</Text>
+			<Text style={{ color: "white", marginTop: 20 }} >-------------------</Text>
 		</View>
 	);
 }
