@@ -25,7 +25,7 @@ export async function getCredentials(setData) {
 	setData({
 		photo: (photo.exists) ? photo.uri : null,
 		name: await AsyncStorage.getItem("name"),
-		units: JSON.parse(await AsyncStorage.getItem("units") || "[]")
+		units: Object.keys(JSON.parse((await AsyncStorage.getItem("times")) || "{}"))
 	});
 }
 

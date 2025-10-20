@@ -64,7 +64,6 @@ async function requestCredentials() {
 		await SecureStore.setItemAsync("cpf", res.data.cpf);
 		await SecureStore.setItemAsync("date", res.data.date);
 		await SecureStore.setItemAsync("phone", res.data.phone);
-		// await AsyncStorage.setItem("units", JSON.stringify(res.data.units));
 		await AsyncStorage.setItem("times", JSON.stringify(res.data.times));
 	} catch (error) {
 		throw (Object.assign(new Error(error.message), { icon: "error-outline" }));
