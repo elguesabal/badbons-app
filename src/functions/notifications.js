@@ -29,7 +29,6 @@ export async function requestPermissionNotification() {
 */
 export async function getTokenNotifications() {
 	if (!Device.isDevice) return (false);
-	// if (!Constants.isDevice) return (null); // AKI VERIFICA SE ESTOU USANDO EXPO
 	const settings = await Notifications.getPermissionsAsync();
 	if (!settings.granted && settings.ios?.status !== Notifications.IosAuthorizationStatus.PROVISIONAL) return (null);
 	const projectId = Constants.expoConfig.extra.eas.projectId;

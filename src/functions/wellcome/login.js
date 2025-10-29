@@ -59,12 +59,23 @@ async function requestCredentials() {
 		} catch (error) {
 
 		}
-		await AsyncStorage.setItem("name", res.data.name);
-		await AsyncStorage.setItem("email", res.data.email);
+		// await AsyncStorage.setItem("name", res.data.name);
+		// await AsyncStorage.setItem("email", res.data.email);
+		// await SecureStore.setItemAsync("cpf", res.data.cpf);
+		// await SecureStore.setItemAsync("date", res.data.date);
+		// await SecureStore.setItemAsync("phone", res.data.phone);
+		// await AsyncStorage.setItem("times", JSON.stringify(res.data.times)); // NAO TEM NA API PRINCIPAL (TALVEZ EU CRIE UMA ROTA APENAS PARA ISSO E ATUALIZAR)
+
+		await SecureStore.setItemAsync("id", res.data._id);
+		await AsyncStorage.setItem("name", res.data.nome);
 		await SecureStore.setItemAsync("cpf", res.data.cpf);
-		await SecureStore.setItemAsync("date", res.data.date);
-		await SecureStore.setItemAsync("phone", res.data.phone);
-		await AsyncStorage.setItem("times", JSON.stringify(res.data.times));
+		await AsyncStorage.setItem("email", res.data.email);
+		await SecureStore.setItemAsync("date", res.data.dataNascimento);
+		await SecureStore.setItemAsync("phone", res.data.telefone);
+		// await AsyncStorage.setItem("nivel", res.data.nivel); // POR ENQUANTO NAO USO
+		// await AsyncStorage.setItem("unit", JSON.stringify(res.data.unidade)); FALTA SER UM ARRAY DE UNIDADES
+		// await AsyncStorage.setItem("class", JSON.stringify(res.data.turma)); FALTA SER UM ARRAY DE TURMAS
+
 	} catch (error) {
 		throw (Object.assign(new Error(error.message), { icon: "error-outline" }));
 	}
@@ -114,8 +125,7 @@ export async function handleLogin(form, setIsLogin) {
 	validationLogin(form.login);
 	validationPassword(form.password);
 	await requestLogin(form.login, form.password, await getTokenNotifications());
-	await requestCredentials(); // AINDA NAO EXISTE NA API OFICIAL
-	// await requestTraining(); // DEVO ATUALIZAR OS DIAS DE TREINO EM TODO LOGIN?
+	await requestCredentials();
 	await setNotifications();
 	setIsLogin(true);
 }
