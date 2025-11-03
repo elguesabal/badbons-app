@@ -1,12 +1,16 @@
-import { StyleSheet, TouchableOpacity, View, Image, ScrollView, Pressable, Text, Linking } from "react-native";
+import { StyleSheet, Platform, StatusBar, TouchableOpacity, View, Image, ScrollView, Pressable, Text, Linking } from "react-native";
 import { useState } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 import Modal from "react-native-modal";
 
+import { useSafeAreaInsets } from "react-native-safe-area-context"
+;
 import { useLogin } from "../../app/isLogin.js";
 import { logout } from "../../functions/logout.js";
 
 import { theme } from "../../styles/theme.js";
+
+const statusBarHeight = Platform.OS === "android" ? StatusBar.currentHeight : 20;
 
 /**
  * @author VAMPETA
@@ -16,14 +20,16 @@ import { theme } from "../../styles/theme.js";
 export default function MenuProfile({ navigation }) {
 	const [visible, setVisible] = useState(false);
 	const { setIsLogin } = useLogin();
+	const navigationBar = useSafeAreaInsets();
 
 	return (
 		<>
+			{/* <StatusBar backgroundColor="rgba(0, 85, 255, 1)" barStyle="light-content" animated /> */}
 			<TouchableOpacity onPress={() => setVisible(true)} >
 				<MaterialIcons name="menu" size={50} color={theme.primaryTextColor} />
 			</TouchableOpacity>
 			<Modal isVisible={visible} onBackdropPress={() => setVisible(false)} onRequestClose={() => setVisible(false)} style={menuProfile.modal} animationIn="slideInLeft" animationOut="slideOutLeft" backdropTransitionOutTiming={1} >
-				<View style={menuProfile.containerModal}>
+				<View style={[menuProfile.containerModal, { paddingBottom: navigationBar.bottom }]}>
 					<View style={menuProfile.header} >
 						<TouchableOpacity onPress={() => setVisible(false)} >
 							<MaterialIcons name="close" size={50} color={theme.primaryTextColor} />
@@ -102,7 +108,8 @@ const menuProfile = StyleSheet.create({
 	containerModal: {
 		backgroundColor: "rgb(25, 27, 31)",
 		height: "100%",
-		width: "70%"
+		width: "70%",
+		paddingTop: statusBarHeight
 	},
 	header: {
 		flexDirection: "row",
