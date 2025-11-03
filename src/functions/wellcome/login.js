@@ -36,7 +36,7 @@ function validationPassword(password) {
 async function requestLogin(login, password, tokenNotifications) {
 	try {
 		const res = await axios.post(`${API_URL}/auth/login`, { email: login, password: password, tokenNotifications: tokenNotifications });
-		if (res.status !== 200) throw (new Error(`${res.status}\n${res.data}`));
+		if (res.status !== 200 && res.status !== 207) throw (new Error(`${res.status}\n${res.data}`));
 		await SecureStore.setItemAsync("accessToken", res.data.accesstoken);
 		await SecureStore.setItemAsync("refreshToken", res.data.RefreshToken);
 	} catch (error) {

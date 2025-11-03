@@ -13,7 +13,7 @@ export async function ping() {
 
 	try {
 		const res = await axios.get(`${API_URL}/ping?version=${version}`);
-		if (res.status !== 200) throw (new Error(`${res.status}\n${res.data}`));
+		if (res.status !== 204) throw (new Error(`${res.status}\n${res.data}`));
 	} catch (error) {
 		throw (error);
 	}
