@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useRef, useMemo, useState, useEffect, useCallback } from "react";
 import BottomSheet, { BottomSheetView, BottomSheetBackdrop } from "@gorhom/bottom-sheet";
 import { StyleSheet, BackHandler } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { theme } from "../styles/theme.js";
 
@@ -24,6 +25,7 @@ export function BottomSheetGlobal({ children }) {
 	const snapPoints = useMemo(() => ["50%", "80%"], []);
 	const [sheetContent, setSheetContent] = useState(null);
 	const [isOpen, setIsOpen] = useState(false);
+	const navigationBar = useSafeAreaInsets();
 
 	/**
 	 * @author VAMPETA
@@ -63,7 +65,7 @@ export function BottomSheetGlobal({ children }) {
 		<BottomSheetContext.Provider value={{ openSheet, closeSheet }} >
 			{children}
 			<BottomSheet ref={sheetRef} index={-1} snapPoints={snapPoints} enablePanDownToClose={true} onClose={() => setIsOpen(false)} backgroundStyle={bottomSheetGlobal.backgroundStyle} handleIndicatorStyle={bottomSheetGlobal.handleIndicatorStyle} backdropComponent={(props) => (<BottomSheetBackdrop {...props} disappearsOnIndex={-1} appearsOnIndex={0} pressBehavior="close" opacity={0.5} />)} >
-				<BottomSheetView style={bottomSheetGlobal.container} >
+				<BottomSheetView style={[bottomSheetGlobal.container, { paddingBottom: navigationBar.bottom + 25 }]} >
 					{sheetContent && React.cloneElement(sheetContent, { key: Date.now() })}
 				</BottomSheetView>
 			</BottomSheet>
@@ -81,7 +83,6 @@ const bottomSheetGlobal = StyleSheet.create({
 		backgroundColor: theme.secondaryBackgroundColor
 	},
 	container: {
-		height: "100%",
-		paddingBottom: 25
+		height: "100%"
 	}
 });
