@@ -56,8 +56,8 @@ function handleButtonModal(closeModal, navigation) {
 */
 async function requestSwapEmail(newEmail, password, navigation, openModal, setIsLogin) {
 	try {
-		const res = await axios.post(`${API_URL}/swap-email`, { newEmail: newEmail, password: password }, { headers: { Authorization: `Bearer ${await SecureStore.getItemAsync("refreshToken")}` } });
-		if (res.status !== 200) throw (new Error(`${res.status}\n${res.data}`));
+		const res = await axios.patch(`${API_URL}/swap-email`, { newEmail: newEmail, password: password }, { headers: { Authorization: `Bearer ${await SecureStore.getItemAsync("refreshToken")}` } });
+		if (res.status !== 204) throw (new Error(`${res.status}\n${res.data}`));
 		await AsyncStorage.setItem("email", newEmail);
 		setTimeout(() => openModal({ icon: "check-circle", text: "Email trocado com sucesso!", handleButton: (closeModal) => handleButtonModal(closeModal, navigation) }), 100);
 	} catch (error) {

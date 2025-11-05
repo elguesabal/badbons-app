@@ -24,7 +24,6 @@ export default function MenuProfile({ navigation }) {
 
 	return (
 		<>
-			{/* <StatusBar backgroundColor="rgba(0, 85, 255, 1)" barStyle="light-content" animated /> */}
 			<TouchableOpacity onPress={() => setVisible(true)} >
 				<MaterialIcons name="menu" size={50} color={theme.primaryTextColor} />
 			</TouchableOpacity>
