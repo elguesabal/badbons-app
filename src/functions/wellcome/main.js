@@ -4,19 +4,33 @@ import Constants from "expo-constants";
 
 import API_URL from "../../Api.js";
 
+import api from "../../config_axios.js";
+
 /**
  * @author VAMPETA
  * @brief FAZ UMA CONSULTA DE PING PARA A API PARA VER SE O SERVIDOR ESTA ACESSIVEL E VERIFICA SE O APP E COMPATIVEL COM A API
 */
 export async function ping() {
-	const version = Constants.expoConfig?.version ?? "";
+	// const version = Constants.expoConfig?.version ?? "";
 
-	try {
-		const res = await axios.get(`${API_URL}/ping?version=${version}`);
-		if (res.status !== 204) throw (new Error(`${res.status}\n${res.data}`));
-	} catch (error) {
-		throw (error);
-	}
+	// try {
+	// 	const res = await axios.get(`${API_URL}/ping?version=${version}`);
+	// 	if (res.status !== 204) throw (new Error(`${res.status}\n${res.data}`));
+	// } catch (error) {
+	// 	throw (error);
+	// }
+
+
+	const res = await api({
+		method: "GET",
+		url: "/ping",
+		params: {
+			version: Constants.expoConfig?.version ?? ""
+		}
+	});
+// console.log(res)
+	if (res.status === 0) throw (res);
+	if (res.status !== 204) throw (new Error(`${res.status}\n${res.data}`));
 }
 
 /**

@@ -1,6 +1,7 @@
 import axios from "axios";
 import * as SecureStore from "expo-secure-store";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import validator from "validator";
 
 import API_URL from "../../Api.js";
 
@@ -11,7 +12,7 @@ import API_URL from "../../Api.js";
 */
 function validationNewEmail(newEmail) {
 	if (!newEmail || newEmail.trim() === "") throw (Object.assign(new Error("Informe um novo Email!"), { icon: "alternate-email" }));
-	if (!/\S+@\S+\.\S+/.test(newEmail)) throw (Object.assign(new Error("Novo Email inválido!"), { icon: "alternate-email" }));
+	if (!validator.isEmail(newEmail)) throw (Object.assign(new Error("Novo Email inválido!"), { icon: "alternate-email" }));
 }
 
 /**

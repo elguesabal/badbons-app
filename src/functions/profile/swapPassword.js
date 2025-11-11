@@ -11,6 +11,8 @@ import API_URL from "../../Api.js";
 function validationNewPassword(newPassword) {
 	if (!newPassword || newPassword.trim() === "") throw (Object.assign(new Error("Informe uma nova senha!"), { icon: "password" }));
 	if (newPassword.length < 5) throw (Object.assign(new Error("Nova senha muito curta!"), { icon: "password" }));
+	if (!/[a-zA-Z]/.test(newPassword)) throw (Object.assign(new Error("Nova senha precisa conter letras!"), { icon: "password" }));
+	if (!/\d/.test(newPassword)) throw (Object.assign(new Error("Nova senha precisa conter números!"), { icon: "password" }));
 }
 
 /**
