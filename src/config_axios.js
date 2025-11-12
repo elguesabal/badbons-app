@@ -2,29 +2,21 @@ import axios from "axios";
 import API_URL from "./Api.js";
 
 const api = axios.create({
-	baseURL: API_URL
+	baseURL: API_URL,
+	// timeout: 1
 	// validateStatus: () => true
 });
 
 api.interceptors.response.use(
-	// (response) => response,
 	(response) => {
-return ({ // AKI EU CONSIGO SIMULAR ERRO DE INTERNET
-	status: 0,
-	message: "Network Error"
-});
+		// console.log(response)
+		return (response);
 	},
 	(error) => {
-		if (!error.response) {
+		if (error.code === "ERR_NETWORK") {
 			return ({
 				status: 0,
-				data: {
-					type: "network-error",
-					message: error.message,
-					code: error.code
-				},
-				config: error.config,
-				headers: {}
+				data: "Network Error"
 			});
 		}
 		return (error.response);

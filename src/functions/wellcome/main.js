@@ -1,9 +1,8 @@
-import axios from "axios";
+// import axios from "axios";
 import * as SecureStore from "expo-secure-store";
 import Constants from "expo-constants";
 
-import API_URL from "../../Api.js";
-
+// import API_URL from "../../Api.js";
 import api from "../../config_axios.js";
 
 /**
@@ -21,6 +20,7 @@ export async function ping() {
 	// }
 
 
+
 	const res = await api({
 		method: "GET",
 		url: "/ping",
@@ -28,9 +28,10 @@ export async function ping() {
 			version: Constants.expoConfig?.version ?? ""
 		}
 	});
-// console.log(res)
-	if (res.status === 0) throw (res);
-	if (res.status !== 204) throw (new Error(`${res.status}\n${res.data}`));
+
+	// if (res.status === 0) throw (res);
+	// if (res.status !== 204) throw (new Error(`${res.status}\n${res.data}`));
+	if (res.status !== 204) throw (res);
 }
 
 /**
@@ -39,16 +40,31 @@ export async function ping() {
  * @param setIsLogin FUNCAO DE CONTROLE DE LOGIN
 */
 async function login(setIsLogin) {
-	const token = await SecureStore.getItemAsync("refreshToken");
+	// const token = await SecureStore.getItemAsync("refreshToken");
 
-	if (!token) return ;
-	try {
-		const res = await axios.post(`${API_URL}/auth/login-token`, null, { headers: { Authorization: `Bearer ${token}` } });
-		if (res.status !== 200) throw (new Error(`${res.status}\n${res.data}`));
-		setIsLogin(true);
-	} catch (error) {
-		throw (error);
-	}
+	// if (!token) return ;
+	// try {
+	// 	const res = await axios.post(`${API_URL}/auth/login-token`, null, { headers: { Authorization: `Bearer ${token}` } });
+	// 	if (res.status !== 204) throw (new Error(`${res.status}\n${res.data}`));
+	// 	setIsLogin(true);
+	// } catch (error) {
+	// 	throw (error);
+	// }
+
+
+
+	const res = await api({
+		method: "POST",
+		url: "/auth/login-token",
+		headers: {
+			Authorization: `Bearer ${await SecureStore.getItemAsync("refreshToken")}`
+		}
+	});
+
+	// if (res.status === 0) throw (res);
+	// if (res.status !== 204) throw (new Error(`${res.status}\n${res.data}`));
+	if (res.status !== 204) throw (res);
+	setIsLogin(true);
 }
 
 
@@ -66,15 +82,29 @@ export async function apiConnection(setIsLogin, setLoad, setError, openModal) {
 		await ping();
 		await login(setIsLogin);
 	} catch(error) {
-		if (error.message === "Network Error") {
+		// console.log("teste:", error.status)
+		// console.log("teste:", error.message)
+		console.log("teste:", error.data)
+		// if (error.message === "Network Error") {
+		// 	openModal({ icon: "wifi-off", text: "Sem conexão com o servidor.\nTentar novamente?", button: "Recarregar", handleButton: (closeModal) => { closeModal(); apiConnection(setIsLogin, setLoad, setError, openModal); }, exit: () => null });
+		// 	setError({ icon: "wifi-off", message: "Sem conexão com o servidor" });
+		// } else if (error.response && error.response.status === 426) {
+		// 	setError({ icon: "update", message: "Seu app está desatualizado", button: "Atualizar" });
+		// } else if (error.response && error.response.status === 401) {
+
+		// } else {
+		// 	setError({ message: error.message });
+		// }
+
+		if (error.data === "Network Error") {
 			openModal({ icon: "wifi-off", text: "Sem conexão com o servidor.\nTentar novamente?", button: "Recarregar", handleButton: (closeModal) => { closeModal(); apiConnection(setIsLogin, setLoad, setError, openModal); }, exit: () => null });
 			setError({ icon: "wifi-off", message: "Sem conexão com o servidor" });
-		} else if (error.response && error.response.status === 426) {
+		} else if (error.status === 426) {
 			setError({ icon: "update", message: "Seu app está desatualizado", button: "Atualizar" });
-		} else if (error.response && error.response.status === 401) {
+		} else if (error.status === 401) {
 
 		} else {
-			setError({ message: error.message });
+			setError({ message: `${error.status}\n${error.data}` });
 		}
 	} finally {
 		setLoad(false);
