@@ -84,7 +84,7 @@ export async function apiConnection(setIsLogin, setLoad, setError, openModal) {
 	} catch(error) {
 		// console.log("teste:", error.status)
 		// console.log("teste:", error.message)
-		console.log("teste:", error.data)
+		// console.log("teste:", error.data)
 		// if (error.message === "Network Error") {
 		// 	openModal({ icon: "wifi-off", text: "Sem conexão com o servidor.\nTentar novamente?", button: "Recarregar", handleButton: (closeModal) => { closeModal(); apiConnection(setIsLogin, setLoad, setError, openModal); }, exit: () => null });
 		// 	setError({ icon: "wifi-off", message: "Sem conexão com o servidor" });

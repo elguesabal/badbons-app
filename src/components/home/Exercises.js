@@ -1,6 +1,8 @@
 import { StyleSheet, View, Text, Image } from "react-native";
 import { useState, useEffect } from "react";
 
+import { useLogin } from "../../app/isLogin.js";
+
 import { requestExercises } from "../../functions/home/exercises.js";
 
 import { theme } from "../../styles/theme.js";
@@ -11,9 +13,10 @@ import { theme } from "../../styles/theme.js";
  * @param style ESTILIZACAO EXTRA DO COMPONENTE
 */
 export default function Exercises({ style }) {
+	const { setIsLogin } = useLogin();
 	const [data, setData] = useState({ nExercises: 0, completed: 0 });
 
-	useEffect(() => { requestExercises(setData) }, []);
+	useEffect(() => { requestExercises(setData, setIsLogin) }, []);
 	return (
 		<View style={[exercises.container, style]} >
 			<View style={exercises.containerText} >

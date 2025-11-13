@@ -1,9 +1,9 @@
-import axios from "axios";
+// import axios from "axios";
 import * as SecureStore from "expo-secure-store";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import validator from "validator";
 
-import API_URL from "../../Api.js";
+// import API_URL from "../../Api.js";
 import api from "../../config_axios.js";
 
 /**
@@ -82,10 +82,10 @@ async function requestSwapEmail(newEmail, password, navigation, openModal, setIs
 		}
 	});
 
-	if (res.status === 401) throw (Object.assign(new Error(), { setIsLogin: setIsLogin }));
-	if (res.status === 403) throw (Object.assign(new Error("Senha incorreta!"), { icon: "password" }));
-	if (res.status === 409) throw (Object.assign(new Error("E-mail em já em uso, por você ou outro usário!"), { icon: "alternate-email" }));
-	if (res.status !== 204) throw (new Error(`${res.status}\n${res.data}`));
+	if (res.status === 401) throw ({ setIsLogin: setIsLogin });
+	if (res.status === 403) throw ({ icon: "password", text: "Senha incorreta!" });
+	if (res.status === 409) throw ({ icon: "alternate-email", text: "E-mail em já em uso, por você ou outro usário!" });
+	if (res.status !== 204) throw ({ icon: "error-outline", text: `${res.status}\n${res.data}` });
 	await AsyncStorage.setItem("email", newEmail);
 	setTimeout(() => openModal({ icon: "check-circle", text: "Email trocado com sucesso!", handleButton: (closeModal) => handleButtonModal(closeModal, navigation) }), 100);
 }

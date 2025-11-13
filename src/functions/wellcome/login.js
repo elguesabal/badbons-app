@@ -6,6 +6,7 @@ import * as FileSystem from "expo-file-system/legacy";
 import { getTokenNotifications, scheduleNotification } from "../notifications.js";
 
 import API_URL from "../../Api.js";
+import api from "../../config_axios.js";
 
 /**
  * @author VAMPETA
@@ -34,14 +35,37 @@ function validationPassword(password) {
  * @param tokenNotifications TOKEN USADO PARA ENVIAR NOTIFICACAO REMOTAMENTE AO APP
 */
 async function requestLogin(login, password, tokenNotifications) {
-	try {
-		const res = await axios.post(`${API_URL}/auth/login`, { email: login, password: password, tokenNotifications: tokenNotifications });
-		if (res.status !== 200 && res.status !== 207) throw (new Error(`${res.status}\n${res.data}`));
+	// try {
+	// 	const res = await axios.post(`${API_URL}/auth/login`, { email: login, password: password, tokenNotifications: tokenNotifications });
+	// 	if (res.status !== 200 && res.status !== 207) throw (new Error(`${res.status}\n${res.data}`));
+	// 	await SecureStore.setItemAsync("accessToken", res.data.accesstoken);
+	// 	await SecureStore.setItemAsync("refreshToken", res.data.RefreshToken);
+	// } catch (error) {
+	// 	if (error.response && error.response.status === 401) throw (Object.assign(new Error("Login ou senha errada!"), { icon: "person-off" }));
+	// 	throw (Object.assign(new Error(error.message), { icon: "error-outline" }));
+	// }
+
+
+
+	const res = await api({
+		method: "POST",
+		url: "/auth/login",
+		data: {
+			email: login,
+			password: password,
+			tokenNotifications: tokenNotifications
+		}
+	});
+
+	if (res.status === 401) throw ({ icon: "person-off", text: "Login ou senha errada!" });
+	if (res.status !== 200 && res.status !== 207) throw ({ icon: "error-outline", text: `${res.status}\n${res.data}` });
+	if (res.status === 200) {	// TOKEN NOTIFICATIONS EXPO VALIDO
 		await SecureStore.setItemAsync("accessToken", res.data.accesstoken);
 		await SecureStore.setItemAsync("refreshToken", res.data.RefreshToken);
-	} catch (error) {
-		if (error.response && error.response.status === 401) throw (Object.assign(new Error("Login ou senha errada!"), { icon: "person-off" }));
-		throw (Object.assign(new Error(error.message), { icon: "error-outline" }));
+	}
+	if (res.status === 207) {	// TOKEN NOTIFICATIONS EXPO INVALIDO
+		await SecureStore.setItemAsync("accessToken", res.data.accesstoken);
+		await SecureStore.setItemAsync("refreshToken", res.data.RefreshToken);
 	}
 }
 

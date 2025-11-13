@@ -11,6 +11,10 @@ api.interceptors.response.use(
 	(response) => {
 		// console.log(response)
 		return (response);
+		return ({
+			status: 0,
+			data: "Network Error"
+		});
 	},
 	(error) => {
 		if (error.code === "ERR_NETWORK") {
