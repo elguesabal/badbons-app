@@ -14,7 +14,7 @@ import api from "../../config_axios.js";
  * @param login LOGIN DO USUARIO
 */
 function validationLogin(login) {
-	if (!login || login.trim() === "") throw (Object.assign(new Error("Informe o login!"), { icon: "person" }));
+	if (!login || login.trim() === "") throw ({ icon: "person", text: "Informe o login!" });
 }
 
 /**
@@ -23,7 +23,7 @@ function validationLogin(login) {
  * @param password SENHA DO USUARIO
 */
 function validationPassword(password) {
-	if (!password) throw (Object.assign(new Error("Informe a senha!"), { icon: "password" }));
+	if (!password) throw ({ icon: "password", text: "Informe a senha!" });
 }
 
 /**

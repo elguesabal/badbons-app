@@ -10,10 +10,10 @@ import api from "../../config_axios.js";
  * @param newPassword NOVA SENHA
 */
 function validationNewPassword(newPassword) {
-	if (!newPassword || newPassword.trim() === "") throw (Object.assign(new Error("Informe uma nova senha!"), { icon: "password" }));
-	if (newPassword.length < 5) throw (Object.assign(new Error("Nova senha muito curta!"), { icon: "password" }));
-	if (!/[a-zA-Z]/.test(newPassword)) throw (Object.assign(new Error("Nova senha precisa conter letras!"), { icon: "password" }));
-	if (!/\d/.test(newPassword)) throw (Object.assign(new Error("Nova senha precisa conter números!"), { icon: "password" }));
+	if (!newPassword || newPassword.trim() === "") throw ({ icon: "password", text: "Informe uma nova senha!" });
+	if (newPassword.length < 5) throw ({ icon: "password", text: "Nova senha muito curta!" });
+	if (!/[a-zA-Z]/.test(newPassword)) throw ({ icon: "password", text: "Nova senha precisa conter letras!" });
+	if (!/\d/.test(newPassword)) throw ({ icon: "password", text: "Nova senha precisa conter números!" });
 }
 
 /**
@@ -23,8 +23,8 @@ function validationNewPassword(newPassword) {
  * @param newPasswordConfirmation CONFIRMACAO DA NOVA SENHA
 */
 function validationNewPasswordConfirmation(newPassword, newPasswordConfirmation) {
-	if (!newPasswordConfirmation || newPasswordConfirmation.trim() === "") throw (Object.assign(new Error("Confirme a senha!"), { icon: "password" }));
-	if (newPassword !== newPasswordConfirmation) throw (Object.assign(new Error("As senhas são diferentes!"), { icon: "password" }));
+	if (!newPasswordConfirmation || newPasswordConfirmation.trim() === "") throw ({ icon: "password", text: "Confirme a senha!" });
+	if (newPassword !== newPasswordConfirmation) throw ({ icon: "password", text: "As senhas são diferentes!" });
 }
 
 /**
@@ -33,7 +33,7 @@ function validationNewPasswordConfirmation(newPassword, newPasswordConfirmation)
  * @param password SENHA DO USUARIO
 */
 function validationPassword(password) {
-	if (!password) throw (Object.assign(new Error("Informe a senha antiga!"), { icon: "password" }));
+	if (!password) throw ({ icon: "password", text: "Informe a senha atual!" });
 }
 
 /**

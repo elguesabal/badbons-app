@@ -1,8 +1,11 @@
-import axios from "axios";
+// import axios from "axios";
 import * as SecureStore from "expo-secure-store";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { cpf as cpfValidator } from "cpf-cnpj-validator";
+import { parsePhoneNumberFromString as phoneValidator } from "libphonenumber-js";
 
-import API_URL from "../../Api.js";
+// import API_URL from "../../Api.js";
+import api from "../../config_axios.js";
 
 /**
  * @author VAMPETA
@@ -26,7 +29,7 @@ export async function getCredentials(setForm) {
  * @param name NOME DO USUARIO
 */
 function validationName(name) {
-	if (!name || name.trim() === "") throw (Object.assign(new Error("Informe um nome!"), { icon: "edit-document" }));
+	if (!name || name.trim() === "") throw ({ icon: "edit-document", text: "Informe um nome!" });
 }
 
 /**
@@ -35,8 +38,8 @@ function validationName(name) {
  * @param phone TELEFONE DO USUARIO
 */
 function validationPhone(phone) {
-	if (!phone || phone.trim() === "") throw (Object.assign(new Error("Informe um telefone!"), { icon: "phone" }));
-	// if (!/^\d{11}$/.test(phone)) throw (Object.assign(new Error("Número de telefone inválido!"), { icon: "phone" }));
+	if (!phone || phone.trim() === "") throw ({ icon: "phone", text: "Informe um telefone!" });
+	if (!phoneValidator(phone)?.isValid()) throw ({ icon: "phone", text: "Número de telefone inválido!" });
 }
 
 /**
@@ -45,8 +48,8 @@ function validationPhone(phone) {
  * @param cpf CPF DO USUARIO
 */
 function validationCpf(cpf) {
-	if (!cpf || cpf.trim() === "") throw (Object.assign(new Error("Informe um CPF!"), { icon: "badge" }));
-	// if (!/^\d{11}$/.test(cpf)) throw (Object.assign(new Error("CPF inválido!"), { icon: "badge", }));
+	if (!cpf || cpf.trim() === "") throw ({ icon: "badge", text: "Informe um CPF!" });
+	if (!cpfValidator.isValid(cpf)) throw ({ icon: "badge", text: "CPF inválido!" });
 }
 
 /**
@@ -59,10 +62,10 @@ function validationDate(date) {
 	const birth = new Date(year, month - 1, day);
 	const today = new Date();
 
-	if (!date || date.trim() === "") throw (Object.assign(new Error("Informe sua data de nascimento!"), { icon: "calendar-month" }));
-	if (date.split("/").length !== 3) throw (Object.assign(new Error("Formato de data inválido!\nUse DD/MM/AAAA"), { icon: "calendar-month" }));
-	if (!(birth.getDate() === day && birth.getMonth() === month - 1 && birth.getFullYear() === year)) throw (Object.assign(new Error("Data de nascimento inválida!"), { icon: "calendar-month" }));
-	if (birth > today || year < 1950) throw (Object.assign(new Error("Data de nascimento inválida!"), { icon: "calendar-month" }));
+	if (!date || date.trim() === "") throw ({ icon: "calendar-month", text: "Informe sua data de nascimento!" });
+	if (date.split("/").length !== 3) throw ({ icon: "calendar-month", text: "Formato de data inválido!\nUse DD/MM/AAAA" });
+	if (!(birth.getDate() === day && birth.getMonth() === month - 1 && birth.getFullYear() === year)) throw ({ icon: "calendar-month", text: "Data de nascimento inválida!" });
+	if (birth > today || year < 1950) throw ({ icon: "calendar-month", text: "Data de nascimento inválida!" });
 }
 
 /**
@@ -71,8 +74,8 @@ function validationDate(date) {
  * @param nationality NACIONALIDADE DO USUARIO
 */
 function validationNationality(nationality) {
-	if (!nationality || nationality.trim() === "") throw (Object.assign(new Error("Informe um país de origem!"), { icon: "public" }));
-	if (!/^[A-Za-zÀ-ÖØ-öø-ÿ\s]+$/.test(nationality)) throw (Object.assign(new Error("Nacionalidade inválida!"), { icon: "public" }));
+	if (!nationality || nationality.trim() === "") throw ({ icon: "public", text: "Informe um país de origem!" });
+	if (!/^[A-Za-zÀ-ÖØ-öø-ÿ\s]+$/.test(nationality)) throw ({ icon: "public", text: "Nacionalidade inválida!" });
 }
 
 /**
@@ -81,7 +84,7 @@ function validationNationality(nationality) {
  * @param sex SEXO DO USUARIO
 */
 function validationSex(sex) {
-	if (!sex || sex.trim() === "") throw (Object.assign(new Error("Informe seu gênero!"), { icon: "wc" }));
+	if (!sex || sex.trim() === "") throw ({ icon: "wc", text: "Informe seu gênero!" });
 }
 
 /**
@@ -118,15 +121,38 @@ async function saveSwap(form) {
  * @param setIsLogin FUNCAO DE CONTROLE DE LOGIN
 */
 async function requestEditCredentials(form, navigation, openModal, setIsLogin) {
-	try {
-		const res = await axios.patch(`${API_URL}/swap-credentials`, form, { headers: { Authorization: `Bearer ${await SecureStore.getItemAsync("refreshToken")}` } });
-		if (res.status !== 200) throw (new Error(`${res.status}\n${res.data}`));
-		await saveSwap(form);
-		setTimeout(() => openModal({ icon: "check-circle", text: "Credenciais trocadas com sucesso!", handleButton: (closeModal) => handleButtonModal(closeModal, navigation) }), 100);
-	} catch (error) {
-		if (error.response && error.response.status === 401) throw (Object.assign(new Error(), { setIsLogin: setIsLogin }));
-		throw (Object.assign(new Error(error.message), { icon: "error-outline" }));
-	}
+	// try {
+	// 	const res = await axios.patch(`${API_URL}/swap-credentials`, form, { headers: { Authorization: `Bearer ${await SecureStore.getItemAsync("refreshToken")}` } });
+	// 	if (res.status !== 200) throw (new Error(`${res.status}\n${res.data}`));
+	// 	await saveSwap(form);
+	// 	setTimeout(() => openModal({ icon: "check-circle", text: "Credenciais trocadas com sucesso!", handleButton: (closeModal) => handleButtonModal(closeModal, navigation) }), 100);
+	// } catch (error) {
+	// 	if (error.response && error.response.status === 401) throw (Object.assign(new Error(), { setIsLogin: setIsLogin }));
+	// 	throw (Object.assign(new Error(error.message), { icon: "error-outline" }));
+	// }
+
+
+
+	const res = await api({
+		method: "PATCH",
+		url: "/swap-credentials",
+		headers: {
+			Authorization: `Bearer ${await SecureStore.getItemAsync("refreshToken")}`
+		},
+		data: {
+			name: form.name,
+			phone: form.phone,
+			cpf: form.cpf,
+			date: form.date,
+			nationality: form.nationality,
+			sex: form.sex
+		}
+	});
+
+	if (res.status === 401) throw ({ setIsLogin: setIsLogin });
+	if (res.status !== 204) throw ({ icon: "error-outline", text: `${res.status}\n${res.data}` });
+	await saveSwap(form);
+	setTimeout(() => openModal({ icon: "check-circle", text: "Credenciais trocadas com sucesso!", handleButton: (closeModal) => handleButtonModal(closeModal, navigation) }), 100);
 }
 
 /**
