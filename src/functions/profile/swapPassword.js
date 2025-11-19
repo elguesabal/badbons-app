@@ -81,11 +81,14 @@ async function requestSwapPassword(newPassword, password, navigation, openModal,
 		}
 	});
 
+	if (res.status === 204) {
+		setTimeout(() => openModal({ icon: "check-circle", text: "Senha trocada com sucesso!", handleButton: (closeModal) => handleButtonModal(closeModal, navigation) }), 100);
+		return ;
+	}
 	if (res.status === 401) throw ({ setIsLogin: setIsLogin });
 	if (res.status === 403) throw ({ icon: "password", text: "Senha incorreta!" });
 	if (res.status === 409) throw ({ icon: "password", text: "Nova senha não pode ser igual a antiga!" });
 	if (res.status !== 204) throw ({ icon: "error-outline", text: `${res.status}\n${res.data}` });
-	setTimeout(() => openModal({ icon: "check-circle", text: "Senha trocada com sucesso!", handleButton: (closeModal) => handleButtonModal(closeModal, navigation) }), 100);
 }
 
 /**

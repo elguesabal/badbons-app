@@ -4,6 +4,7 @@ import axios from "axios";
 import { logout } from "../logout.js";
 
 import API_URL from "../../Api.js";
+import api from "../../config_axios.js";
 
 /**
  * @author VAMPETA
@@ -50,32 +51,59 @@ import API_URL from "../../Api.js";
  * @param setScroll FUNCAO QUE SALVA ALTERACOES NAS INFORMACOES DA PAGINA ATUAL
 */
 export async function requestNotifications(setLoad, setIsLogin, openModal, scroll, setScroll) {
+	// const { notifications, loadingMore, hasMore, page } = scroll;
+
+	// if (loadingMore || !hasMore) return ;
+	// // (page === 1) ? setLoad(true) : setLoadingMore(true);
+	// (page === 1) ? setLoad(true) : setScroll({ loadingMore: true });
+	// try {
+	// 	const res = await axios.get(`${API_URL}/notifications?page=${page}`, { headers: { Authorization: `Bearer ${await SecureStore.getItemAsync("refreshToken")}` } });
+	// 	if (res.status !== 200) throw (new Error(`${res.status}\n${res.data}`));
+	// 	// if (!res.data.pagination.nextPage) setHasMore(false);
+	// 	if (!res.data.pagination.nextPage) setScroll({ hasMore: false });
+	// 	// (page === 1) ? setListNotifications(res.data.data) : setListNotifications((prev) => [...prev, ...res.data.data]);
+	// 	(page === 1) ? setScroll({ notifications: res.data.data }) : setScroll({ notifications: [...notifications, ...res.data.data] });
+	// 	// setPage(page + 1);
+	// 	setScroll({ page: page + 1 });
+	// } catch (error) {
+	// 	if (error.message === "Network Error") {
+	// 		openModal({ icon: "storage", text: "Não foi possivel consultar o servidor.\nTentar novamente?", yes: (closeModal) => { closeModal(); requestNotifications(setLoad, setIsLogin, openModal, scroll, setScroll); }, no: (closeModal) => closeModal() });
+	// 	} else if (error.response && error.response.status === 401) {
+	// 		logout(setIsLogin);
+	// 	} else {
+	// 		openModal({ icon: "error-outline", text: error.message });
+	// 	}
+	// } finally {
+	// 	// (page === 1) ? setLoad(false) : setLoadingMore(false);
+	// 	(page === 1) ? setLoad(false) : setScroll({ loadingMore: false });
+	// }
+
+
+
 	const { notifications, loadingMore, hasMore, page } = scroll;
 
 	if (loadingMore || !hasMore) return ;
-	// (page === 1) ? setLoad(true) : setLoadingMore(true);
 	(page === 1) ? setLoad(true) : setScroll({ loadingMore: true });
-	try {
-		const res = await axios.get(`${API_URL}/notifications?page=${page}`, { headers: { Authorization: `Bearer ${await SecureStore.getItemAsync("refreshToken")}` } });
-		if (res.status !== 200) throw (new Error(`${res.status}\n${res.data}`));
-		// if (!res.data.pagination.nextPage) setHasMore(false);
-		if (!res.data.pagination.nextPage) setScroll({ hasMore: false });
-		// (page === 1) ? setListNotifications(res.data.data) : setListNotifications((prev) => [...prev, ...res.data.data]);
-		(page === 1) ? setScroll({ notifications: res.data.data }) : setScroll({ notifications: [...notifications, ...res.data.data] });
-		// setPage(page + 1);
-		setScroll({ page: page + 1 });
-	} catch (error) {
-		if (error.message === "Network Error") {
-			openModal({ icon: "storage", text: "Não foi possivel consultar o servidor.\nTentar novamente?", yes: (closeModal) => { closeModal(); requestNotifications(setLoad, setIsLogin, openModal, scroll, setScroll); }, no: (closeModal) => closeModal() });
-		} else if (error.response && error.response.status === 401) {
-			logout(setIsLogin);
-		} else {
-			openModal({ icon: "error-outline", text: error.message });
+	const res = await api({
+		method: "GET",
+		url: "/notifications",
+		headers: {
+			Authorization: `Bearer ${await SecureStore.getItemAsync("refreshToken")}`
+		},
+		params: {
+			page: page
 		}
-	} finally {
-		// (page === 1) ? setLoad(false) : setLoadingMore(false);
-		(page === 1) ? setLoad(false) : setScroll({ loadingMore: false });
+	});
+
+	if (res.status === 200) {
+		if (!res.data.pagination.nextPage) setScroll({ hasMore: false });
+		(page === 1) ? setScroll({ notifications: res.data.data }) : setScroll({ notifications: [...notifications, ...res.data.data] });
+		setScroll({ page: page + 1 });
 	}
+	if (res.status === 0 && res.data === "Network Error") openModal({ icon: "wifi-off", text: "Sem conexão com o servidor.\nTentar novamente?", yes: (closeModal) => { closeModal(); requestNotifications(setLoad, setIsLogin, openModal, scroll, setScroll); }, no: (closeModal) => closeModal() });
+	if (res.status === 401) logout(setIsLogin);
+	if (res.status !== 200) openModal({ icon: "error-outline", text: `${res.status}\n${res.data}` });
+	(page === 1) ? setLoad(false) : setScroll({ loadingMore: false });
 }
 
 /**

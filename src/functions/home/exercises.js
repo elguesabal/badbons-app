@@ -34,9 +34,12 @@ export async function requestExercises(setData, setIsLogin) {
 		}
 	});
 
+	if (res.status === 200) {
+		const exercises = { nExercises: res.data.treinosTotais, completed: res.data.treinosFeitos };
+		setData(exercises);
+		await AsyncStorage.setItem("exercises", JSON.stringify(exercises));
+		return ;
+	}
 	if (res.status === 401) return (logout(setIsLogin));
 	if (res.status !== 200) return (setData(JSON.parse(await AsyncStorage.getItem("exercises") || '{ "nExercises": 0, "completed": 0 }')));
-	const exercises = { nExercises: res.data.treinosTotais, completed: res.data.treinosFeitos };
-	setData(exercises);
-	await AsyncStorage.setItem("exercises", JSON.stringify(exercises));
 }

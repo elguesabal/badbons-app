@@ -1,9 +1,10 @@
 import * as SecureStore from "expo-secure-store";
-import axios from "axios";
+// import axios from "axios";
 
 import { logout } from "../logout.js";
 
-import API_URL from "../../Api.js";
+// import API_URL from "../../Api.js";
+import api from "../../config_axios.js";
 
 /**
  * @author VAMPETA
@@ -16,20 +17,42 @@ import API_URL from "../../Api.js";
  * @param openModal FUNCAO QUE ABRE O MODAL
 */
 export async function requestNotification(navigation, id, setData, setIsLogin, setLoad, openModal) {
-	try {
-		setLoad(true);
-		const res = await axios.get(`${API_URL}/notification?id=${id}`, { headers: { Authorization: `Bearer ${await SecureStore.getItemAsync("refreshToken")}` }});
-		if (res.status !== 200) throw (new Error(`${res.status}\n${res.data}`));
-		setData(res.data);
-	} catch (error) {
-		if (error.message === "Network Error") {
-			openModal({ icon: "wifi-off", text: "Sem conexão com o servidor.\nTentar novamente?", yes: (closeModal) => { closeModal(); requestNotification(navigation, id, setData, setIsLogin, setLoad, openModal); }, no: (closeModal) => { closeModal(); navigation.goBack(); }, exit: (closeModal) => { closeModal(); navigation.goBack(); } });
-		} else if (error.response && error.response.status === 401) {
-			logout(setIsLogin);
-		} else {
-			openModal({ icon: "error-outline", text: error.message, button: "Sair", handleButton: (closeModal) => { closeModal(); navigation.goBack(); }, exit: (closeModal) => { closeModal(); navigation.goBack(); } });
+	// try {
+	// 	setLoad(true);
+	// 	const res = await axios.get(`${API_URL}/notification?id=${id}`, { headers: { Authorization: `Bearer ${await SecureStore.getItemAsync("refreshToken")}` }});
+	// 	if (res.status !== 200) throw (new Error(`${res.status}\n${res.data}`));
+	// 	setData(res.data);
+	// } catch (error) {
+	// 	if (error.message === "Network Error") {
+	// 		openModal({ icon: "wifi-off", text: "Sem conexão com o servidor.\nTentar novamente?", yes: (closeModal) => { closeModal(); requestNotification(navigation, id, setData, setIsLogin, setLoad, openModal); }, no: (closeModal) => { closeModal(); navigation.goBack(); }, exit: (closeModal) => { closeModal(); navigation.goBack(); } });
+	// 	} else if (error.response && error.response.status === 401) {
+	// 		logout(setIsLogin);
+	// 	} else {
+	// 		openModal({ icon: "error-outline", text: error.message, button: "Sair", handleButton: (closeModal) => { closeModal(); navigation.goBack(); }, exit: (closeModal) => { closeModal(); navigation.goBack(); } });
+	// 	}
+	// } finally {
+	// 	setLoad(false);
+	// }
+
+
+
+	setLoad(true);
+	const res = await api({
+		method: "GET",
+		url: "/notification",
+		headers: {
+			Authorization: `Bearer ${await SecureStore.getItemAsync("refreshToken")}`
+		},
+		params: {
+			id: id
 		}
-	} finally {
-		setLoad(false);
+	});
+
+	if (res.status === 200) {
+		setData(res.data);
 	}
+	if (res.status === 0 && res.data === "Network Error") openModal({ icon: "wifi-off", text: "Sem conexão com o servidor.\nTentar novamente?", yes: (closeModal) => { closeModal(); requestNotification(navigation, id, setData, setIsLogin, setLoad, openModal); }, no: (closeModal) => { closeModal(); navigation.goBack(); }, exit: (closeModal) => { closeModal(); navigation.goBack(); } });
+	if (res.status === 401) logout(setIsLogin);
+	if (res.status !== 200) openModal({ icon: "error-outline", text: `${res.status}\n${res.data}`, button: "Sair", handleButton: (closeModal) => { closeModal(); navigation.goBack(); }, exit: (closeModal) => { closeModal(); navigation.goBack(); } });
+	setLoad(false);
 }

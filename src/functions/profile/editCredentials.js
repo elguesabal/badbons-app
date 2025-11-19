@@ -149,10 +149,13 @@ async function requestEditCredentials(form, navigation, openModal, setIsLogin) {
 		}
 	});
 
+	if (res.status === 204) {
+		await saveSwap(form);
+		setTimeout(() => openModal({ icon: "check-circle", text: "Credenciais trocadas com sucesso!", handleButton: (closeModal) => handleButtonModal(closeModal, navigation) }), 100);
+		return ;
+	}
 	if (res.status === 401) throw ({ setIsLogin: setIsLogin });
 	if (res.status !== 204) throw ({ icon: "error-outline", text: `${res.status}\n${res.data}` });
-	await saveSwap(form);
-	setTimeout(() => openModal({ icon: "check-circle", text: "Credenciais trocadas com sucesso!", handleButton: (closeModal) => handleButtonModal(closeModal, navigation) }), 100);
 }
 
 /**

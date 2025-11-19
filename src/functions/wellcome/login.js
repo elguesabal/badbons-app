@@ -57,16 +57,18 @@ async function requestLogin(login, password, tokenNotifications) {
 		}
 	});
 
-	if (res.status === 401) throw ({ icon: "person-off", text: "Login ou senha errada!" });
-	if (res.status !== 200 && res.status !== 207) throw ({ icon: "error-outline", text: `${res.status}\n${res.data}` });
 	if (res.status === 200) {	// TOKEN NOTIFICATIONS EXPO VALIDO
 		await SecureStore.setItemAsync("accessToken", res.data.accesstoken);
 		await SecureStore.setItemAsync("refreshToken", res.data.RefreshToken);
+		return ;
 	}
 	if (res.status === 207) {	// TOKEN NOTIFICATIONS EXPO INVALIDO
 		await SecureStore.setItemAsync("accessToken", res.data.accesstoken);
 		await SecureStore.setItemAsync("refreshToken", res.data.RefreshToken);
+		return ;
 	}
+	if (res.status === 401) throw ({ icon: "person-off", text: "Login ou senha errada!" });
+	if (res.status !== 200 && res.status !== 207) throw ({ icon: "error-outline", text: `${res.status}\n${res.data}` });
 }
 
 /**
