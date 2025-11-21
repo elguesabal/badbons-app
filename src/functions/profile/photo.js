@@ -9,6 +9,7 @@ import { logout } from "../logout.js";
 import { compatibleProfilePictures } from "../../compatibleImages.js";
 
 import API_URL from "../../Api.js";
+import api from "../../config_axios.js";
 
 /**
  * @author VAMPETA
@@ -78,6 +79,7 @@ async function uploadPhoto(photo, setIsLogin, openModal) {
 			type: `image/${photo.assets[0].uri.split(".").pop().toLowerCase()}`
 		});
 		const res = await axios.patch(`${API_URL}/user/update-image`, formData, { headers: { "Content-Type": "multipart/form-data", Authorization: `Bearer ${await SecureStore.getItemAsync("refreshToken")}` } });
+
 		if (res.status !== 200) throw (new Error(`${res.status}\n${res.data}`));
 	} catch (error) {
 		if (error.message === "Network Error") {
@@ -89,6 +91,27 @@ async function uploadPhoto(photo, setIsLogin, openModal) {
 		}
 		throw (error);
 	}
+
+
+	// const formData = new FormData();		// COMECEI A REFATORAR
+	// formData.append("fotoPerfil", {
+	// 	uri: photo.assets[0].uri,
+	// 	name: `user.${photo.assets[0].uri.split(".").pop().toLowerCase()}`,
+	// 	type: `image/${photo.assets[0].uri.split(".").pop().toLowerCase()}`
+	// });
+	// const res = await api({
+	// 	method: "PATCH",
+	// 	url: "/user/update-image",
+	// 	headers: {
+	// 		"Content-Type": "multipart/form-data",
+	// 		Authorization: `Bearer ${await SecureStore.getItemAsync("refreshToken")}`
+	// 	},
+	// 	data: formData
+	// });
+
+	// if (res.status === 200) {
+
+	// }
 }
 
 /**
