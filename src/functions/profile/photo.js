@@ -71,47 +71,47 @@ async function selectPhoto(openModal) {
  * @param openModal FUNCAO QUE ABRE O MODAL
 */
 async function uploadPhoto(photo, setIsLogin, openModal) {
-	try {
-		const formData = new FormData();
-		formData.append("fotoPerfil", {
-			uri: photo.assets[0].uri,
-			name: `user.${photo.assets[0].uri.split(".").pop().toLowerCase()}`,
-			type: `image/${photo.assets[0].uri.split(".").pop().toLowerCase()}`
-		});
-		const res = await axios.patch(`${API_URL}/user/update-image`, formData, { headers: { "Content-Type": "multipart/form-data", Authorization: `Bearer ${await SecureStore.getItemAsync("refreshToken")}` } });
+	// try {
+	// 	const formData = new FormData();
+	// 	formData.append("fotoPerfil", {
+	// 		uri: photo.assets[0].uri,
+	// 		name: `user.${photo.assets[0].uri.split(".").pop().toLowerCase()}`,
+	// 		type: `image/${photo.assets[0].uri.split(".").pop().toLowerCase()}`
+	// 	});
+	// 	const res = await axios.patch(`${API_URL}/user/update-image`, formData, { headers: { "Content-Type": "multipart/form-data", Authorization: `Bearer ${await SecureStore.getItemAsync("refreshToken")}` } });
 
-		if (res.status !== 200) throw (new Error(`${res.status}\n${res.data}`));
-	} catch (error) {
-		if (error.message === "Network Error") {
-			openModal({ icon: "wifi-off", text: "Sem conexão com o servidor.\nTentar novamente?", yes: (closeModal) => { closeModal(); uploadPhoto(photo, setIsLogin, openModal); }, no: (closeModal) => closeModal(), exit: (closeModal) => closeModal() });
-		} else if (error.response && error.response.status === 401) {
-			logout(setIsLogin);
-		} else {
-			openModal({ icon: "error-outline", text: error.message, button: "Sair", handleButton: (closeModal) => closeModal(), exit: (closeModal) => closeModal() });
-		}
-		throw (error);
-	}
-
-
-	// const formData = new FormData();		// COMECEI A REFATORAR
-	// formData.append("fotoPerfil", {
-	// 	uri: photo.assets[0].uri,
-	// 	name: `user.${photo.assets[0].uri.split(".").pop().toLowerCase()}`,
-	// 	type: `image/${photo.assets[0].uri.split(".").pop().toLowerCase()}`
-	// });
-	// const res = await api({
-	// 	method: "PATCH",
-	// 	url: "/user/update-image",
-	// 	headers: {
-	// 		"Content-Type": "multipart/form-data",
-	// 		Authorization: `Bearer ${await SecureStore.getItemAsync("refreshToken")}`
-	// 	},
-	// 	data: formData
-	// });
-
-	// if (res.status === 200) {
-
+	// 	if (res.status !== 200) throw (new Error(`${res.status}\n${res.data}`));
+	// } catch (error) {
+	// 	if (error.message === "Network Error") {
+	// 		openModal({ icon: "wifi-off", text: "Sem conexão com o servidor.\nTentar novamente?", yes: (closeModal) => { closeModal(); uploadPhoto(photo, setIsLogin, openModal); }, no: (closeModal) => closeModal(), exit: (closeModal) => closeModal() });
+	// 	} else if (error.response && error.response.status === 401) {
+	// 		logout(setIsLogin);
+	// 	} else {
+	// 		openModal({ icon: "error-outline", text: error.message, button: "Sair", handleButton: (closeModal) => closeModal(), exit: (closeModal) => closeModal() });
+	// 	}
+	// 	throw (error);
 	// }
+
+
+	const formData = new FormData();		// COMECEI A REFATORAR
+	formData.append("fotoPerfil", {
+		uri: photo.assets[0].uri,
+		name: `user.${photo.assets[0].uri.split(".").pop().toLowerCase()}`,
+		type: `image/${photo.assets[0].uri.split(".").pop().toLowerCase()}`
+	});
+	const res = await api({
+		method: "PATCH",
+		url: "/user/update-image",
+		headers: {
+			"Content-Type": "multipart/form-data",
+			Authorization: `Bearer ${await SecureStore.getItemAsync("refreshToken")}`
+		},
+		data: formData
+	});
+
+	if (res.status === 200) {
+console.log("Foto de perfil atualizada com sucesso!");
+	}
 }
 
 /**
