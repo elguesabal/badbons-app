@@ -93,6 +93,15 @@ async function uploadPhoto(photo, setIsLogin, openModal) {
 	// }
 
 
+
+// | `204`  | Imagem salva com sucesso.                                          |
+// | `400`  | Imagem não enviada ou conter algum outro erro.                     |
+// | `401`  | Token expirado ou inválido.                                        |
+// | `413`  | Imagem enviada é maior que 4 MB.                                   |
+// | `415`  | Imagem enviada não é suportada.                                    |
+
+
+
 	const formData = new FormData();		// COMECEI A REFATORAR
 	formData.append("fotoPerfil", {
 		uri: photo.assets[0].uri,
@@ -108,10 +117,16 @@ async function uploadPhoto(photo, setIsLogin, openModal) {
 		},
 		data: formData
 	});
-
-	if (res.status === 200) {
-console.log("Foto de perfil atualizada com sucesso!");
+console.log(res.status)
+console.log(res.data)
+	// if (res.status === 204) return ;
+	if (res.status !== 0 && res.data !== "Network Error") {
+		console.log("veio akiiiiiiiii") // A IMAGEM ESTA RERENDERIZANDO O ELEMENTO E IMPEDINDO DE DEIXAR O AVISO APARECER??
+		// return (openModal({ icon: "wifi-off", text: "Sem conexão com o servidor.\nTentar novamente?", yes: (closeModal) => { closeModal(); uploadPhoto(photo, setIsLogin, openModal); }, no: (closeModal) => closeModal(), exit: (closeModal) => closeModal() }));
+		openModal({ icon: "wifi-off", text: "Sem conexão com o servidor.\nTentar novamente?", yes: (closeModal) => { closeModal(); uploadPhoto(photo, setIsLogin, openModal); }, no: (closeModal) => closeModal(), exit: (closeModal) => closeModal() })
 	}
+	if (res.status === 401) return (logout(setIsLogin));
+	if (res.status !== 204) return (openModal({ icon: "error-outline", text: `${res.status}\n${res.data}` }));
 }
 
 /**
