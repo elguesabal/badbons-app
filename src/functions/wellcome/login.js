@@ -91,7 +91,7 @@ async function requestCredentials() {
 		await AsyncStorage.setItem("email", res.data.email);
 		await SecureStore.setItemAsync("date", res.data.dataNascimento);
 		await SecureStore.setItemAsync("phone", res.data.telefone);
-		// await AsyncStorage.setItem("times", JSON.stringify(res.data.times)); // NAO TEM NA API PRINCIPAL (TALVEZ EU CRIE UMA ROTA APENAS PARA ISSO E ATUALIZAR)
+		await AsyncStorage.setItem("times", JSON.stringify(res.data.times)); // NAO TEM NA API PRINCIPAL (TALVEZ EU CRIE UMA ROTA APENAS PARA ISSO E ATUALIZAR)
 		// await AsyncStorage.setItem("nivel", res.data.nivel); // POR ENQUANTO NAO USO
 		// await AsyncStorage.setItem("unit", JSON.stringify(res.data.unidade)); FALTA SER UM ARRAY DE UNIDADES
 		// await AsyncStorage.setItem("class", JSON.stringify(res.data.turma)); FALTA SER UM ARRAY DE TURMAS

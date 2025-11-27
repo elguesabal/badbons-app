@@ -52,7 +52,7 @@ async function selectPhoto(openModal) {
 		return (photo);
 	} catch (error) {
 		openModal({ icon: error.icon, text: error.text, button: "Ok" });
-		throw (error);
+		// throw (error);
 	}
 }
 
@@ -90,17 +90,9 @@ async function uploadPhoto(photo, setIsLogin, openModal, closeModal, setData, da
 
 
 
-// | `204`  | Imagem salva com sucesso.                                          |
-// | `400`  | Imagem não enviada ou conter algum outro erro.                     |
-// | `401`  | Token expirado ou inválido.                                        |
-// | `413`  | Imagem enviada é maior que 4 MB.                                   |
-// | `415`  | Imagem enviada não é suportada.                                    |
-
-
-
 	openModal({ load: true });
 	const formData = new FormData();
-	formData.append("fotoPerfil", {												// ACHO Q AQUI TA TERMINADO E SO FALTA REVISAR
+	formData.append("fotoPerfil", {
 		uri: photo.assets[0].uri,
 		name: `user.${photo.assets[0].uri.split(".").pop().toLowerCase()}`,
 		type: `image/${photo.assets[0].uri.split(".").pop().toLowerCase()}`
@@ -137,17 +129,24 @@ async function uploadPhoto(photo, setIsLogin, openModal, closeModal, setData, da
  * @param setIsLogin FUNCAO DE CONTROLE DE LOGIN
 */
 export async function getPhoto(openModal, closeModal, data, setData, setIsLogin) {
-	try {
-		const photo = await selectPhoto(openModal);
+	// try {
+	// 	const photo = await selectPhoto(openModal);
 
-		if (photo.canceled) return (closeModal());
-		// openModal({ load: true });
-		await uploadPhoto(photo, setIsLogin, openModal, closeModal, setData, data);
-		// compatibleProfilePictures.map(async (format) => await FileSystem.deleteAsync(`${FileSystem.documentDirectory}user.${format}`, { idempotent: true }));
-		// await FileSystem.copyAsync({ from: photo.assets[0].uri, to: `${FileSystem.documentDirectory}user.${photo.assets[0].uri.split(".").pop().toLowerCase()}` });
-		// setData({ ...data, photo: photo.assets[0].uri });
-		// closeModal(); // UE PQ ISSO TA AKI????
-	} catch (error) {
+	// 	if (photo.canceled) return (closeModal());
+	// 	// openModal({ load: true });
+	// 	await uploadPhoto(photo, setIsLogin, openModal, closeModal, setData, data);
+	// 	// compatibleProfilePictures.map(async (format) => await FileSystem.deleteAsync(`${FileSystem.documentDirectory}user.${format}`, { idempotent: true }));
+	// 	// await FileSystem.copyAsync({ from: photo.assets[0].uri, to: `${FileSystem.documentDirectory}user.${photo.assets[0].uri.split(".").pop().toLowerCase()}` });
+	// 	// setData({ ...data, photo: photo.assets[0].uri });
+	// 	// closeModal(); // UE PQ ISSO TA AKI????
+	// } catch (error) {								// DEVO USAR TRY CATCH??
 
-	}
+	// }
+
+
+
+	const photo = await selectPhoto(openModal);
+
+	if (photo.canceled) return (closeModal());
+	await uploadPhoto(photo, setIsLogin, openModal, closeModal, setData, data);
 }
