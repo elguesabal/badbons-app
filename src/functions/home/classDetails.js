@@ -12,7 +12,7 @@ import API_URL from "../../Api.js";
  * @param setIsLogin FUNCAO DE CONTROLE DE LOGIN
  * @param closeSheet FUNCAO QUE FECHA O BottomSheet
 */
-export async function confirmPresence(newPresence, setPresenceList, setIsLogin, closeSheet) {
+export async function confirmPresence(newPresence, setPresenceList, setIsLogin, closeSheet) {	// FALTA REFATORAR (EU MUDEI ALGUMAS COISAS NA API)
 	try {
 		const res = await axios.post(`${API_URL}/presence-student`, { presence: newPresence }, { headers: { Authorization: `Bearer ${await SecureStore.getItemAsync("refreshToken")}` }});
 		if (res.status !== 200) throw (new Error(`${res.status}\n${res.data}`));
