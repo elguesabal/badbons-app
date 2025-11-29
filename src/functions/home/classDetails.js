@@ -3,6 +3,7 @@ import * as SecureStore from "expo-secure-store";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import API_URL from "../../Api.js";
+import api from "../../config_axios.js";
 
 /**
  * @author VAMPETA
@@ -25,4 +26,18 @@ export async function confirmPresence(newPresence, setPresenceList, setIsLogin, 
 		}
 		throw (Object.assign(new Error(error.message), { icon: "error-outline" }));
 	}
+
+
+
+	// const res = await api({
+	// 	method: "PATCH",
+	// 	url: "/presence-student",
+	// 	headers: {
+	// 		Authorization: `Bearer ${await SecureStore.getItemAsync("refreshToken")}`
+	// 	},
+	// 	data: {
+	// 		date: null,
+	// 		presence: newPresence
+	// 	}
+	// });
 }
