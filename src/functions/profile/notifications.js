@@ -102,7 +102,7 @@ export async function requestNotifications(setLoad, setIsLogin, openModal, scrol
 	}
 	if (res.status === 0 && res.data === "Network Error") openModal({ icon: "wifi-off", text: "Sem conexão com o servidor.\nTentar novamente?", yes: (closeModal) => { closeModal(); requestNotifications(setLoad, setIsLogin, openModal, scroll, setScroll); }, no: (closeModal) => closeModal() });
 	if (res.status === 401) logout(setIsLogin);
-	if (res.status !== 200) openModal({ icon: "error-outline", text: `${res.status}\n${res.data}` });
+	if (![0, 200, 401].includes(res.status)) openModal({ icon: "error-outline", text: `${res.status}\n${res.data}` });
 	(page === 1) ? setLoad(false) : setScroll({ loadingMore: false });
 }
 

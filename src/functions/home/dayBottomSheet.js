@@ -45,6 +45,7 @@ export async function getPresenceList(date, setPresenceList, setIsLogin, closeSh
 
 	if (res.status === 200) {
 		setPresenceList(res.data);
+		return ;
 	}
 	if (res.status === 0 && res.data === "Network Error") return (openModal({ icon: "wifi-off", text: "Sem conexão com o servidor.\nTentar novamente?", yes: (closeModal) => { closeModal(); getPresenceList(date, setPresenceList, setIsLogin, openModal, closeSheet); }, no: (closeModal) => { closeModal(); closeSheet(); }, exit: (closeModal) => { closeModal(); closeSheet(); } }));
 	if (res.status === 401) return (closeSheet(), logout(setIsLogin));

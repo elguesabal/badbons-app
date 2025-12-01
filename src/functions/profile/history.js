@@ -96,7 +96,7 @@ export async function requestGameHistory(navigation, setLoad, setIsLogin, openMo
 		setScroll({ page: page + 1 });
 	}
 	if (res.status === 0 && res.data === "Network Error") openModal({ icon: "wifi-off", text: "Sem conexão com o servidor.\nTentar novamente?", yes: (closeModal) => { closeModal(); requestGameHistory(navigation, setLoad, setIsLogin, openModal, scroll, setScroll); }, no: (closeModal) => { closeModal(); navigation.goBack(); }, exit: (closeModal) => { closeModal(); navigation.goBack(); } });
-	if (res.status === 401) logout(setIsLogin); // SE res.status === 401 ENTAO TBM E TRUE res.status !== 204
-	if (res.status !== 200) openModal({ icon: "error-outline", text: `${res.status}\n${res.data}` });
+	if (res.status === 401) logout(setIsLogin);
+	if (![0, 200, 401].includes(res.status)) openModal({ icon: "error-outline", text: `${res.status}\n${res.data}` });
 	(page === 1) ? setLoad(false) : setScroll({ loadingMore: false });
 }

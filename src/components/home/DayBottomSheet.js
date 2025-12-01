@@ -31,7 +31,7 @@ export default function DaysBottomSheet({ date }) {
 	return (
 		<View style={daysBottomSheet.container} >
 			<HeaderBottomSheet style={daysBottomSheet.header} />
-			<ClassDetails style={daysBottomSheet.classDetails} presenceList={presenceList} setPresenceList={setPresenceList} />
+			<ClassDetails style={daysBottomSheet.classDetails} presenceList={presenceList} setPresenceList={setPresenceList} date={date} />
 			<PresenceList style={daysBottomSheet.presenceList} teacher={presenceList.teacher} students={presenceList.confirmedStudents} />
 		</View>
 	);

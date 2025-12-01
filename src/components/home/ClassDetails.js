@@ -15,8 +15,9 @@ import { theme } from "../../styles/theme.js";
  * @param style ESTILIZACAO EXTRA DO COMPONENTE
  * @param presenceList INFORMACOES SOBRE O TREINO E LISTA DE PRESENCA
  * @param setPresenceList FUNCAO QUE CONTROLA O O ESTADO DE presenceList
+ * @param date DATA DO TREINO
 */
-export default function ClassDetails({ style, presenceList, setPresenceList }) {
+export default function ClassDetails({ style, presenceList, setPresenceList, date }) {
 	const { setIsLogin } = useLogin();
 	const { closeSheet } = useBottomSheet();
 
@@ -37,7 +38,7 @@ export default function ClassDetails({ style, presenceList, setPresenceList }) {
 			<View style={classDetails.containerInfo} >
 				<Text style={classDetails.textInfo} >Marcar Presença</Text>
 				<View style={classDetails.containerSwitch} >
-					<ToggleSwitch style={classDetails.switch} value={presenceList.confirmedPresence} onValueChange={(newPresence) => confirmPresence(newPresence, setPresenceList, setIsLogin, closeSheet)} />
+					<ToggleSwitch style={classDetails.switch} value={presenceList.confirmedPresence} onValueChange={(newPresence) => confirmPresence(newPresence, setPresenceList, setIsLogin, closeSheet, date)} />
 				</View>
 			</View>
 		</View>

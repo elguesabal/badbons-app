@@ -21,6 +21,7 @@ export async function handleButton(openModal, closeModal, onPress, load) {
 			openModal({ icon: "wifi-off", text: "Sem conexão com o servidor.\nTentar novamente?", yes: () => handleButton(openModal, closeModal, onPress, load), no: (closeModal) => closeModal(), exit: (closeModal) => closeModal() });
 		} else if (error.setIsLogin) {
 			logout(error.setIsLogin);
+			if (error.closeSheet) error.closeSheet();
 			closeModal();
 		} else {
 			openModal({ exit: error.exit, icon: error.icon, text: (error.message) ? error.message : error.text, status: error.status, handleButton: error.handleButton, button: error.button, yes: error.yes, no: error.no  });

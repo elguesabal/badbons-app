@@ -20,7 +20,7 @@ api.interceptors.response.use(
 		if (error.code === "ERR_NETWORK") {
 			return ({
 				status: 0,
-				data: "Network Error"
+				data: "Network Error"		// REMOVER ISSO PQ NAO ESTA MOSTRANDO SER EFICIENTE
 			});
 		}
 		return (error.response);

@@ -53,6 +53,6 @@ export async function requestNotification(navigation, id, setData, setIsLogin, s
 	}
 	if (res.status === 0 && res.data === "Network Error") openModal({ icon: "wifi-off", text: "Sem conexão com o servidor.\nTentar novamente?", yes: (closeModal) => { closeModal(); requestNotification(navigation, id, setData, setIsLogin, setLoad, openModal); }, no: (closeModal) => { closeModal(); navigation.goBack(); }, exit: (closeModal) => { closeModal(); navigation.goBack(); } });
 	if (res.status === 401) logout(setIsLogin);
-	if (res.status !== 200) openModal({ icon: "error-outline", text: `${res.status}\n${res.data}`, button: "Sair", handleButton: (closeModal) => { closeModal(); navigation.goBack(); }, exit: (closeModal) => { closeModal(); navigation.goBack(); } });
+	if (![0, 200, 401].includes(res.status)) openModal({ icon: "error-outline", text: `${res.status}\n${res.data}`, button: "Sair", handleButton: (closeModal) => { closeModal(); navigation.goBack(); }, exit: (closeModal) => { closeModal(); navigation.goBack(); } });
 	setLoad(false);
 }
