@@ -9,20 +9,11 @@ const api = axios.create({
 
 api.interceptors.response.use(
 	(response) => {
-		// console.log(response)
+		if (response.config.url === "") return ({ status: 0 });			// SIMULAR FALTE DE INTERNET EM UMA REQUISICAO ESPECIFICA
 		return (response);
-		return ({
-			status: 0,
-			data: "Network Error"
-		});
 	},
 	(error) => {
-		if (error.code === "ERR_NETWORK") {
-			return ({
-				status: 0,
-				data: "Network Error"		// REMOVER ISSO PQ NAO ESTA MOSTRANDO SER EFICIENTE
-			});
-		}
+		if (error.code === "ERR_NETWORK") return ({ status: 0 });
 		return (error.response);
 	}
 );

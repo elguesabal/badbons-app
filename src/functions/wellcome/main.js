@@ -2,6 +2,8 @@
 import * as SecureStore from "expo-secure-store";
 import Constants from "expo-constants";
 
+import { logout } from "../logout.js";
+
 // import API_URL from "../../Api.js";
 import api from "../../config_axios.js";
 
@@ -96,16 +98,28 @@ export async function apiConnection(setIsLogin, setLoad, setError, openModal) {
 		// 	setError({ message: error.message });
 		// }
 
-		if (error.data === "Network Error") {
+
+
+		// if (error.status === 0) {
+		// 	openModal({ icon: "wifi-off", text: "Sem conexão com o servidor.\nTentar novamente?", button: "Recarregar", handleButton: (closeModal) => { closeModal(); apiConnection(setIsLogin, setLoad, setError, openModal); }, exit: () => null });
+		// 	setError({ icon: "wifi-off", message: "Sem conexão com o servidor" });
+		// } else if (error.status === 426) {
+		// 	setError({ icon: "update", message: "Seu app está desatualizado", button: "Atualizar" });
+		// } else if (error.status === 401) {
+
+		// } else {
+		// 	setError({ message: `${error.status}\n${error.data}` });
+		// }
+
+
+		if (error.status === 0) {
 			openModal({ icon: "wifi-off", text: "Sem conexão com o servidor.\nTentar novamente?", button: "Recarregar", handleButton: (closeModal) => { closeModal(); apiConnection(setIsLogin, setLoad, setError, openModal); }, exit: () => null });
 			setError({ icon: "wifi-off", message: "Sem conexão com o servidor" });
-		} else if (error.status === 426) {
-			setError({ icon: "update", message: "Seu app está desatualizado", button: "Atualizar" });
-		} else if (error.status === 401) {
-
-		} else {
-			setError({ message: `${error.status}\n${error.data}` });
+			return ;
 		}
+		if (error.status === 426) return (setError({ icon: "update", message: "Seu app está desatualizado", button: "Atualizar" }));
+		if (error.status === 401) return (logout(setIsLogin));
+		setError({ message: `${error.data}\nStatus: ${error.status}` });
 	} finally {
 		setLoad(false);
 	}

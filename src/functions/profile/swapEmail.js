@@ -90,7 +90,7 @@ async function requestSwapEmail(newEmail, password, navigation, openModal, setIs
 	if (res.status === 401) throw ({ setIsLogin: setIsLogin });
 	if (res.status === 403) throw ({ icon: "password", text: "Senha incorreta!" });
 	if (res.status === 409) throw ({ icon: "alternate-email", text: "E-mail em já em uso, por você ou outro usário!" });
-	if (res.status !== 204) throw ({ icon: "error-outline", text: `${res.status}\n${res.data}` });
+	if (res.status !== 204) throw (res);
 }
 
 /**

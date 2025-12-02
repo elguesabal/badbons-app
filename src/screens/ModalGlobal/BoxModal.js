@@ -22,7 +22,7 @@ export default function BoxModal({ data, closeModal }) {
 				<View style={boxModal.body} >									
 					{(data.icon) ? <MaterialIcons name={data.icon} size={100} color={theme.secondaryTextColor} /> : null}
 					{(data.text) ? <Text style={boxModal.text}>{data.text}</Text> : null}
-					{(data.status) ? <Text style={boxModal.status}>Status {data.status}</Text> : null}
+					{(data.status) ? <Text style={boxModal.status}>Status: {data.status}</Text> : null}
 					{(data.yes && data.no) ? (
 						<View style={boxModal.containerBoolean} >
 							<TouchableOpacity style={boxModal.buttonBoolean} onPress={() => data.yes(closeModal)} >

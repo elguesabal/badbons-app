@@ -114,9 +114,9 @@ async function uploadPhoto(photo, setIsLogin, openModal, closeModal, setData, da
 		closeModal();
 		return ;
 	}
-	if (res.status === 0 && res.data === "Network Error") return (openModal({ icon: "wifi-off", text: "Sem conexão com o servidor.\nTentar novamente?", yes: (closeModal) => { closeModal(); uploadPhoto(photo, setIsLogin, openModal); }, no: (closeModal) => closeModal(), exit: (closeModal) => closeModal() }));
+	if (res.status === 0) return (openModal({ icon: "wifi-off", text: "Sem conexão com o servidor.\nTentar novamente?", yes: (closeModal) => { closeModal(); uploadPhoto(photo, setIsLogin, openModal); }, no: (closeModal) => closeModal(), exit: (closeModal) => closeModal() }));
 	if (res.status === 401) return (closeModal(), logout(setIsLogin));
-	if (res.status !== 204) return (openModal({ icon: "error-outline", text: `${res.status}\n${res.data}` }));
+	if (res.status !== 204) return (openModal({ icon: "error-outline", status: res.status, text: res.data }));
 }
 
 /**

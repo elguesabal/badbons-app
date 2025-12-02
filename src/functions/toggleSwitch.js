@@ -13,14 +13,15 @@ export async function handleToggleSwitch(openModal, closeModal, onValueChange) {
 		await onValueChange();
 		closeModal();
 	} catch(error) {
-		if (error.message === "Network Error" || (error.status === 0 && error.data === "Network Error")) {
+		if (error.status === 0 && error.data === "Network Error") {
 			openModal({ icon: "wifi-off", text: "Sem conexão com o servidor.\nTentar novamente?", yes: () => handleToggleSwitch(openModal, closeModal, onValueChange), no: (closeModal) => closeModal(), exit: (closeModal) => closeModal() });
 		} else if (error.setIsLogin) {
 			logout(error.setIsLogin);
 			if (error.closeSheet) error.closeSheet();
 			closeModal();
 		} else {
-			openModal({ exit: error.exit, icon: error.icon, text: (error.message) ? error.message : error.text, status: error.status, handleButton: error.handleButton, button: error.button, yes: error.yes, no: error.no  });
+			// openModal({ exit: error.exit, icon: error.icon, text: (error.message) ? error.message : error.text, status: error.status, handleButton: error.handleButton, button: error.button, yes: error.yes, no: error.no  });
+			openModal({ icon: "error-outline", text: error.data, ...error });
 		}
 	}
 }

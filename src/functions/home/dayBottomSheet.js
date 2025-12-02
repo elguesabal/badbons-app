@@ -47,7 +47,7 @@ export async function getPresenceList(date, setPresenceList, setIsLogin, closeSh
 		setPresenceList(res.data);
 		return ;
 	}
-	if (res.status === 0 && res.data === "Network Error") return (openModal({ icon: "wifi-off", text: "Sem conexão com o servidor.\nTentar novamente?", yes: (closeModal) => { closeModal(); getPresenceList(date, setPresenceList, setIsLogin, openModal, closeSheet); }, no: (closeModal) => { closeModal(); closeSheet(); }, exit: (closeModal) => { closeModal(); closeSheet(); } }));
+	if (res.status === 0) return (openModal({ icon: "wifi-off", text: "Sem conexão com o servidor.\nTentar novamente?", yes: (closeModal) => { closeModal(); getPresenceList(date, setPresenceList, setIsLogin, openModal, closeSheet); }, no: (closeModal) => { closeModal(); closeSheet(); }, exit: (closeModal) => { closeModal(); closeSheet(); } }));
 	if (res.status === 401) return (closeSheet(), logout(setIsLogin));
-	if (res.status !== 200) return (openModal({ icon: "error-outline", text: `${res.status}\n${res.data}`, handleButton: (closeModal) => { closeSheet(); closeModal(); } }));
+	if (res.status !== 200) return (openModal({ icon: "error-outline", status: res.status, text: res.data, handleButton: (closeModal) => { closeSheet(); closeModal(); } }));
 }

@@ -95,8 +95,8 @@ export async function requestGameHistory(navigation, setLoad, setIsLogin, openMo
 		(page === 1) ? setScroll({ events: res.data.data  }) : setScroll({ events: [...events, ...res.data.data] });
 		setScroll({ page: page + 1 });
 	}
-	if (res.status === 0 && res.data === "Network Error") openModal({ icon: "wifi-off", text: "Sem conexão com o servidor.\nTentar novamente?", yes: (closeModal) => { closeModal(); requestGameHistory(navigation, setLoad, setIsLogin, openModal, scroll, setScroll); }, no: (closeModal) => { closeModal(); navigation.goBack(); }, exit: (closeModal) => { closeModal(); navigation.goBack(); } });
+	if (res.status === 0) openModal({ icon: "wifi-off", text: "Sem conexão com o servidor.\nTentar novamente?", yes: (closeModal) => { closeModal(); requestGameHistory(navigation, setLoad, setIsLogin, openModal, scroll, setScroll); }, no: (closeModal) => { closeModal(); navigation.goBack(); }, exit: (closeModal) => { closeModal(); navigation.goBack(); } });
 	if (res.status === 401) logout(setIsLogin);
-	if (![0, 200, 401].includes(res.status)) openModal({ icon: "error-outline", text: `${res.status}\n${res.data}` });
+	if (![0, 200, 401].includes(res.status)) openModal({ icon: "error-outline", status: res.status, text: res.data });
 	(page === 1) ? setLoad(false) : setScroll({ loadingMore: false });
 }

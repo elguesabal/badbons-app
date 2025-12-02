@@ -57,25 +57,20 @@ async function requestLogin(login, password, tokenNotifications) {
 		}
 	});
 
-	if (res.status === 200) {	// TOKEN NOTIFICATIONS EXPO VALIDO
-		await SecureStore.setItemAsync("accessToken", res.data.accesstoken);
-		await SecureStore.setItemAsync("refreshToken", res.data.RefreshToken);
-		return ;
-	}
-	if (res.status === 207) {	// TOKEN NOTIFICATIONS EXPO INVALIDO
+	if (res.status === 200 || res.status === 207) {	// TOKEN NOTIFICATIONS EXPO VALIDO OU NAO INFORMADO
 		await SecureStore.setItemAsync("accessToken", res.data.accesstoken);
 		await SecureStore.setItemAsync("refreshToken", res.data.RefreshToken);
 		return ;
 	}
 	if (res.status === 401) throw ({ icon: "person-off", text: "Login ou senha errada!" });
-	if (res.status !== 200 && res.status !== 207) throw ({ icon: "error-outline", text: `${res.status}\n${res.data}` });
+	if (res.status !== 200 && res.status !== 207) throw (res);
 }
 
 /**
  * @author VAMPETA
  * @brief FAZ A REQUISICAO PEDINDO AS CREDENCIAIS DO USUARIO
 */
-async function requestCredentials() {
+async function requestCredentials() {							// AINDA NAO CRIEI TESTES E NEM REFATOREI
 	try {
 		const res = await axios.get(`${API_URL}/credentials`, { headers: { Authorization: `Bearer ${await SecureStore.getItemAsync("refreshToken")}` } });
 		if (res.status !== 200) throw (new Error(`${res.status}\n${res.data}`));

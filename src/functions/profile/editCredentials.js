@@ -155,7 +155,7 @@ async function requestEditCredentials(form, navigation, openModal, setIsLogin) {
 		return ;
 	}
 	if (res.status === 401) throw ({ setIsLogin: setIsLogin });
-	if (res.status !== 204) throw ({ icon: "error-outline", text: `${res.status}\n${res.data}` });
+	if (res.status !== 204) throw (res);
 }
 
 /**

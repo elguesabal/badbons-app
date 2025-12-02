@@ -41,7 +41,7 @@ export async function confirmPresence(newPresence, setPresenceList, setIsLogin, 
 			presence: newPresence
 		}
 	});
-console.log(res.status)
+
 	if (res.status === 204) {
 		const name = await AsyncStorage.getItem("name");
 		setPresenceList((prev) => ({ ...prev, confirmedPresence: newPresence, confirmedStudents: (newPresence) ? [...prev.confirmedStudents, name] : prev.confirmedStudents.filter((student) => student !== name) }));
@@ -53,5 +53,6 @@ console.log(res.status)
 		setPresenceList((prev) => ({ ...prev, confirmedPresence: newPresence, confirmedStudents: (newPresence) ? [...prev.confirmedStudents, name] : prev.confirmedStudents.filter((student) => student !== name) }));
 		return ;
 	}
-	if (res.status !== 204) throw ({ icon: "error-outline", text: `${res.status}\n${res.data}` });
+	// if (res.status !== 204) throw ({ icon: "error-outline", text: `${res.status}\n${res.data}` });
+	if (res.status !== 204) throw (res);
 }
