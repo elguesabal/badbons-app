@@ -1,10 +1,8 @@
-// import axios from "axios";
 import * as SecureStore from "expo-secure-store";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { cpf as cpfValidator } from "cpf-cnpj-validator";
 import { parsePhoneNumberFromString as phoneValidator } from "libphonenumber-js";
 
-// import API_URL from "../../Api.js";
 import api from "../../config_axios.js";
 
 /**
@@ -121,18 +119,6 @@ async function saveSwap(form) {
  * @param setIsLogin FUNCAO DE CONTROLE DE LOGIN
 */
 async function requestEditCredentials(form, navigation, openModal, setIsLogin) {
-	// try {
-	// 	const res = await axios.patch(`${API_URL}/swap-credentials`, form, { headers: { Authorization: `Bearer ${await SecureStore.getItemAsync("refreshToken")}` } });
-	// 	if (res.status !== 200) throw (new Error(`${res.status}\n${res.data}`));
-	// 	await saveSwap(form);
-	// 	setTimeout(() => openModal({ icon: "check-circle", text: "Credenciais trocadas com sucesso!", handleButton: (closeModal) => handleButtonModal(closeModal, navigation) }), 100);
-	// } catch (error) {
-	// 	if (error.response && error.response.status === 401) throw (Object.assign(new Error(), { setIsLogin: setIsLogin }));
-	// 	throw (Object.assign(new Error(error.message), { icon: "error-outline" }));
-	// }
-
-
-
 	const res = await api({
 		method: "PATCH",
 		url: "/swap-credentials",

@@ -1,9 +1,7 @@
-// import axios from "axios";
 import * as SecureStore from "expo-secure-store";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import validator from "validator";
 
-// import API_URL from "../../Api.js";
 import api from "../../config_axios.js";
 
 /**
@@ -57,19 +55,6 @@ function handleButtonModal(closeModal, navigation) {
  * @param setIsLogin FUNCAO DE CONTROLE DE LOGIN
 */
 async function requestSwapEmail(newEmail, password, navigation, openModal, setIsLogin) {
-	// try {
-	// 	const res = await axios.patch(`${API_URL}/swap-email`, { newEmail: newEmail, password: password }, { headers: { Authorization: `Bearer ${await SecureStore.getItemAsync("refreshToken")}` } });
-	// 	if (res.status !== 204) throw (new Error(`${res.status}\n${res.data}`));
-	// 	await AsyncStorage.setItem("email", newEmail);
-	// 	setTimeout(() => openModal({ icon: "check-circle", text: "Email trocado com sucesso!", handleButton: (closeModal) => handleButtonModal(closeModal, navigation) }), 100);
-	// } catch (error) {
-	// 	if (error.response && error.response.status === 401) throw (Object.assign(new Error(), { setIsLogin: setIsLogin }));
-	// 	if (error.response && error.response.status === 403) throw (Object.assign(new Error("Senha incorreta!"), { icon: "password" }));
-	// 	throw (Object.assign(new Error(error.message), { icon: "error-outline" }));
-	// }
-
-
-
 	const res = await api({
 		method: "PATCH",
 		url: "/swap-email",

@@ -1,11 +1,7 @@
 import axios from "axios";
 import API_URL from "./Api.js";
 
-const api = axios.create({
-	baseURL: API_URL,
-	// timeout: 1
-	// validateStatus: () => true
-});
+const api = axios.create({ baseURL: API_URL });
 
 api.interceptors.response.use(
 	(response) => {

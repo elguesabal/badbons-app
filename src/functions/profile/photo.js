@@ -1,6 +1,5 @@
 import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from "expo-file-system/legacy";
-// import axios from "axios";
 import * as SecureStore from "expo-secure-store";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -8,7 +7,6 @@ import { logout } from "../logout.js";
 
 import { compatibleProfilePictures } from "../../compatibleImages.js";
 
-// import API_URL from "../../Api.js";
 import api from "../../config_axios.js";
 
 /**
@@ -52,7 +50,6 @@ async function selectPhoto(openModal) {
 		return (photo);
 	} catch (error) {
 		openModal({ icon: error.icon, text: error.text, button: "Ok" });
-		// throw (error);
 	}
 }
 
@@ -67,29 +64,6 @@ async function selectPhoto(openModal) {
  * @param data DADOS DO USUARIO
 */
 async function uploadPhoto(photo, setIsLogin, openModal, closeModal, setData, data) {
-	// try {
-	// 	const formData = new FormData();
-	// 	formData.append("fotoPerfil", {
-	// 		uri: photo.assets[0].uri,
-	// 		name: `user.${photo.assets[0].uri.split(".").pop().toLowerCase()}`,
-	// 		type: `image/${photo.assets[0].uri.split(".").pop().toLowerCase()}`
-	// 	});
-	// 	const res = await axios.patch(`${API_URL}/user/update-image`, formData, { headers: { "Content-Type": "multipart/form-data", Authorization: `Bearer ${await SecureStore.getItemAsync("refreshToken")}` } });
-
-	// 	if (res.status !== 200) throw (new Error(`${res.status}\n${res.data}`));
-	// } catch (error) {
-	// 	if (error.message === "Network Error") {
-	// 		openModal({ icon: "wifi-off", text: "Sem conexão com o servidor.\nTentar novamente?", yes: (closeModal) => { closeModal(); uploadPhoto(photo, setIsLogin, openModal); }, no: (closeModal) => closeModal(), exit: (closeModal) => closeModal() });
-	// 	} else if (error.response && error.response.status === 401) {
-	// 		logout(setIsLogin);
-	// 	} else {
-	// 		openModal({ icon: "error-outline", text: error.message, button: "Sair", handleButton: (closeModal) => closeModal(), exit: (closeModal) => closeModal() });
-	// 	}
-	// 	throw (error);
-	// }
-
-
-
 	openModal({ load: true });
 	const formData = new FormData();
 	formData.append("fotoPerfil", {
@@ -129,22 +103,6 @@ async function uploadPhoto(photo, setIsLogin, openModal, closeModal, setData, da
  * @param setIsLogin FUNCAO DE CONTROLE DE LOGIN
 */
 export async function getPhoto(openModal, closeModal, data, setData, setIsLogin) {
-	// try {
-	// 	const photo = await selectPhoto(openModal);
-
-	// 	if (photo.canceled) return (closeModal());
-	// 	// openModal({ load: true });
-	// 	await uploadPhoto(photo, setIsLogin, openModal, closeModal, setData, data);
-	// 	// compatibleProfilePictures.map(async (format) => await FileSystem.deleteAsync(`${FileSystem.documentDirectory}user.${format}`, { idempotent: true }));
-	// 	// await FileSystem.copyAsync({ from: photo.assets[0].uri, to: `${FileSystem.documentDirectory}user.${photo.assets[0].uri.split(".").pop().toLowerCase()}` });
-	// 	// setData({ ...data, photo: photo.assets[0].uri });
-	// 	// closeModal(); // UE PQ ISSO TA AKI????
-	// } catch (error) {								// DEVO USAR TRY CATCH??
-
-	// }
-
-
-
 	const photo = await selectPhoto(openModal);
 
 	if (photo.canceled) return (closeModal());

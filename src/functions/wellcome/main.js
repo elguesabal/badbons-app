@@ -1,10 +1,8 @@
-// import axios from "axios";
 import * as SecureStore from "expo-secure-store";
 import Constants from "expo-constants";
 
 import { logout } from "../logout.js";
 
-// import API_URL from "../../Api.js";
 import api from "../../config_axios.js";
 
 /**
@@ -12,17 +10,6 @@ import api from "../../config_axios.js";
  * @brief FAZ UMA CONSULTA DE PING PARA A API PARA VER SE O SERVIDOR ESTA ACESSIVEL E VERIFICA SE O APP E COMPATIVEL COM A API
 */
 export async function ping() {
-	// const version = Constants.expoConfig?.version ?? "";
-
-	// try {
-	// 	const res = await axios.get(`${API_URL}/ping?version=${version}`);
-	// 	if (res.status !== 204) throw (new Error(`${res.status}\n${res.data}`));
-	// } catch (error) {
-	// 	throw (error);
-	// }
-
-
-
 	const res = await api({
 		method: "GET",
 		url: "/ping",
@@ -31,8 +18,6 @@ export async function ping() {
 		}
 	});
 
-	// if (res.status === 0) throw (res);
-	// if (res.status !== 204) throw (new Error(`${res.status}\n${res.data}`));
 	if (res.status !== 204) throw (res);
 }
 
@@ -42,19 +27,6 @@ export async function ping() {
  * @param setIsLogin FUNCAO DE CONTROLE DE LOGIN
 */
 async function login(setIsLogin) {
-	// const token = await SecureStore.getItemAsync("refreshToken");
-
-	// if (!token) return ;
-	// try {
-	// 	const res = await axios.post(`${API_URL}/auth/login-token`, null, { headers: { Authorization: `Bearer ${token}` } });
-	// 	if (res.status !== 204) throw (new Error(`${res.status}\n${res.data}`));
-	// 	setIsLogin(true);
-	// } catch (error) {
-	// 	throw (error);
-	// }
-
-
-
 	const res = await api({
 		method: "POST",
 		url: "/auth/login-token",
@@ -63,8 +35,6 @@ async function login(setIsLogin) {
 		}
 	});
 
-	// if (res.status === 0) throw (res);
-	// if (res.status !== 204) throw (new Error(`${res.status}\n${res.data}`));
 	if (res.status !== 204) throw (res);
 	setIsLogin(true);
 }
@@ -84,34 +54,6 @@ export async function apiConnection(setIsLogin, setLoad, setError, openModal) {
 		await ping();
 		await login(setIsLogin);
 	} catch(error) {
-		// console.log("teste:", error.status)
-		// console.log("teste:", error.message)
-		// console.log("teste:", error.data)
-		// if (error.message === "Network Error") {
-		// 	openModal({ icon: "wifi-off", text: "Sem conexão com o servidor.\nTentar novamente?", button: "Recarregar", handleButton: (closeModal) => { closeModal(); apiConnection(setIsLogin, setLoad, setError, openModal); }, exit: () => null });
-		// 	setError({ icon: "wifi-off", message: "Sem conexão com o servidor" });
-		// } else if (error.response && error.response.status === 426) {
-		// 	setError({ icon: "update", message: "Seu app está desatualizado", button: "Atualizar" });
-		// } else if (error.response && error.response.status === 401) {
-
-		// } else {
-		// 	setError({ message: error.message });
-		// }
-
-
-
-		// if (error.status === 0) {
-		// 	openModal({ icon: "wifi-off", text: "Sem conexão com o servidor.\nTentar novamente?", button: "Recarregar", handleButton: (closeModal) => { closeModal(); apiConnection(setIsLogin, setLoad, setError, openModal); }, exit: () => null });
-		// 	setError({ icon: "wifi-off", message: "Sem conexão com o servidor" });
-		// } else if (error.status === 426) {
-		// 	setError({ icon: "update", message: "Seu app está desatualizado", button: "Atualizar" });
-		// } else if (error.status === 401) {
-
-		// } else {
-		// 	setError({ message: `${error.status}\n${error.data}` });
-		// }
-
-
 		if (error.status === 0) {
 			openModal({ icon: "wifi-off", text: "Sem conexão com o servidor.\nTentar novamente?", button: "Recarregar", handleButton: (closeModal) => { closeModal(); apiConnection(setIsLogin, setLoad, setError, openModal); }, exit: () => null });
 			setError({ icon: "wifi-off", message: "Sem conexão com o servidor" });

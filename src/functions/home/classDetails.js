@@ -1,8 +1,6 @@
-// import axios from "axios";
 import * as SecureStore from "expo-secure-store";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-// import API_URL from "../../Api.js";
 import api from "../../config_axios.js";
 
 /**
@@ -15,21 +13,6 @@ import api from "../../config_axios.js";
  * @param date DATA DO TREINO
 */
 export async function confirmPresence(newPresence, setPresenceList, setIsLogin, closeSheet, date) {	// FALTA REFATORAR (EU MUDEI ALGUMAS COISAS NA API)
-	// try {
-	// 	const res = await axios.post(`${API_URL}/presence-student`, { presence: newPresence }, { headers: { Authorization: `Bearer ${await SecureStore.getItemAsync("refreshToken")}` }});
-	// 	if (res.status !== 200) throw (new Error(`${res.status}\n${res.data}`));
-	// 	const name = await AsyncStorage.getItem("name");
-	// 	setPresenceList((prev) => ({ ...prev, confirmedPresence: newPresence, confirmedStudents: (newPresence) ? [...prev.confirmedStudents, name] : prev.confirmedStudents.filter((student) => student !== name) }));
-	// } catch (error) {
-	// 	if (error.response && error.response.status === 401) {
-	// 		closeSheet();
-	// 		throw (Object.assign(new Error(), { setIsLogin: setIsLogin }));
-	// 	}
-	// 	throw (Object.assign(new Error(error.message), { icon: "error-outline" }));
-	// }
-
-
-
 	const res = await api({
 		method: "PATCH",
 		url: "/presence-student",
@@ -53,6 +36,5 @@ export async function confirmPresence(newPresence, setPresenceList, setIsLogin, 
 		setPresenceList((prev) => ({ ...prev, confirmedPresence: newPresence, confirmedStudents: (newPresence) ? [...prev.confirmedStudents, name] : prev.confirmedStudents.filter((student) => student !== name) }));
 		return ;
 	}
-	// if (res.status !== 204) throw ({ icon: "error-outline", text: `${res.status}\n${res.data}` });
 	if (res.status !== 204) throw (res);
 }
