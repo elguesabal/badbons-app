@@ -71,15 +71,46 @@ async function requestLogin(login, password, tokenNotifications) {
  * @brief FAZ A REQUISICAO PEDINDO AS CREDENCIAIS DO USUARIO
 */
 async function requestCredentials() {							// AINDA NAO CRIEI TESTES E NEM REFATOREI
-	try {
-		const res = await axios.get(`${API_URL}/credentials`, { headers: { Authorization: `Bearer ${await SecureStore.getItemAsync("refreshToken")}` } });
-		if (res.status !== 200) throw (new Error(`${res.status}\n${res.data}`));
+	// try {
+	// 	const res = await axios.get(`${API_URL}/credentials`, { headers: { Authorization: `Bearer ${await SecureStore.getItemAsync("refreshToken")}` } });
+	// 	if (res.status !== 200) throw (new Error(`${res.status}\n${res.data}`));
+	// 	try {
+	// 		const infoDoc = await FileSystem.downloadAsync(res.data.foto, `${FileSystem.documentDirectory}user.${res.data.foto.split(".").pop().toLowerCase()}`, { headers: { Authorization: `Bearer ${await SecureStore.getItemAsync("refreshToken")}` } });
+	// 		if (infoDoc.status !== 200) await FileSystem.deleteAsync(infoDoc.uri, { idempotent: true });
+	// 	} catch (error) {
+
+	// 	}
+	// 	await SecureStore.setItemAsync("id", res.data._id);
+	// 	await AsyncStorage.setItem("name", res.data.nome);
+	// 	await SecureStore.setItemAsync("cpf", res.data.cpf);
+	// 	await AsyncStorage.setItem("email", res.data.email);
+	// 	await SecureStore.setItemAsync("date", res.data.dataNascimento);
+	// 	await SecureStore.setItemAsync("phone", res.data.telefone);
+	// 	await AsyncStorage.setItem("times", JSON.stringify(res.data.times)); // NAO TEM NA API PRINCIPAL (TALVEZ EU CRIE UMA ROTA APENAS PARA ISSO E ATUALIZAR)
+	// 	// await AsyncStorage.setItem("nivel", res.data.nivel); // POR ENQUANTO NAO USO
+	// 	// await AsyncStorage.setItem("unit", JSON.stringify(res.data.unidade)); FALTA SER UM ARRAY DE UNIDADES
+	// 	// await AsyncStorage.setItem("class", JSON.stringify(res.data.turma)); FALTA SER UM ARRAY DE TURMAS
+	// 	// ACREDITO QUE SERIA MELHOR RECEBER "times" EM VEZ DE "unidade" E "turma" PQ A FUNCAO setNotifications JA FOI CRIADA COM BASE EM "times"
+	// } catch (error) {
+	// 	throw (Object.assign(new Error(error.message), { icon: "error-outline" }));
+	// }
+
+
+
+	const res = await api({
+		method: "GET",
+		url: "/credentials",
+		headers: {
+			Authorization: `Bearer ${await SecureStore.getItemAsync("refreshToken")}`
+		}
+	});
+
+	throw (res);				// PQ ISSO TA CRASHANDO O APP SEM NENHUMA MENSAGEM DE ERRO? O button DEVERIA LIDAR COM ISSO
+	if (res.status === 200) {
 		try {
 			const infoDoc = await FileSystem.downloadAsync(res.data.foto, `${FileSystem.documentDirectory}user.${res.data.foto.split(".").pop().toLowerCase()}`, { headers: { Authorization: `Bearer ${await SecureStore.getItemAsync("refreshToken")}` } });
 			if (infoDoc.status !== 200) await FileSystem.deleteAsync(infoDoc.uri, { idempotent: true });
-		} catch (error) {
-
-		}
+		} catch (error) {}
 		await SecureStore.setItemAsync("id", res.data._id);
 		await AsyncStorage.setItem("name", res.data.nome);
 		await SecureStore.setItemAsync("cpf", res.data.cpf);
@@ -91,9 +122,9 @@ async function requestCredentials() {							// AINDA NAO CRIEI TESTES E NEM REFA
 		// await AsyncStorage.setItem("unit", JSON.stringify(res.data.unidade)); FALTA SER UM ARRAY DE UNIDADES
 		// await AsyncStorage.setItem("class", JSON.stringify(res.data.turma)); FALTA SER UM ARRAY DE TURMAS
 		// ACREDITO QUE SERIA MELHOR RECEBER "times" EM VEZ DE "unidade" E "turma" PQ A FUNCAO setNotifications JA FOI CRIADA COM BASE EM "times"
-	} catch (error) {
-		throw (Object.assign(new Error(error.message), { icon: "error-outline" }));
+		return ;
 	}
+	if (res.status !== 200) throw (res);
 }
 
 /**

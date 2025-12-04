@@ -17,6 +17,7 @@ export async function handleButton(openModal, closeModal, onPress, load) {
 		if (onPress) await onPress();
 		if (load) closeModal();
 	} catch (error) {
+console.log("veio aki: ", error);		// PQ TA DANDO ERRO EM CASO DE FALHA EM BUSCAR AS CREDENCIAIS? ACHO Q E PQ "error.data" E UM OBJETO
 		if (error.message === "Network Error" || error.status === 0) {
 			openModal({ icon: "wifi-off", text: "Sem conexão com o servidor.\nTentar novamente?", yes: () => handleButton(openModal, closeModal, onPress, load), no: (closeModal) => closeModal(), exit: (closeModal) => closeModal() });
 		} else if (error.setIsLogin) {
