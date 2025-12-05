@@ -5,7 +5,7 @@ const api = axios.create({ baseURL: API_URL });
 
 api.interceptors.response.use(
 	(response) => {
-		if (response.config.url === "") return ({ status: 0 });			// SIMULAR FALTE DE INTERNET EM UMA REQUISICAO ESPECIFICA
+		// if (response.config.url === "/credentials") return ({ status: 401 });			// SIMULAR FALTE DE INTERNET EM UMA REQUISICAO ESPECIFICA
 		return (response);
 	},
 	(error) => {
