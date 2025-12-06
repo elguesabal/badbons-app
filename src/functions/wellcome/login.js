@@ -84,6 +84,7 @@ async function requestCredentials() {
 		return ;
 	}
 	if (res.status !== 200) throw (res);
+	// if (res.status !== 200) throw ({ setIsLogin: false, ...res});	// ESSA PODERIA SER A SOLUCAO?
 }
 
 /**
@@ -130,8 +131,7 @@ export async function handleLogin(form, setIsLogin) {
 	validationLogin(form.login);
 	validationPassword(form.password);
 	await requestLogin(form.login, form.password, await getTokenNotifications());
-	// setIsLogin(true);			// ISSO DEVERIA SER O CERTO?
 	await requestCredentials();
 	await setNotifications();
-	setIsLogin(true);			// O STATUS DE LOGIN DEVERIA MUDAR SE requestLogin FOR BEM SUCEDIDO E requestCredentials E SetNotifications DEREM ERRO?
+	setIsLogin(true);
 }
