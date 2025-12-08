@@ -72,7 +72,7 @@ async function requestCredentials() {
 		} catch (error) {}
 		await SecureStore.setItemAsync("id", res.data._id);
 		await AsyncStorage.setItem("name", res.data.nome);
-		await SecureStore.setItemAsync("cpf", res.data.cpf);		// SE ALGUM DESSES CAMPOS ESTIVEREM COM PROBLEMA ACABA ACIONANDO O catch DO button
+		await SecureStore.setItemAsync("cpf", res.data.cpf);				// SE ALGUM DESSES CAMPOS ESTIVEREM COM PROBLEMA ACABA ACIONANDO O catch DO button
 		await AsyncStorage.setItem("email", res.data.email);
 		await SecureStore.setItemAsync("date", res.data.dataNascimento);
 		await SecureStore.setItemAsync("phone", res.data.telefone);
@@ -84,7 +84,7 @@ async function requestCredentials() {
 		return ;
 	}
 	if (res.status !== 200) throw (res);
-	// if (res.status !== 200) throw ({ setIsLogin: false, ...res});	// ESSA PODERIA SER A SOLUCAO?
+	// if (res.status !== 200) throw ({ setIsLogin: false, ...res});		// ESSA PODERIA SER A SOLUCAO?
 }
 
 /**
