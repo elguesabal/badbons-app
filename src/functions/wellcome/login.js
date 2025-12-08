@@ -43,7 +43,7 @@ async function requestLogin(login, password, tokenNotifications) {
 		}
 	});
 
-	if (res.status === 200 || res.status === 207) {	// TOKEN NOTIFICATIONS EXPO VALIDO OU NAO INFORMADO
+	if (res.status === 200 || res.status === 207) {				// TOKEN NOTIFICATIONS EXPO VALIDO OU NAO INFORMADO
 		await SecureStore.setItemAsync("accessToken", res.data.accesstoken);
 		await SecureStore.setItemAsync("refreshToken", res.data.RefreshToken);
 		return ;
@@ -55,8 +55,9 @@ async function requestLogin(login, password, tokenNotifications) {
 /**
  * @author VAMPETA
  * @brief FAZ A REQUISICAO PEDINDO AS CREDENCIAIS DO USUARIO
+ * @param setIsLogin FUNCAO QUE CONTROLA SE O USUARIO ESTA LOGADO OU NAO
 */
-async function requestCredentials() {
+async function requestCredentials(setIsLogin) {
 	const res = await api({
 		method: "GET",
 		url: "/credentials",
@@ -70,21 +71,20 @@ async function requestCredentials() {
 			const infoDoc = await FileSystem.downloadAsync(res.data.foto, `${FileSystem.documentDirectory}user.${res.data.foto.split(".").pop().toLowerCase()}`, { headers: { Authorization: `Bearer ${await SecureStore.getItemAsync("refreshToken")}` } });
 			if (infoDoc.status !== 200) await FileSystem.deleteAsync(infoDoc.uri, { idempotent: true });
 		} catch (error) {}
-		await SecureStore.setItemAsync("id", res.data._id);
-		await AsyncStorage.setItem("name", res.data.nome);
-		await SecureStore.setItemAsync("cpf", res.data.cpf);				// SE ALGUM DESSES CAMPOS ESTIVEREM COM PROBLEMA ACABA ACIONANDO O catch DO button
-		await AsyncStorage.setItem("email", res.data.email);
-		await SecureStore.setItemAsync("date", res.data.dataNascimento);
-		await SecureStore.setItemAsync("phone", res.data.telefone);
-		await AsyncStorage.setItem("times", JSON.stringify(res.data.times)); // NAO TEM NA API PRINCIPAL (TALVEZ EU CRIE UMA ROTA APENAS PARA ISSO E ATUALIZAR)
+		try { await SecureStore.setItemAsync("id", res.data._id); } catch (error) {}
+		try { await AsyncStorage.setItem("name", res.data.nome); } catch (error) {}
+		try { await SecureStore.setItemAsync("cpf", res.data.cpf); } catch (error) {}
+		try { await AsyncStorage.setItem("email", res.data.email); } catch (error) {}
+		try { await SecureStore.setItemAsync("date", res.data.dataNascimento); } catch (error) {}
+		try { await SecureStore.setItemAsync("phone", res.data.telefone); } catch (error) {}	// NAO TEM NA API PRINCIPAL (TALVEZ EU CRIE UMA ROTA APENAS PARA ISSO E ATUALIZAR)
+		try { await AsyncStorage.setItem("times", JSON.stringify(res.data.times)); } catch (error) {}
 		// await AsyncStorage.setItem("nivel", res.data.nivel); // POR ENQUANTO NAO USO
 		// await AsyncStorage.setItem("unit", JSON.stringify(res.data.unidade)); FALTA SER UM ARRAY DE UNIDADES
 		// await AsyncStorage.setItem("class", JSON.stringify(res.data.turma)); FALTA SER UM ARRAY DE TURMAS
 		// ACREDITO QUE SERIA MELHOR RECEBER "times" EM VEZ DE "unidade" E "turma" PQ A FUNCAO setNotifications JA FOI CRIADA COM BASE EM "times"
 		return ;
 	}
-	if (res.status !== 200) throw (res);
-	// if (res.status !== 200) throw ({ setIsLogin: false, ...res});		// ESSA PODERIA SER A SOLUCAO?
+	if (res.status !== 200) throw ({ setIsLogin: setIsLogin });
 }
 
 /**
@@ -131,7 +131,7 @@ export async function handleLogin(form, setIsLogin) {
 	validationLogin(form.login);
 	validationPassword(form.password);
 	await requestLogin(form.login, form.password, await getTokenNotifications());
-	await requestCredentials();
+	await requestCredentials(setIsLogin);
 	await setNotifications();
 	setIsLogin(true);
 }

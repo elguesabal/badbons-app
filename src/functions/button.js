@@ -24,7 +24,6 @@ export async function handleButton(openModal, closeModal, onPress, load) {
 			if (error.closeSheet) error.closeSheet();
 			closeModal();
 		} else {
-			// openModal({ icon: "error-outline", text: error.data, ...error });
 			openModal({ icon: "error-outline", text: (typeof error.data === "string") ? error.data : undefined, ...error });
 		}
 	}
